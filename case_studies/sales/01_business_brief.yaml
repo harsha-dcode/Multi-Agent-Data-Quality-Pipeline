@@ -1,0 +1,138 @@
+# STAGE 1 BUSINESS BRIEF
+# Authored 2026-07-29, unattended run (no user available to ask mid-run).
+# Source lineage note: a dataset with this exact SHA-256 (79f672119c134d5d...) and MD5
+# (5e21b26fbb3500d2ee4f428788102705) has been profiled before in this environment under a
+# different path/repo. Structural facts below were RE-VERIFIED against THIS file at THIS path
+# in 00_peek.py (BOM, headers, row count, sample rows) before being written here -- not copied
+# blind from memory. Full column-by-column statistics are re-derived fresh in 02_extract_and_profile.py.
+
+dataset: messy_sales.csv
+
+grain: >
+  One row per e-commerce sales order. order_id (format "ORD-####") is the natural key. 312 raw
+  data rows, 11 raw columns, confirmed in 00_peek.py.
+
+critical_columns:
+  - order_id        # grain anchor; a row with no order_id cannot be identified or deduplicated
+                     # against any external system.
+  - order_date       # required for any time-series/reporting-period rollup, which is this
+                     # dataset's stated business purpose (sales reporting).
+  - units_sold        # revenue factor; a null here breaks the cross-column revenue check (see
+                     # business_rules.BR1) and any volume rollup.
+  - unit_price       # revenue factor, same reasoning as units_sold.
+
+allowed_values:
+  region: [North, South, East, West, Northeast]
+  product: [Alpha, Beta, Gamma, Delta]
+  channel: [Retail, Wholesale, Online, Brick & Mortar, B2B, B2C]
+    # NOTE: this column conflates two real taxonomies -- a FULFILLMENT channel (Retail/
+    # Wholesale/Online/Brick & Mortar) and a CUSTOMER SEGMENT (B2B/B2C). Both are genuine
+    # business dimensions found in the raw data; they are retained as sibling category values
+    # in one column rather than force-merged or split, because splitting would require
+    # inferring which segment each fulfillment-channel row belongs to, which is not
+    # recoverable from the data as given. Documented as business_rules.BR5.
+
+dangerous_columns: {}
+  # Guard run (see 02_extract_and_profile.py) against region/product/channel canonical lists
+  # using thefuzz.utils.full_process: no canonical pair within any of the three lists collides
+  # to the same preprocessed key. Region/product/channel are therefore SAFE to fuzzy-match at
+  # the standard 85% threshold; nothing tripped the collision guard. Evidence values are printed
+  # and logged in the Stage 3 profiling report, not just asserted here.
+
+missing_value_strategy:
+  order_id: never_impute
+  order_date: never_impute
+  customer_name: leave_null
+  customer_email: leave_null
+  phone_number: leave_null
+  region: leave_null
+  product: leave_null
+  channel: leave_null
+  units_sold: never_impute
+  unit_price: never_impute
+  total_revenue: never_impute   # revenue factor / QA cross-check target, never fabricated
+
+dataset_type: ecommerce_orders
+business_goal: >
+  BI/portfolio demonstration of e-commerce order-volume and revenue reporting, and a deliberate
+  showcase of extraction-layer defects (BOM, header drift, mixed locales/formats) rather than a
+  regulatory or ML-training use case. This shapes the flag-vs-fix posture toward "flag and
+  preserve evidence" over "correct and move on" wherever a correction is not unambiguous, and
+  means never fabricating a revenue-bearing number to make a chart look complete.
+
+column_types:
+  order_id: string
+  order_date: date
+  customer_name: string
+  customer_email: string
+  phone_number: string
+  region: category
+  product: category
+  channel: category
+  units_sold: float
+  unit_price: float
+  total_revenue: float
+
+not_critical:
+  customer_name: "Free text with heavy formatting noise (titles, extra spaces, case). A null here does not remove the row's revenue/volume value for reporting."
+  customer_email: "Not required for order-level revenue/volume reporting; used only for customer-level rollups, which are secondary to this dataset's stated purpose."
+  phone_number: "Contact metadata, not required for revenue/volume reporting."
+  region: "Analytically valuable for regional cuts but a null here does not invalidate the order's revenue value."
+  channel: "Same reasoning as region."
+
+business_rules:
+  BR1:
+    rule: "total_revenue must equal units_sold * unit_price. Rows where it does not are flagged (revenue_mismatch_flag), never silently recomputed."
+    action: flag_do_not_correct
+    reason: >
+      Which of the three fields is wrong (units_sold, unit_price, or total_revenue itself) cannot
+      be determined from the data alone. Overwriting total_revenue with units_sold*unit_price
+      would silently discard whatever true value the source system recorded, on the unproven
+      assumption that the two input factors are the reliable ones. A derived revenue_calculated
+      column plus a mismatch flag surfaces the discrepancy without guessing which side is correct.
+  BR2:
+    rule: "units_sold < 0 or unit_price < 0 or total_revenue < 0 are impossible for a sales order and are flagged as IMPOSSIBLE_NEGATIVE, not silently abs()'d."
+    action: flag
+    reason: >
+      Unlike a billing/refund ledger, this dataset has no credit/adjustment semantics documented
+      anywhere in the schema, so a negative unit_price/total_revenue most plausibly reflects a
+      data-entry sign error rather than a legitimate refund. However, per the mission rule "never
+      guess a value into existence," flipping the sign is still a fabrication of which magnitude
+      is correct if the sign itself is wrong for a different reason (e.g. a copy-paste error from
+      an adjacent negative cell) -- so these are flagged and excluded from viz_ready.csv (Stage 8)
+      rather than corrected in cleaned_data.csv.
+  BR3:
+    rule: "units_sold values with a trailing unit suffix (e.g. '44 units') have the suffix stripped and the numeric part parsed; the strip is logged as NUMERIC_CLEANED, not a typo correction."
+    action: correct
+    reason: "The numeric content is unambiguous and the unit label is redundant with the column name itself -- stripping non-numeric trailing text that already matches the column's own semantic (units) is a formatting fix, not an inference about the underlying value."
+  BR4:
+    rule: "'Unknown' in the product column is treated as a null disguise, not a fifth product."
+    action: correct
+    reason: "The canonical product set (Alpha, Beta, Gamma, Delta) is a closed set of four Greek-letter code names with no 'Unknown' variant documented anywhere; the ambiguity-guard gate in spec section 4.2 returns NO here because 'Unknown' cannot be a member of a closed Greek-letter-name set."
+  BR5:
+    rule: "channel retains both fulfillment-type values (Retail/Wholesale/Online/Brick & Mortar) and customer-segment values (B2B/B2C) as siblings in one column; they are not merged or split."
+    action: flag
+    reason: "See allowed_values.channel note above."
+  BR6:
+    rule: "units_sold values with a non-integer fractional part (e.g. 36.5) are flagged (units_sold_non_integer_flag) but NOT rounded, and the column is kept float64 rather than cast to an integer dtype."
+    action: flag
+    reason: "Rounding would guess which side of .5 the true count was on; forcing an integer dtype on a column containing genuine non-integer raw values would raise a cast error or silently truncate. A count that is physically supposed to be whole but isn't, in the raw source, is a data-quality fact worth surfacing, not silently resolving."
+
+assumptions:
+  A1:
+    text: "This is synthetic/portfolio demonstration data, not a real merchant's transaction ledger; business_goal is analytics/BI portfolio work, not financial-reporting compliance."
+    if_wrong: "If this fed real financial reporting, the BR1 revenue-mismatch rows would need to be resolved against a source-of-truth ledger rather than left flagged, and BR2's negative-value flags would need an actual refund/credit review process."
+  A2:
+    text: "Phone numbers belong to an Indian customer base -- evidence: +91 country-code prefixes appear on a material share of already-formatted numbers, and 10-digit numbers starting 6-9 (the valid Indian mobile prefix range) are the dominant unprefixed pattern (re-verified in 02_extract_and_profile.py, not assumed)."
+    if_wrong: "If the customer base is not predominantly Indian, inferring +91 on unprefixed 10-digit numbers in Stage 4.7 would misassign country codes; the fallback in that case is to leave the number unprefixed and flag PHONE_COUNTRY_UNKNOWN instead."
+  A3:
+    text: "customer_email addresses missing '@' but otherwise matching a consistent 'firstname.lastname.example.com' pattern against the single domain 'example.com' seen everywhere else in the column are a delimiter-only typo, not a different intended address."
+    if_wrong: "If this were a live production email column against real, varied domains, the same repair would be an unjustifiable guess (per spec 4.8) and would instead be left EMAIL_INVALID_FLAGGED with no repair attempted. This repair is only defensible because the domain is uniform across the whole file and re-verified as such in Stage 3 profiling before any repair is attempted."
+
+risks:
+  - "Mixed date formats within the SAME order_date column (ISO, DD/MM/YYYY, MM/DD/YYYY, D-Mon-YYYY, 'Month DD, YYYY', Excel serial numbers, 2-digit years) -- confirmed present in 00_peek.py sample rows."
+  - "Currency noise in unit_price/total_revenue ($, Rupee symbol, trailing '/-' Indian-rupee shorthand) -- confirmed present in 00_peek.py sample rows."
+  - "total_revenue vs units_sold*unit_price cross-column mismatch of unknown rate until Stage 3/4 -- flagged, not corrected, per BR1."
+  - "channel column conflates two taxonomies -- see BR5."
+  - "customer_name has heavy free-text noise (titles like 'Mr.'/'Mrs.', inconsistent case, extra whitespace) and is not a reliable dedup key on its own -- confirmed multiple raw variants of the same evident person in 00_peek.py sample (e.g. 'Rohan Joshi', '  Rohan Joshi  ')."
+  - "Exact and near-duplicate rows likely present (same order_id appearing under cosmetically different customer_name capitalization) -- to be confirmed by row count in Stage 3/4.11."

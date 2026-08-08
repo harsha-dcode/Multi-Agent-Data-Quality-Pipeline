@@ -1,0 +1,91 @@
+=== Delay_Days negative vs Delivery_Status ===
+Delivery_Status
+EARLY    3018
+Name: count, dtype: int64
+
+=== Shipping_Cost_INR sign-flip evidence check ===
+median(abs(negatives))=1634.06, median(all positives)=1453.44
+mean(abs(negatives))=7237.72, mean(all positives)=5963.29
+-> large magnitude mismatch means NOT simple sign-flip, treat as flagged anomaly not corrected
+
+=== COLLISION GUARD: canonicals_collide check per categorical column ===
+Delivery_Status: collide=False  processed_keys=['on time', 'delayed', 'early', 'in transit']
+Customer_Type: collide=False  processed_keys=['enterprise', 'retail', 'wholesale']
+Transport_Mode: collide=False  processed_keys=['road', 'air', 'rail', 'sea']
+Product_Category: collide=False  processed_keys=['fmcg', 'clothing   apparel', 'electronics', 'food   beverages', 'auto parts', 'chemicals', 'industrial equipment', 'books   stationery', 'pharmaceuticals', 'furniture']
+Vehicle_Type: collide=False  processed_keys=['heavy truck', 'container truck', 'medium truck', 'cargo plane', 'mini truck', 'commercial cargo flight', 'freight train', 'express freight train', 'pickup van', 'container ship', 'bulk carrier']
+Industry: collide=False  processed_keys=['distribution', 'import export', 'manufacturing', 'e commerce', 'automotive', 'electronics retail', 'banking   finance', 'pharmacy', 'supermarket', 'fashion retail', 'agriculture supply', 'technology', 'telecom', 'fmcg', 'pharmaceuticals']
+Return_Status: collide=False  processed_keys=['not returned', 'returned']
+Warehouse_Region: collide=False  processed_keys=['east', 'north', 'south', 'west']
+Destination_Region: collide=False  processed_keys=['central', 'east', 'north', 'south', 'west']
+
+=== Pairwise token_sort_ratio (punctuation-preserving) within each canonical set - look for high cross-canonical similarity (risk of miscorrection) ===
+-- Delivery_Status --
+-- Customer_Type --
+-- Transport_Mode --
+-- Product_Category --
+-- Vehicle_Type --
+  'Heavy Truck' vs 'Medium Truck': 61
+  'Container Truck' vs 'Mini Truck': 64
+  'Container Truck' vs 'Container Ship': 69
+  'Medium Truck' vs 'Mini Truck': 73
+  'Freight Train' vs 'Express Freight Train': 76
+-- Industry --
+  'Pharmacy' vs 'Pharmaceuticals': 61
+-- Return_Status --
+  'Not Returned' vs 'Returned': 80
+-- Warehouse_Region --
+  'North' vs 'South': 60
+-- Destination_Region --
+  'North' vs 'South': 60
+
+=== Product_Category messy value -> best canonical match (punctuation-preserving scorer) ===
+  'ELECTRONICS' -> ('Electronics', 100)
+  'Clothing' -> ('Clothing & Apparel', 62)
+  'clothing & apparel' -> ('Clothing & Apparel', 100)
+  'Apparel & Clothing' -> ('Clothing & Apparel', 100)
+  'electronics' -> ('Electronics', 100)
+  'Electronic' -> ('Electronics', 95)
+
+=== Delivery_Status messy value -> best canonical match ===
+  'On time' -> ('On Time', 100)
+  'on time' -> ('On Time', 100)
+  'ON TIME' -> ('On Time', 100)
+  'On-Time' -> ('On Time', 86)
+  'delay' -> ('Delayed', 83)
+  'delayed' -> ('Delayed', 100)
+  'early' -> ('Early', 100)
+  'DELAYED' -> ('Delayed', 100)
+  'EARLY' -> ('Early', 100)
+
+=== Customer_Type messy value -> best canonical match ===
+  'RETAIL' -> ('Retail', 100)
+  'WHOLESALE' -> ('Wholesale', 100)
+  'whole sale' -> ('Wholesale', 53)
+  'retail' -> ('Retail', 100)
+  'wholesale' -> ('Wholesale', 100)
+
+=== Transport_Mode messy value -> best canonical match ===
+  'road' -> ('Road', 100)
+  'ROAD' -> ('Road', 100)
+  'Road Transport' -> ('Road', 44)
+  'air' -> ('Air', 100)
+  'Airways' -> ('Air', 60)
+  'AIR' -> ('Air', 100)
+
+=== Destination_City known variants (case + historical names) ===
+  'BANGALORE' -> ('Bangalore', 100)
+  'Bangalore' -> ('Bangalore', 100)
+  'Bengaluru' -> ('Bangalore', 67)
+  'bangalore' -> ('Bangalore', 100)
+  'CHENNAI' -> ('Chennai', 100)
+  'Chennai' -> ('Chennai', 100)
+  'chennai' -> ('Chennai', 100)
+  'Calcutta' -> ('Patna', 46)
+  'Kolkata' -> ('Kolkata', 100)
+  'kolkata' -> ('Kolkata', 100)
+  'MUMBAI' -> ('Mumbai', 100)
+  'Mumbai' -> ('Mumbai', 100)
+  'mumbai' -> ('Mumbai', 100)
+  'Bombay' -> ('Bhopal', 50)
+  'Madras' -> ('Agra', 60)

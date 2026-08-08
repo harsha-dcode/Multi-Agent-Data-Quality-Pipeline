@@ -1,0 +1,155 @@
+Loaded raw file: 58164 rows, 19 data columns (+__source_row)
+4.1 Header normalization: {'Name': 'name', 'Age': 'age', 'Gender': 'gender', 'Blood Type': 'blood_type', 'Medical Condition': 'medical_condition', 'Date of Admission': 'date_of_admission', 'Doctor': 'doctor', 'Hospital': 'hospital', 'Insurance Provider': 'insurance_provider', 'Billing Amount': 'billing_amount', 'Room Number': 'room_number', 'Admission Type': 'admission_type', 'Discharge Date': 'discharge_date', 'Medication': 'medication', 'Test Results': 'test_results', 'Length of Stay': 'length_of_stay', 'Admission Year': 'admission_year', 'Admission Month': 'admission_month', 'Admission YearMonth': 'admission_yearmonth'}
+
+4.2 NULL STANDARDIZATION (gate results per column):
+  name: nulled=0 retained_as_real=0
+  age: nulled=77 retained_as_real=0
+  gender: nulled=142 retained_as_real=0
+  blood_type: nulled=153 retained_as_real=0
+  medical_condition: nulled=0 retained_as_real=0
+  date_of_admission: nulled=0 retained_as_real=0
+  doctor: nulled=0 retained_as_real=0
+  hospital: nulled=0 retained_as_real=0
+  insurance_provider: nulled=324 retained_as_real=0
+  billing_amount: nulled=546 retained_as_real=0
+  room_number: nulled=306 retained_as_real=0
+  admission_type: nulled=59 retained_as_real=0
+  discharge_date: nulled=0 retained_as_real=0
+  medication: nulled=195 retained_as_real=0
+  test_results: nulled=249 retained_as_real=0
+  length_of_stay: nulled=0 retained_as_real=0
+  admission_year: nulled=0 retained_as_real=0
+  admission_month: nulled=0 retained_as_real=0
+  admission_yearmonth: nulled=0 retained_as_real=0
+
+4.2 VERIFY: null rate before -> after (per column):
+  name: 0 (0.00%) -> 0 (0.00%)
+  age: 164 (0.28%) -> 241 (0.41%)
+  gender: 283 (0.49%) -> 425 (0.73%)
+  blood_type: 185 (0.32%) -> 338 (0.58%)
+  medical_condition: 0 (0.00%) -> 0 (0.00%)
+  date_of_admission: 123 (0.21%) -> 123 (0.21%)
+  doctor: 0 (0.00%) -> 0 (0.00%)
+  hospital: 0 (0.00%) -> 0 (0.00%)
+  insurance_provider: 243 (0.42%) -> 567 (0.97%)
+  billing_amount: 57 (0.10%) -> 603 (1.04%)
+  room_number: 285 (0.49%) -> 591 (1.02%)
+  admission_type: 21 (0.04%) -> 80 (0.14%)
+  discharge_date: 129 (0.22%) -> 129 (0.22%)
+  medication: 229 (0.39%) -> 424 (0.73%)
+  test_results: 260 (0.45%) -> 509 (0.88%)
+  length_of_stay: 2066 (3.55%) -> 2066 (3.55%)
+  admission_year: 1079 (1.86%) -> 1079 (1.86%)
+  admission_month: 1079 (1.86%) -> 1079 (1.86%)
+  admission_yearmonth: 1079 (1.86%) -> 1079 (1.86%)
+
+4.3 STRING NORMALIZATION:
+  name: 1539 values whitespace/NFC-normalized
+  gender: 250 values whitespace/NFC-normalized
+  blood_type: 0 values whitespace/NFC-normalized
+  medical_condition: 419 values whitespace/NFC-normalized
+  doctor: 462 values whitespace/NFC-normalized
+  hospital: 1185 values whitespace/NFC-normalized
+  insurance_provider: 104 values whitespace/NFC-normalized
+  admission_type: 571 values whitespace/NFC-normalized
+  medication: 259 values whitespace/NFC-normalized
+  test_results: 2 values whitespace/NFC-normalized
+
+4.3b COLUMN-VALUE SWAP CORRECTION: blood_type<->gender swapped rows=309, test_results<->medication swapped rows=351
+
+4.4 CATEGORICAL TYPO CORRECTION (per column):
+  gender: case_normalized=400 typo_corrected=0 unresolved_flagged=9 (dangerous=False)
+  blood_type: case_normalized=1 typo_corrected=0 unresolved_flagged=7 (dangerous=True)
+  medical_condition: case_normalized=1214 typo_corrected=1028 unresolved_flagged=0 (dangerous=False)
+  admission_type: case_normalized=545 typo_corrected=0 unresolved_flagged=0 (dangerous=False)
+  insurance_provider: case_normalized=162 typo_corrected=515 unresolved_flagged=0 (dangerous=False)
+  test_results: case_normalized=4 typo_corrected=0 unresolved_flagged=5 (dangerous=False)
+  medication: case_normalized=657 typo_corrected=111 unresolved_flagged=9 (dangerous=False)
+
+4.4 VERIFICATION (post-fuzzy value_counts + missing-canon check) - required, not optional:
+  gender: missing_canon=[]  (empty list = PASS, no canonical value vanished)
+  blood_type: missing_canon=[]  (empty list = PASS, no canonical value vanished)
+  medical_condition: missing_canon=[]  (empty list = PASS, no canonical value vanished)
+  admission_type: missing_canon=[]  (empty list = PASS, no canonical value vanished)
+  insurance_provider: missing_canon=[]  (empty list = PASS, no canonical value vanished)
+  test_results: missing_canon=[]  (empty list = PASS, no canonical value vanished)
+  medication: missing_canon=[]  (empty list = PASS, no canonical value vanished)
+
+4.5 DATE PARSING:
+  date_of_admission: {'iso': 57085, 'named': 307, 'slash_unamb': 262, 'dash_unamb': 0, 'ambiguous': 188, 'unparseable': 199}
+  discharge_date: {'iso': 57116, 'named': 304, 'slash_unamb': 264, 'dash_unamb': 0, 'ambiguous': 151, 'unparseable': 200}
+  discharge_before_admission_flag: 1049 rows flagged (physically impossible, not corrected)
+
+4.6 NUMERIC CLEANING: age
+  yrs-suffix stripped: 58  word-number left null: 67
+4.6 NUMERIC CLEANING: room_number
+  'Room ' prefix stripped: 128  leading-quote stripped: 136
+4.6 NUMERIC CLEANING: billing_amount (locale survey: 374 rows w/ comma, 57220 w/ dot, 177 w/ both -> comma always thousands-separator position, dot always decimal position = US locale, applied uniformly)
+  currency symbols stripped: 382  duplicate-suffix (.NN.00) stripped: 141  thousands-comma stripped: 374
+  999999 sentinel nulled: 76
+4.6 NUMERIC CLEANING: length_of_stay (cast to numeric)
+
+4.9 IMPOSSIBLE NEGATIVE VALUE HANDLING (per-column decision, no blanket abs()):
+  age: 218 negative values found -> CORRECTED (abs()) per BR1
+  billing_amount: 206 negative values found -> FLAGGED ONLY, left as-is per BR2
+  length_of_stay: 950 negative values found -> CORRECTED (abs()) per BR3
+  room_number: 0 negative values found (flag-only policy, none expected)
+  age domain outlier (>110): 313 rows flagged, not corrected
+
+4.10 OUTLIER INVESTIGATION (decimal-typo detection, screened at 10x median):
+  billing_amount: candidates(>10x median)=0 corrected_d10=0 corrected_d100=0 flagged_d1000_or_statistical=0
+    VERIFY median/min/max before -> after: median 25550.98->25550.98  min 0.00->0.00  max 52764.28->52764.28
+  age: candidates(>10x median)=0 corrected_d10=0 corrected_d100=0 flagged_d1000_or_statistical=0
+    VERIFY median/min/max before -> after: median 52.00->52.00  min 0.00->0.00  max 150.00->150.00
+  room_number: candidates(>10x median)=0 corrected_d10=0 corrected_d100=0 flagged_d1000_or_statistical=0
+    VERIFY median/min/max before -> after: median 302.00->302.00  min 101.00->101.00  max 500.00->500.00
+  length_of_stay: candidates(>10x median)=0 corrected_d10=0 corrected_d100=0 flagged_d1000_or_statistical=0
+    VERIFY median/min/max before -> after: median 15.00->15.00  min 0.00->0.00  max 36.00->36.00
+
+LOS QA cross-check: 56098 rows checkable, 1154 mismatches flagged (source value preserved)
+
+4.11 DUPLICATE REMOVAL:
+  exact duplicates removed: 2256  (rows: 58164 -> 55908)
+  near-duplicate composite-key collisions flagged (not removed): 9283 rows across 4637 colliding key-groups
+
+change_log.csv / change_log.csv written: 145538 change-log rows
+03_intermediate_cleaned.csv written: (55908, 50)
+03_flag_registry.json written: 30 flags registered
+  FLAG blood_gender_swap_corrected_flag: True if blood_type/gender values were swapped in source and mechanically exchanged back (BR5)
+  FLAG test_results_medication_swap_corrected_flag: True if test_results/medication values were swapped in source and mechanically exchanged back (BR5)
+  FLAG gender_unresolved_category_flag: True if gender value could not be confidently matched to a canonical value (dangerous-column exact-miss, or fuzzy score < 70)
+  FLAG blood_type_unresolved_category_flag: True if blood_type value could not be confidently matched to a canonical value (dangerous-column exact-miss, or fuzzy score < 70)
+  FLAG medical_condition_unresolved_category_flag: True if medical_condition value could not be confidently matched to a canonical value (dangerous-column exact-miss, or fuzzy score < 70)
+  FLAG admission_type_unresolved_category_flag: True if admission_type value could not be confidently matched to a canonical value (dangerous-column exact-miss, or fuzzy score < 70)
+  FLAG insurance_provider_unresolved_category_flag: True if insurance_provider value could not be confidently matched to a canonical value (dangerous-column exact-miss, or fuzzy score < 70)
+  FLAG test_results_unresolved_category_flag: True if test_results value could not be confidently matched to a canonical value (dangerous-column exact-miss, or fuzzy score < 70)
+  FLAG medication_unresolved_category_flag: True if medication value could not be confidently matched to a canonical value (dangerous-column exact-miss, or fuzzy score < 70)
+  FLAG date_of_admission_unparseable_flag: True if date_of_admission raw value could not be parsed as any known date format (garbage/invalid, e.g. 0000-00-00, 31/31/2021)
+  FLAG date_of_admission_ambiguous_date_flag: True if date_of_admission was a slash/dash date where both MM/DD and DD/MM readings were calendar-valid, resolved via documented US business-context assumption (brief A3)
+  FLAG discharge_date_unparseable_flag: True if discharge_date raw value could not be parsed as any known date format (garbage/invalid, e.g. 0000-00-00, 31/31/2021)
+  FLAG discharge_date_ambiguous_date_flag: True if discharge_date was a slash/dash date where both MM/DD and DD/MM readings were calendar-valid, resolved via documented US business-context assumption (brief A3)
+  FLAG discharge_before_admission_flag: True if discharge_date < date_of_admission (physically impossible) - both dates present and parsed
+  FLAG billing_amount_sentinel_flag: True if billing_amount was the exact placeholder sentinel 999999 - treated as missing, not a real charge
+  FLAG age_sign_flag: True if age was negative in source (corrected via abs()) - BR1
+  FLAG billing_amount_sign_flag: True if billing_amount was negative in source (NOT corrected - flagged only) - BR2
+  FLAG length_of_stay_sign_flag: True if length_of_stay was negative in source (corrected via abs()) - BR3
+  FLAG room_number_sign_flag: True if room_number was negative in source (NOT corrected - flagged only) - N/A
+  FLAG age_domain_outlier_flag: True if age > 110 - implausible but not a generic 10x-median statistical outlier (median~52, so 10x rule would not catch this); domain-specific ceiling, flagged not corrected
+  FLAG billing_amount_decimal_typo_flag: True if billing_amount was corrected as a likely decimal-typo (value/10 or value/100 landed in the plausible band around the column median)
+  FLAG billing_amount_outlier_flag: True if billing_amount was flagged as a statistical outlier (>10x median, no divisor restored plausibility) or a d=1000 candidate (flagged, not corrected - more likely a unit mismatch)
+  FLAG age_decimal_typo_flag: True if age was corrected as a likely decimal-typo (value/10 or value/100 landed in the plausible band around the column median)
+  FLAG age_outlier_flag: True if age was flagged as a statistical outlier (>10x median, no divisor restored plausibility) or a d=1000 candidate (flagged, not corrected - more likely a unit mismatch)
+  FLAG room_number_decimal_typo_flag: True if room_number was corrected as a likely decimal-typo (value/10 or value/100 landed in the plausible band around the column median)
+  FLAG room_number_outlier_flag: True if room_number was flagged as a statistical outlier (>10x median, no divisor restored plausibility) or a d=1000 candidate (flagged, not corrected - more likely a unit mismatch)
+  FLAG length_of_stay_decimal_typo_flag: True if length_of_stay was corrected as a likely decimal-typo (value/10 or value/100 landed in the plausible band around the column median)
+  FLAG length_of_stay_outlier_flag: True if length_of_stay was flagged as a statistical outlier (>10x median, no divisor restored plausibility) or a d=1000 candidate (flagged, not corrected - more likely a unit mismatch)
+  FLAG length_of_stay_qa_mismatch_flag: True if cleaned length_of_stay disagrees with (discharge_date - date_of_admission) recomputed from cleaned dates - QA flag only, source length_of_stay value is NOT overwritten
+  FLAG near_duplicate_composite_key_flag: True if (name, date_of_admission, doctor, hospital) collides with another row - no true unique ID exists in source (brief A2), so this is FLAGGED for review only, never auto-removed
+
+=== STAGE 4 SUMMARY ===
+raw rows: 58164  post-Stage4 rows (after exact-dup removal): 55908  exact duplicates removed: 2256
+total change-log entries: 145538
+
+=== 03_clean.py COMPLETE ===
+Final shape: (55908, 50)
+Change log rows: 145538

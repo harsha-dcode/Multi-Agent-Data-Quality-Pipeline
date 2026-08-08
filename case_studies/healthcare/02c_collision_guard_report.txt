@@ -1,0 +1,55 @@
+COLLISION GUARD RESULTS (rapidfuzz.utils.default_process, alnum-strip+lowercase)
+======================================================================
+
+Column: gender
+  canonical values: ['Male', 'Female']
+  processed keys:   {'Male': 'male', 'Female': 'female'}
+  COLLISION DETECTED: False
+
+Column: blood_type
+  canonical values: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
+  processed keys:   {'A+': 'a', 'A-': 'a', 'B+': 'b', 'B-': 'b', 'AB+': 'ab', 'AB-': 'ab', 'O+': 'o', 'O-': 'o'}
+  COLLISION DETECTED: True
+    -> key 'a' shared by: ['A+', 'A-']  (pairwise scores under this processor:)
+       token_sort_ratio('A+','A-') = 100.0
+    -> key 'b' shared by: ['B+', 'B-']  (pairwise scores under this processor:)
+       token_sort_ratio('B+','B-') = 100.0
+    -> key 'ab' shared by: ['AB+', 'AB-']  (pairwise scores under this processor:)
+       token_sort_ratio('AB+','AB-') = 100.0
+    -> key 'o' shared by: ['O+', 'O-']  (pairwise scores under this processor:)
+       token_sort_ratio('O+','O-') = 100.0
+
+Column: medical_condition
+  canonical values: ['Diabetes', 'Arthritis', 'Cancer', 'Asthma', 'Hypertension', 'Obesity']
+  processed keys:   {'Diabetes': 'diabetes', 'Arthritis': 'arthritis', 'Cancer': 'cancer', 'Asthma': 'asthma', 'Hypertension': 'hypertension', 'Obesity': 'obesity'}
+  COLLISION DETECTED: False
+
+Column: admission_type
+  canonical values: ['Elective', 'Emergency', 'Urgent']
+  processed keys:   {'Elective': 'elective', 'Emergency': 'emergency', 'Urgent': 'urgent'}
+  COLLISION DETECTED: False
+
+Column: insurance_provider
+  canonical values: ['Cigna', 'UnitedHealthcare', 'Medicare', 'Blue Cross', 'Aetna']
+  processed keys:   {'Cigna': 'cigna', 'UnitedHealthcare': 'unitedhealthcare', 'Medicare': 'medicare', 'Blue Cross': 'blue cross', 'Aetna': 'aetna'}
+  COLLISION DETECTED: False
+
+Column: test_results
+  canonical values: ['Normal', 'Abnormal', 'Inconclusive']
+  processed keys:   {'Normal': 'normal', 'Abnormal': 'abnormal', 'Inconclusive': 'inconclusive'}
+  COLLISION DETECTED: False
+
+Column: medication
+  canonical values: ['Ibuprofen', 'Lipitor', 'Penicillin', 'Paracetamol', 'Aspirin']
+  processed keys:   {'Ibuprofen': 'ibuprofen', 'Lipitor': 'lipitor', 'Penicillin': 'penicillin', 'Paracetamol': 'paracetamol', 'Aspirin': 'aspirin'}
+  COLLISION DETECTED: False
+
+======================================================================
+VERDICT per column:
+  gender: SAFE - fuzzy matching permitted (with additional tiered exact-match pass first)
+  blood_type: DANGEROUS - fuzzy matching DISABLED, exact-match only
+  medical_condition: SAFE - fuzzy matching permitted (with additional tiered exact-match pass first)
+  admission_type: SAFE - fuzzy matching permitted (with additional tiered exact-match pass first)
+  insurance_provider: SAFE - fuzzy matching permitted (with additional tiered exact-match pass first)
+  test_results: SAFE - fuzzy matching permitted (with additional tiered exact-match pass first)
+  medication: SAFE - fuzzy matching permitted (with additional tiered exact-match pass first)

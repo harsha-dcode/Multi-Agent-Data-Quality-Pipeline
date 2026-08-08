@@ -1,0 +1,50 @@
+==============================================================================
+STAGE 8: PRE-VIZ PREP
+==============================================================================
+cleaned_data.csv rows: 3333, columns: 30
+
+--- Flag inventory (materialized boolean columns on cleaned_data.csv) ---
+  account_weeks_outlier_flag: True count = 0
+  account_weeks_sign_flag: True count = 0
+  cust_serv_calls_outlier_flag: True count = 0
+  cust_serv_calls_sign_flag: True count = 0
+  data_plan_usage_conflict_flag: True count = 602
+  data_usage_outlier_flag: True count = 0
+  data_usage_sign_flag: True count = 0
+  day_calls_outlier_flag: True count = 0
+  day_calls_sign_flag: True count = 0
+  day_mins_outlier_flag: True count = 0
+  day_mins_sign_flag: True count = 0
+  monthly_charge_outlier_flag: True count = 0
+  monthly_charge_sign_flag: True count = 0
+  overage_fee_outlier_flag: True count = 0
+  overage_fee_sign_flag: True count = 0
+  roam_mins_outlier_flag: True count = 0
+  roam_mins_sign_flag: True count = 0
+Total flag columns found: 17 (non-zero-count check confirms this is NOT the zero-flag-columns bug scenario -- flag columns exist, they just happen to be mostly all-False, which is a different and valid state)
+
+--- Filter decision ---
+  FILTER basis: account_weeks_sign_flag (physically impossible: negative value) -> True count 0
+  FILTER basis: cust_serv_calls_sign_flag (physically impossible: negative value) -> True count 0
+  FILTER basis: data_usage_sign_flag (physically impossible: negative value) -> True count 0
+  FILTER basis: day_calls_sign_flag (physically impossible: negative value) -> True count 0
+  FILTER basis: day_mins_sign_flag (physically impossible: negative value) -> True count 0
+  FILTER basis: monthly_charge_sign_flag (physically impossible: negative value) -> True count 0
+  FILTER basis: overage_fee_sign_flag (physically impossible: negative value) -> True count 0
+  FILTER basis: roam_mins_sign_flag (physically impossible: negative value) -> True count 0
+  KEEP basis: account_weeks_outlier_flag (statistical outlier/decimal-typo flag, not physically impossible) -> True count 0, NOT used as a filter
+  KEEP basis: cust_serv_calls_outlier_flag (statistical outlier/decimal-typo flag, not physically impossible) -> True count 0, NOT used as a filter
+  KEEP basis: data_usage_outlier_flag (statistical outlier/decimal-typo flag, not physically impossible) -> True count 0, NOT used as a filter
+  KEEP basis: day_calls_outlier_flag (statistical outlier/decimal-typo flag, not physically impossible) -> True count 0, NOT used as a filter
+  KEEP basis: day_mins_outlier_flag (statistical outlier/decimal-typo flag, not physically impossible) -> True count 0, NOT used as a filter
+  KEEP basis: monthly_charge_outlier_flag (statistical outlier/decimal-typo flag, not physically impossible) -> True count 0, NOT used as a filter
+  KEEP basis: overage_fee_outlier_flag (statistical outlier/decimal-typo flag, not physically impossible) -> True count 0, NOT used as a filter
+  KEEP basis: roam_mins_outlier_flag (statistical outlier/decimal-typo flag, not physically impossible) -> True count 0, NOT used as a filter
+  KEEP basis: data_plan_usage_conflict_flag (logical-inconsistency review flag, both underlying values individually valid; ambiguous which column is 'wrong' -> per spec, KEEP) -> True count 602, NOT used as a filter
+
+Rows filtered as physically impossible: 0
+viz_ready.csv row count: 3333 -> 3333 (0 dropped, 0.0%)
+
+No date columns present -> Stage 8's 'recompute derived date parts' step is N/A.
+
+Wrote viz_ready.csv: 3333 rows, 30 columns

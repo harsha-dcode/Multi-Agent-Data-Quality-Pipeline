@@ -1,0 +1,153 @@
+Rows: 50000  Cols: 46
+
+=== NUMERIC COLUMN STATS (plain, no currency prefix expected) ===
+
+bedrooms: n=50000 unparseable=0 min=0 max=11 mean=5.4812 median=5.0000 std=3.4598 skew=0.0110 negatives=0 zeros=4155
+
+bathrooms: n=50000 unparseable=0 min=1 max=7 mean=3.9897 median=4.0000 std=2.0018 skew=0.0059 negatives=0 zeros=0
+
+floors: n=50000 unparseable=0 min=1 max=4 mean=2.4928 median=2.0000 std=1.1156 skew=0.0107 negatives=0 zeros=0
+
+parking_spots: n=50000 unparseable=0 min=0 max=3 mean=1.5021 median=1.0000 std=1.1162 skew=-0.0001 negatives=0 zeros=12390
+
+built_year: n=50000 unparseable=0 min=1950 max=2023 mean=1986.5735 median=1987.0000 std=21.3658 skew=-0.0068 negatives=0 zeros=0
+
+total_area: n=50000 unparseable=0 min=-8370.76469 max=9218.868511 mean=563.2148 median=180.1536 std=933.8625 skew=2.3079 negatives=996 zeros=0
+
+land_area: n=50000 unparseable=0 min=0.678875889 max=2413.386483 mean=300.3522 median=239.1827 std=235.0306 skew=1.6870 negatives=0 zeros=0
+
+latitude: n=50000 unparseable=0 min=-59.99665438 max=59.99985498 mean=-0.0467 median=0.1719 std=34.5836 skew=0.0030 negatives=24933 zeros=0
+
+longitude: n=50000 unparseable=0 min=-149.9959838 max=149.9924903 mean=-0.0837 median=0.5227 std=86.6323 skew=-0.0030 negatives=24904 zeros=0
+
+postal_code: n=50000 unparseable=0 min=10000 max=99995 mean=54791.6531 median=54743.0000 std=25985.1852 skew=0.0079 negatives=0 zeros=0
+
+interest_rate: n=50000 unparseable=0 min=0.500019485 max=7.499426828 mean=4.0077 median=4.0221 std=2.0238 skew=-0.0071 negatives=0 zeros=0
+
+inflation_index: n=50000 unparseable=0 min=80.00019612 max=129.9966675 mean=105.0237 median=105.0790 std=14.4054 skew=-0.0014 negatives=0 zeros=0
+
+housing_index: n=50000 unparseable=0 min=90.00280736 max=179.9969858 mean=134.8868 median=134.9881 std=26.0490 skew=-0.0010 negatives=0 zeros=0
+
+luxury_demand_index: n=50000 unparseable=0 min=6.92e-05 max=0.999999773 mean=0.4992 median=0.4991 std=0.2893 skew=0.0053 negatives=0 zeros=0
+
+final_sale_price: n=50000 unparseable=0 min=131.43 max=110101543.9 mean=1724338.8863 median=1362599.5550 std=3605560.3533 skew=13.4256 negatives=0 zeros=0
+
+price_per_sqm: n=50000 unparseable=0 min=1.527597749 max=10098725.59 mean=15132.2731 median=5970.5984 std=78617.8100 skew=58.6804 negatives=0 zeros=0
+
+property_tax: n=50000 unparseable=0 min=500.0277472 max=14999.98421 mean=7758.2819 median=7751.4631 std=4204.7558 skew=-0.0014 negatives=0 zeros=0
+
+days_on_market: n=50000 unparseable=0 min=1 max=364 mean=182.3004 median=182.0000 std=105.1476 skew=-0.0016 negatives=0 zeros=0
+
+price_revision_count: n=50000 unparseable=0 min=0 max=5 mean=2.5053 median=3.0000 std=1.7082 skew=-0.0063 negatives=0 zeros=8284
+
+noise_0: n=50000 unparseable=0 min=-4.32447734 max=4.664874453 mean=0.0020 median=0.0033 std=0.9987 skew=-0.0070 negatives=24946 zeros=0
+
+noise_1: n=50000 unparseable=0 min=-4.579799812 max=4.084401991 mean=0.0020 median=0.0023 std=1.0038 skew=0.0050 negatives=24956 zeros=0
+
+noise_2: n=50000 unparseable=0 min=-4.666848845 max=4.400623123 mean=-0.0058 median=-0.0047 std=1.0021 skew=0.0073 negatives=25108 zeros=0
+
+noise_3: n=50000 unparseable=0 min=-4.002928142 max=3.95543962 mean=-0.0039 median=-0.0049 std=1.0001 skew=0.0061 negatives=25104 zeros=0
+
+noise_4: n=50000 unparseable=0 min=-4.106401112 max=3.898524027 mean=0.0005 median=0.0061 std=0.9991 skew=-0.0090 negatives=24897 zeros=0
+
+noise_5: n=50000 unparseable=0 min=-4.3501711 max=3.987107593 mean=0.0097 median=0.0074 std=0.9962 skew=-0.0064 negatives=24857 zeros=0
+
+noise_6: n=50000 unparseable=0 min=-4.300942058 max=4.163226623 mean=-0.0058 median=-0.0085 std=0.9987 skew=-0.0051 negatives=25181 zeros=0
+
+noise_7: n=50000 unparseable=0 min=-4.508531343 max=4.280679859 mean=0.0126 median=0.0134 std=0.9952 skew=0.0124 negatives=24739 zeros=0
+
+noise_8: n=50000 unparseable=0 min=-4.28670009 max=4.197334053 mean=0.0050 median=0.0054 std=1.0044 skew=-0.0057 negatives=24884 zeros=0
+
+noise_9: n=50000 unparseable=0 min=-3.778787993 max=4.255450626 mean=0.0021 median=0.0058 std=0.9979 skew=-0.0027 negatives=24904 zeros=0
+
+noise_10: n=50000 unparseable=0 min=-4.047044494 max=4.044296431 mean=-0.0037 median=-0.0061 std=1.0004 skew=0.0123 negatives=25143 zeros=0
+
+noise_11: n=50000 unparseable=0 min=-3.761270535 max=4.384355511 mean=0.0046 median=0.0070 std=0.9998 skew=0.0022 negatives=24866 zeros=0
+
+noise_12: n=50000 unparseable=0 min=-3.893015185 max=4.656799275 mean=-0.0002 median=-0.0035 std=0.9972 skew=0.0028 negatives=25055 zeros=0
+
+noise_13: n=50000 unparseable=0 min=-4.456108829 max=4.072824332 mean=-0.0048 median=-0.0106 std=0.9987 skew=0.0083 negatives=25209 zeros=0
+
+noise_14: n=50000 unparseable=0 min=-4.328300909 max=4.13286113 mean=0.0029 median=0.0052 std=0.9971 skew=-0.0057 negatives=24901 zeros=0
+
+
+=== listing_price: currency symbol vs `currency` column agreement ===
+rows where listing_price symbol present: 50000, missing symbol: 0
+rows where symbol != currency column: 0
+listing_price numeric parse failures after stripping symbol: 0
+listing_price stats: min=135.0 max=115087260.0 mean=1722826.02 median=1355959.00 negatives=0
+
+
+=== hoa_fee: currency-prefix presence pattern ===
+rows WITH currency prefix: 25155
+rows WITHOUT currency prefix (bare number): 24845
+rows where hoa_fee HAS a prefix that != currency column: 0
+hoa_fee numeric parse failures after stripping symbol: 0
+hoa_fee stats: min=100 max=1999 mean=1047.63 median=1046.00 negatives=0
+
+
+=== Lat/Long range sanity ===
+latitude range [-59.99665438, 59.99985498] out-of-range(<-90 or >90): 0
+longitude range [-149.9959838, 149.9924903] out-of-range(<-180 or >180): 0
+negative latitude count: 24933, negative longitude count: 24904
+
+
+=== built_year sanity ===
+built_year range [1950, 2023]
+built_year > 2026 (future, impossible): 0
+built_year < 1800 (implausible): 0
+
+
+=== listing_date parse (DD-MM-YYYY expected) ===
+unparseable under DD-MM-YYYY: 0
+date range: 2015-01-01 00:00:00 to 2024-07-31 00:00:00
+listing_date in the future (> 2026-07-29): 0
+
+
+=== Duplicate check ===
+property_id nunique: 49864 of 50000
+full-row duplicate rows (all cols identical, incl copies): 272
+full-row duplicate GROUPS beyond first occurrence (rows to remove): 136
+property_id duplicated (excess beyond first): 136
+
+
+=== total_area sign-flip & outlier diagnostics ===
+total_area negatives: 996
+total_area median (positive only): 184.7409
+total_area >10x median: 4959 (9.92%)
+For negative total_area rows: price_per_sqm / (final_sale_price/abs(total_area)) ratio stats: mean=1.0017 median=1.0000 min=0.9011 max=1.0999
+
+
+=== final_sale_price decimal-typo candidate cross-check (per feedback-outlier-judgment) ===
+final_sale_price median: 1362599.56
+candidates (>10x median): 425
+final_sale_price/listing_price ratio for candidates: min=0.9098 max=1.1108 mean=1.0054 median=1.0037
+final_sale_price/listing_price ratio for NON-candidates (normal pop): min=0.9091 max=1.1111 mean=1.0038 median=1.0003
+candidates whose ratio falls within normal population's 1st-99th pct band: 418 of 425
+
+
+=== price_per_sqm decimal-typo candidate cross-check ===
+price_per_sqm median: 5970.60
+candidates (>10x median): 1577 (3.15%)
+price_per_sqm / (final_sale_price/abs(total_area)) ratio for candidates: min=0.9000 max=1.1000 mean=1.0022 median=1.0000
+
+
+=== currency vs country independence (chi-square) ===
+chi2=44.3242 p=0.1607 dof=36
+currency      $   AED     £     €     ₹
+country                                
+Australia   985   994   976  1026  1012
+Brazil      971  1002   988  1032   960
+Canada      981  1075   982  1023   959
+France     1028   986  1064   976  1033
+Germany     988   982   952  1054   979
+India      1037   983   997  1033   994
+Spain       940   963  1043  1011  1081
+UAE         986   983   983   972   998
+UK          937   991  1004  1051   998
+USA         955  1047   993   996  1016
+
+
+=== City collision guard (token_sort_ratio) ===
+token_sort_ratio('Munich','München') = 61.53846153846154
+token_sort_ratio('Sao Paulo','São Paulo') = 88.88888888888889

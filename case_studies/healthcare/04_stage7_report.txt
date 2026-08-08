@@ -1,0 +1,38 @@
+Loaded 03_intermediate_cleaned.csv: (55908, 50)
+
+STAGE 6: DATA INTEGRATION - N/A, Single Source (only one input file was provided: healthcare_dataset_dirty_export.csv). No join/merge performed.
+
+BR6 disagreement check: pre-existing admission_year vs year(cleaned date_of_admission): 54865 rows comparable, 206 disagree (0.38% of comparable rows)
+admission_year / admission_month / admission_yearmonth: dropped pre-existing raw columns, recomputed fresh from cleaned date_of_admission (BR6)
+length_of_stay_recomputed_days: derived column added (QA reference only, source length_of_stay untouched)
+
+Final dtype enforcement:
+  7 numeric cols -> float64, 7 cols -> category, 2 date cols -> datetime64[ns], 30 flag cols -> bool
+
+Final null check (per brief missing_value_strategy - all columns are never_impute or leave_null; ZERO imputation performed in this run, so ZERO *_imputed columns are created):
+  age: 301 nulls -> REQUIRES_MANUAL_REVIEW, age_missing_flag set
+  gender: 408 nulls -> REQUIRES_MANUAL_REVIEW, gender_missing_flag set
+  blood_type: 325 nulls -> REQUIRES_MANUAL_REVIEW, blood_type_missing_flag set
+  date_of_admission: 312 nulls -> REQUIRES_MANUAL_REVIEW, date_of_admission_missing_flag set
+  insurance_provider: 560 nulls -> REQUIRES_MANUAL_REVIEW, insurance_provider_missing_flag set
+  billing_amount: 662 nulls -> REQUIRES_MANUAL_REVIEW, billing_amount_missing_flag set
+  room_number: 580 nulls -> REQUIRES_MANUAL_REVIEW, room_number_missing_flag set
+  admission_type: 80 nulls -> REQUIRES_MANUAL_REVIEW, admission_type_missing_flag set
+  discharge_date: 317 nulls -> REQUIRES_MANUAL_REVIEW, discharge_date_missing_flag set
+  medication: 418 nulls -> REQUIRES_MANUAL_REVIEW, medication_missing_flag set
+  test_results: 501 nulls -> REQUIRES_MANUAL_REVIEW, test_results_missing_flag set
+  length_of_stay: 2006 nulls -> REQUIRES_MANUAL_REVIEW, length_of_stay_missing_flag set
+  admission_year: 312 nulls -> REQUIRES_MANUAL_REVIEW, admission_year_missing_flag set
+  admission_month: 312 nulls -> REQUIRES_MANUAL_REVIEW, admission_month_missing_flag set
+  admission_yearmonth: 312 nulls -> REQUIRES_MANUAL_REVIEW, admission_yearmonth_missing_flag set
+  length_of_stay_recomputed_days: 624 nulls -> REQUIRES_MANUAL_REVIEW, length_of_stay_recomputed_days_missing_flag set
+
+Column reordering applied: 67 columns
+
+Post-transform re-dedup (triggered by BR6 column drop): 34 additional exact duplicates removed
+
+Index reset to 0-based; __source_row CONFIRMED present as a column (verified: True)
+
+cleaned_data.csv written: (55874, 67)
+Appended 8088 Stage 6/7 change-log entries to change_log.csv / change_log.csv
+03_flag_registry.json updated: 46 total flags

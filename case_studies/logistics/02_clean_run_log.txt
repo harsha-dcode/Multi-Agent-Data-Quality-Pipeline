@@ -1,0 +1,87 @@
+Loaded raw file: 30102 rows, 35 columns
+Added __source_row (0-based raw file position)
+Headers normalized: {'Shipment_ID': 'shipment_id', 'Order_ID': 'order_id', 'Shipment_Date': 'shipment_date', 'Pickup_Date': 'pickup_date', 'Dispatch_Date': 'dispatch_date', 'Expected_Delivery_Date': 'expected_delivery_date', 'Actual_Delivery_Date': 'actual_delivery_date', 'Delivery_Status': 'delivery_status', 'Delay_Days': 'delay_days', 'Customer_ID': 'customer_id', 'Customer_Type': 'customer_type', 'Industry': 'industry', 'Warehouse_ID': 'warehouse_id', 'Warehouse_Name': 'warehouse_name', 'Warehouse_City': 'warehouse_city', 'Warehouse_State': 'warehouse_state', 'Warehouse_Region': 'warehouse_region', 'Destination_City': 'destination_city', 'Destination_State': 'destination_state', 'Destination_Region': 'destination_region', 'Distance_KM': 'distance_km', 'Transport_Mode': 'transport_mode', 'Vehicle_Type': 'vehicle_type', 'Driver_ID': 'driver_id', 'Product_Category': 'product_category', 'Shipment_Weight_KG': 'shipment_weight_kg', 'Shipment_Volume_CBM': 'shipment_volume_cbm', 'Shipping_Cost_INR': 'shipping_cost_inr', 'Fuel_Cost_INR': 'fuel_cost_inr', 'Operational_Cost_INR': 'operational_cost_inr', 'Revenue_INR': 'revenue_inr', 'Profit_INR': 'profit_inr', 'Customer_Rating': 'customer_rating', 'Return_Status': 'return_status', 'Delay_Reason': 'delay_reason', '__source_row': '__source_row'}
+Null standardization null-rate before/after (per column, only columns with any nulls):
+  actual_delivery_date: before=230 after=230
+  delay_days: before=230 after=230
+  driver_id: before=7228 after=7228
+  shipment_weight_kg: before=900 after=900
+  fuel_cost_inr: before=1203 after=1203
+  customer_rating: before=1718 after=1718
+  delay_reason: before=21738 after=21738
+4.3 String normalization: 0 cell-level whitespace/NFC changes logged
+4.4 Fuzzy matching summary:
+  delivery_status: collision guard clear -> fuzzy matching enabled (max(ratio,token_sort_ratio), full_process=False)
+      auto-corrected(>=85)=1087  review-band(70-84)=112  unknown(<70)=0
+  customer_type: collision guard clear -> fuzzy matching enabled (max(ratio,token_sort_ratio), full_process=False)
+      auto-corrected(>=85)=400  review-band(70-84)=0  unknown(<70)=0
+  industry: collision guard clear -> fuzzy matching enabled (max(ratio,token_sort_ratio), full_process=False)
+      auto-corrected(>=85)=0  review-band(70-84)=0  unknown(<70)=0
+  transport_mode: collision guard clear -> fuzzy matching enabled (max(ratio,token_sort_ratio), full_process=False)
+      auto-corrected(>=85)=459  review-band(70-84)=0  unknown(<70)=235
+  vehicle_type: collision guard clear -> fuzzy matching enabled (max(ratio,token_sort_ratio), full_process=False)
+      auto-corrected(>=85)=0  review-band(70-84)=0  unknown(<70)=0
+  product_category: collision guard clear -> fuzzy matching enabled (max(ratio,token_sort_ratio), full_process=False)
+      auto-corrected(>=85)=128  review-band(70-84)=0  unknown(<70)=31
+  return_status: collision guard clear -> fuzzy matching enabled (max(ratio,token_sort_ratio), full_process=False)
+      auto-corrected(>=85)=0  review-band(70-84)=0  unknown(<70)=0
+  warehouse_region: collision guard clear -> fuzzy matching enabled (max(ratio,token_sort_ratio), full_process=False)
+      auto-corrected(>=85)=0  review-band(70-84)=0  unknown(<70)=0
+  destination_region: collision guard clear -> fuzzy matching enabled (max(ratio,token_sort_ratio), full_process=False)
+      auto-corrected(>=85)=0  review-band(70-84)=0  unknown(<70)=0
+4.4 Synonym map applied to destination_city: 45 rows corrected
+4.4 Synonym map applied to warehouse_city: 0 rows corrected
+4.4 Synonym map applied to transport_mode: 235 rows corrected
+4.4 Title-case normalization on warehouse_name: 0 rows
+4.4 Title-case normalization on warehouse_city: 0 rows
+4.4 Title-case normalization on warehouse_state: 0 rows
+4.4 Title-case normalization on destination_city: 49 rows
+4.4 Title-case normalization on destination_state: 0 rows
+
+=== POST-FUZZY VERIFICATION (mandatory per behavioral rule 9 / 4.4) ===
+delivery_status: unique values after cleaning = ['On Time', 'Delayed', 'Early', 'In Transit']  missing_canon=[]
+customer_type: unique values after cleaning = ['Wholesale', 'Enterprise', 'Retail']  missing_canon=[]
+industry: unique values after cleaning = ['Distribution', 'Import-Export', 'Manufacturing', 'E-Commerce', 'Automotive', 'Electronics Retail', 'Banking & Finance', 'Pharmacy', 'Supermarket', 'Fashion Retail', 'Pharmaceuticals', 'Telecom', 'Agriculture Supply', 'Technology', 'FMCG']  missing_canon=[]
+transport_mode: unique values after cleaning = ['Road', 'Air', 'Rail', 'Sea']  missing_canon=[]
+vehicle_type: unique values after cleaning = ['Heavy Truck', 'Container Truck', 'Medium Truck', 'Cargo Plane', 'Mini Truck', 'Commercial Cargo Flight', 'Freight Train', 'Express Freight Train', 'Pickup Van', 'Container Ship', 'Bulk Carrier']  missing_canon=[]
+product_category: unique values after cleaning = ['FMCG', 'Clothing & Apparel', 'Electronics', 'Food & Beverages', 'Auto Parts', 'Chemicals', 'Industrial Equipment', 'Books & Stationery', 'Pharmaceuticals', 'Furniture', 'Clothing']  missing_canon=[]
+return_status: unique values after cleaning = ['Not Returned', 'Returned']  missing_canon=[]
+warehouse_region: unique values after cleaning = ['South', 'West', 'North', 'East']  missing_canon=[]
+destination_region: unique values after cleaning = ['South', 'West', 'North', 'East', 'Central']  missing_canon=[]
+Wrote 02_post_fuzzy_verification.txt
+4.5 Date parsing complete. Unparseable values found: 0
+4.5 BR6 date-logic violations flagged: 646
+4.6 Numeric cast complete. Unparseable-per-column: {}
+4.6 Distance_KM skew=0.12 (near-symmetric) -- no locale ambiguity, no separator stripping needed for any numeric column (assumption A1/A2 confirmed in profiling).
+4.9 shipment_weight_kg: 89 negative values corrected via abs() (BR3)
+4.9 shipping_cost_inr: 152 negative values flagged, NOT corrected (BR4)
+4.9 delay_days: 3018 negative values flagged as LEGITIMATE (early delivery, BR1) -- not treated as impossible
+4.9 profit_inr: 3567 negative values flagged as LEGITIMATE (loss-making shipment, BR2) -- not treated as impossible
+4.9 customer_rating: 122 out-of-range values flagged (BR5)
+4.10 Decimal-typo / outlier investigation summary:
+  shipment_weight_kg: median=37.17 candidates(>10x median)=3112 would-be typo_div10=1596 typo_div100=408 typo_div1000=29 repair_rate=6.754% > 1% THRESHOLD -- STOPPED, NOT corrected. All 3112 candidates flagged as STATISTICAL_OUTLIER instead. This column's scale/units need source-system investigation, not row-level typo repair.
+  shipment_volume_cbm: median=0.18 candidates(>10x median)=3357 would-be typo_div10=1673 typo_div100=469 typo_div1000=7 repair_rate=7.139% > 1% THRESHOLD -- STOPPED, NOT corrected. All 3357 candidates flagged as STATISTICAL_OUTLIER instead. This column's scale/units need source-system investigation, not row-level typo repair.
+  shipping_cost_inr: median=1453.44 candidates(>10x median)=2071 would-be typo_div10=1010 typo_div100=300 typo_div1000=6 repair_rate=4.372% > 1% THRESHOLD -- STOPPED, NOT corrected. All 2071 candidates flagged as STATISTICAL_OUTLIER instead. This column's scale/units need source-system investigation, not row-level typo repair.
+  fuel_cost_inr: median=4294.76 candidates(>10x median)=74 typo_div10=72 typo_div100=0 typo_div1000(WARNING)=0 statistical_outlier=2 repair_rate=0.239% -- APPLIED (within 1% threshold)
+  operational_cost_inr: median=430.61 candidates(>10x median)=208 typo_div10=151 typo_div100=3 typo_div1000(WARNING)=0 statistical_outlier=54 repair_rate=0.512% -- APPLIED (within 1% threshold)
+  revenue_inr: median=9610.65 candidates(>10x median)=798 would-be typo_div10=470 typo_div100=73 typo_div1000=0 repair_rate=1.804% > 1% THRESHOLD -- STOPPED, NOT corrected. All 798 candidates flagged as STATISTICAL_OUTLIER instead. This column's scale/units need source-system investigation, not row-level typo repair.
+4.10 *** COLUMNS WHERE REPAIR WAS STOPPED (repair_rate > 1%, reported not corrected): ***
+    shipment_weight_kg: repair_rate=6.754%, 3112 candidate rows flagged STATISTICAL_OUTLIER, 0 corrected
+    shipment_volume_cbm: repair_rate=7.139%, 3357 candidate rows flagged STATISTICAL_OUTLIER, 0 corrected
+    shipping_cost_inr: repair_rate=4.372%, 2071 candidate rows flagged STATISTICAL_OUTLIER, 0 corrected
+    revenue_inr: repair_rate=1.804%, 798 candidate rows flagged STATISTICAL_OUTLIER, 0 corrected
+4.10 VERIFY median/min/max shift (should be ~unchanged for columns where correction WAS applied):
+  shipment_weight_kg: post-clean median=37.17 min=0.50 max=27944.54
+  shipment_volume_cbm: post-clean median=0.18 min=0.00 max=134.64
+  shipping_cost_inr: post-clean median=1439.14 min=-265359.87 max=1530927.43
+  fuel_cost_inr: post-clean median=4294.76 min=126.48 max=92372.50
+  operational_cost_inr: post-clean median=430.54 min=225.31 max=19766.33
+  revenue_inr: post-clean median=9610.65 min=600.00 max=4013950.00
+4.7 Phone normalization: N/A -- no phone/tel/mobile/contact column in this dataset
+4.8 Email validation: N/A -- no email column in this dataset
+4.11 Exact duplicates removed: 102 rows. Remaining: 30000
+4.11 Near-duplicate / malformed-ID check: customer_id rows not matching CUST##### pattern: 0; driver_id rows not matching DRV#### pattern (excl. null): 0
+Wrote case_studies/logistics\cleaned_data.csv (30000 rows, 72 columns)
+Wrote case_studies/logistics\change_log.csv (53379 change-log rows)
+Wrote 02_flag_registry.json (36 flags)
+Wrote 02_clean_summary.json: {'raw_row_count': 30102, 'cleaned_row_count': 30000, 'exact_duplicates_removed': 102, 'removed_source_rows': [1123, 1395, 4483, 5643, 5827, 6433, 7536, 8607, 9106, 9534, 9777, 10012, 10597, 10620, 11308, 11616, 11766, 12206, 13405, 13436, 13519, 13621, 13799, 14587, 14675, 15033, 15893, 15905, 15961, 15967, 16299, 16321, 16575, 16743, 17135, 17185, 17778, 18253, 18259, 18350, 18449, 18653, 18894, 19017, 19040, 19293, 19466, 19813, 20083, 20231, 20475, 20500, 20928, 20963, 21042, 21077, 21157, 21270, 21335, 21516, 21830, 22073, 22510, 22544, 22586, 22874, 23001, 23501, 24345, 24551, 24716, 24807, 24818, 24824, 25098, 25320, 25411, 25415, 25842, 26076, 26220, 26678, 26704, 27100, 27341, 27592, 27644, 27661, 27932, 28096, 28110, 28184, 28413, 28617, 28666, 28704, 28830, 28947, 28967, 29314, 29393, 29955], 'date_logic_violations': 646, 'weight_sign_corrections': 89, 'shipping_cost_negative_flagged': 152, 'delay_days_negative_flagged': 3018, 'profit_negative_flagged': 3567, 'rating_out_of_range_flagged': 122, 'total_change_log_rows': 53379, 'decimal_typo_scale_flagged_columns': [{'column': 'shipment_weight_kg', 'repair_rate_pct': 6.754, 'candidates_flagged_not_corrected': 3112}, {'column': 'shipment_volume_cbm', 'repair_rate_pct': 7.139, 'candidates_flagged_not_corrected': 3357}, {'column': 'shipping_cost_inr', 'repair_rate_pct': 4.372, 'candidates_flagged_not_corrected': 2071}, {'column': 'revenue_inr', 'repair_rate_pct': 1.804, 'candidates_flagged_not_corrected': 798}]}

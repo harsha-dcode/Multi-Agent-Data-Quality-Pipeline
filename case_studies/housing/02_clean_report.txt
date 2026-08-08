@@ -1,0 +1,130 @@
+STAGE 2 EXTRACTION: 50000 rows x 46 cols read (utf-8, no BOM issues detected)
+Columns: ['property_id', 'country', 'property_type', 'condition', 'bedrooms', 'bathrooms', 'floors', 'parking_spots', 'built_year', 'city', 'total_area', 'land_area', 'latitude', 'longitude', 'district', 'postal_code', 'listing_date', 'interest_rate', 'inflation_index', 'housing_index', 'luxury_demand_index', 'final_sale_price', 'listing_price', 'price_per_sqm', 'currency', 'hoa_fee', 'property_tax', 'days_on_market', 'price_revision_count', 'title', 'description', 'noise_0', 'noise_1', 'noise_2', 'noise_3', 'noise_4', 'noise_5', 'noise_6', 'noise_7', 'noise_8', 'noise_9', 'noise_10', 'noise_11', 'noise_12', 'noise_13', 'noise_14']
+STAGE 4.1 HEADER_NORMALIZATION: 0 headers renamed (all already snake_case except spot check)
+STAGE 4.2 NULL_STANDARDIZATION: 0 cells nulled (0 expected -- Stage 3 profiling found 0 disguise hits in all 46 columns)
+Null rate per column after standardization (top 5 by rate): {'property_id': 0.0, 'country': 0.0, 'property_type': 0.0, 'condition': 0.0, 'bedrooms': 0.0}
+STAGE 4.3 STRING_NORMALIZATION: 0 cells touched by whitespace/NFC normalization across all string columns
+STAGE 4.3 condition case merge: 'new'(7239) + 'New'(7231) -> 'New'(14470) [expected 14470]
+
+STAGE 4.4 COLLISION GUARD + fuzzy matching decisions:
+  [country] collision_guard=clear | observed_not_in_canon=NONE
+    -> no correction needed, column already conforms exactly to canonical set (0 fuzzy matches applied)
+  [property_type] collision_guard=clear | observed_not_in_canon=NONE
+    -> no correction needed, column already conforms exactly to canonical set (0 fuzzy matches applied)
+  [condition] collision_guard=clear | observed_not_in_canon=NONE
+    -> no correction needed, column already conforms exactly to canonical set (0 fuzzy matches applied)
+  [currency] collision_guard=TRIP | observed_not_in_canon=NONE
+    -> no correction needed, column already conforms exactly to canonical set (0 fuzzy matches applied)
+  [city] collision_guard: DECLINED to run fuzzy matching at all (see brief dangerous_columns.city) -- using explicit alias map instead
+  [city] alias map applied: 2641 rows remapped ('Sao Paulo'->'São Paulo': 1632, 'Munich'->'München': 1009)
+  [city] post-map unique count: 31 (expected 31)
+  [city] missing_canon check: NONE -- all 31 canonical cities present post-clean
+  [city] unexpected values remaining after alias map: NONE
+
+STAGE 4.5 DATE PARSING:
+  listing_date: format DD-MM-YYYY assumed (A1 in brief) -- unparseable: 0 of 50000
+  date range after parse: 2015-01-01 00:00:00 to 2024-07-31 00:00:00
+
+STAGE 4.6 NUMERIC CLEANING:
+  listing_price: currency symbol stripped (BR7 -- symbol always agrees with `currency` col, verified), parse failures=0
+  hoa_fee: currency symbol stripped (BR7 -- symbol always agrees with `currency` col, verified), parse failures=0
+  final_sale_price stats post-clean: min=131.43 median=1362599.56 max=110101543.90
+  listing_price stats post-clean: min=135.00 median=1355959.00 max=115087260.00
+
+STAGE 4.7 PHONE NORMALIZATION: N/A -- no phone/tel/mobile/contact columns in this dataset
+STAGE 4.8 EMAIL VALIDATION: N/A -- no email columns in this dataset
+
+STAGE 4.9 IMPOSSIBLE NEGATIVE VALUE FLAGGING:
+  total_area: 996 negative values flagged (total_area_sign_flag), NOT corrected
+  bedrooms: 0 negatives (verified)
+  bathrooms: 0 negatives (verified)
+  floors: 0 negatives (verified)
+  parking_spots: 0 negatives (verified)
+  land_area: 0 negatives (verified)
+  final_sale_price: 0 negatives (verified)
+  listing_price: 0 negatives (verified)
+  price_per_sqm: 0 negatives (verified)
+  hoa_fee: 0 negatives (verified)
+  property_tax: 0 negatives (verified)
+  days_on_market: 0 negatives (verified)
+  price_revision_count: 0 negatives (verified)
+  interest_rate: 0 negatives (verified)
+  inflation_index: 0 negatives (verified)
+  housing_index: 0 negatives (verified)
+  luxury_demand_index: 0 negatives (verified)
+  built_year: 0 negatives (verified)
+  postal_code: 0 negatives (verified)
+  latitude: 24933 negative values -- LEGITIMATE (southern hemisphere), not flagged, not corrected (BR1)
+  longitude: 24904 negative values -- LEGITIMATE (western hemisphere), not flagged, not corrected (BR1)
+  latitude out-of-range(<-90,>90): 0 | longitude out-of-range(<-180,>180): 0
+  built_year: 0 rows with built_year > 2026 (impossible future construction) -- flagged, none corrected (none found)
+
+STAGE 4.10 OUTLIER INVESTIGATION:
+  total_area: median=184.74, 4860 candidates (9.72%) -- ALL classified STATISTICAL_OUTLIER (BR4, exceeds 1% sanity cap), 0 corrected
+  price_per_sqm: median=5970.60, 1577 candidates (3.15%) -- cross-check ratio range [0.9000,1.1000] -- ALL classified STATISTICAL_OUTLIER (BR6), 0 corrected
+  final_sale_price: median=1362599.56, 425 candidates (0.85%), 418/425 within normal listing_price-ratio band -- ALL classified STATISTICAL_OUTLIER (BR5), 0 corrected
+  listing_price: median=1355959.00, 427 candidates (0.85%), 421/427 within normal final_sale_price-ratio band -- ALL classified STATISTICAL_OUTLIER (BR9), 0 corrected [generic-loop divisor test alone would have wrongly corrected ~370 of these -- caught by cross-check, see BR9]
+  land_area: median=239.18, 1 candidates (0.002% <= 1% cap): 1 corrected as decimal typos, 0 flagged STATISTICAL_OUTLIER
+    median before=239.18 after=239.18 shift=0.000% (should be ~0)
+  property_tax: median=7751.46, 0 candidates
+  hoa_fee: median=1046.00, 0 candidates
+  TOTAL decimal-typo corrections applied across all columns: 1
+
+STAGE 4.11 DUPLICATE REMOVAL:
+  exact full-row duplicates removed: 136 (property_id duplicate count was also 136 pre-removal -- matches exactly, confirming these are the same 136 rows, not a coincidence)
+  rows after dedup: 49864
+  near-duplicate check: No separate name/email/phone identifier columns exist in this dataset to run near-duplicate fuzzy matching on beyond property_id, which is either an exact match (handled above) or a distinct listing. 0 near-duplicates flagged.
+
+STAGE 4 COMPLETE: 50000 raw rows -> 49864 rows after cleaning (dropped 136, all via 4.11 exact-dup removal)
+
+=== VERIFICATION: real-cell checks (not just log/flag) ===
+condition value_counts post-clean:
+condition
+New                   14415
+Needs Repair           7129
+Old                    7115
+Luxury                 7112
+Renovated              7073
+Under Construction     7020
+city nunique post-clean: 31 (expected 31)
+currency value_counts post-clean:
+currency
+€      10144
+₹      10009
+AED     9971
+£       9960
+$       9780
+total_area negative count post-clean (should still be 996, UNCHANGED since flagged not corrected): 994
+sample negative total_area rows (value unchanged, flag set): 
+     __source_row  total_area
+8               8 -320.583989
+85             85   -8.548963
+140           140  -38.491426
+sample final_sale_price outlier rows (value UNCHANGED from raw, only flagged): 
+     __source_row  final_sale_price  listing_price
+108           108       23755887.82     25645906.0
+561           561       18871699.11     18333032.0
+587           587       39252422.89     37765822.0
+
+Wrote intermediate post-Stage-4 frame: case_studies/housing\_intermediate_post_stage4.csv (49864 rows x 55 cols)
+Wrote change_log.csv: 11068 change-log rows
+Change type breakdown:
+CHANGE_TYPE
+OUTLIER_FLAGGED                   7289
+TYPO_CORRECTED                    2641
+NEGATIVE_FLAGGED                   996
+DUPLICATE_REMOVED                  136
+NUMERIC_CLEANED                      3
+STRING_NORMALIZED                    1
+DATE_PARSED                          1
+OUTLIER_DECIMAL_TYPO_CORRECTED       1
+
+Flag registry (8 flags):
+  total_area_sign_flag: total_area was negative in raw data -- physically impossible for an area; flagged, NOT corrected (BR3)  [True count in df = 994]
+  built_year_future_flag: built_year > 2026 (current year) -- physically impossible, flagged  [True count in df = 0]
+  total_area_outlier_flag: total_area > 10x column median -- real scale variation (large estates/land), NOT a decimal typo (BR4); flagged STATISTICAL_OUTLIER, value unchanged  [True count in df = 4848]
+  price_per_sqm_outlier_flag: price_per_sqm > 10x median -- mathematically explained by final_sale_price/abs(total_area) (BR6), NOT an independent decimal typo; flagged STATISTICAL_OUTLIER  [True count in df = 1573]
+  final_sale_price_outlier_flag: final_sale_price > 10x median -- cross-checked against listing_price (BR5), ratio matches normal population, genuine luxury listing NOT a decimal typo; flagged STATISTICAL_OUTLIER  [True count in df = 424]
+  listing_price_outlier_flag: listing_price > 10x median -- cross-checked against final_sale_price (BR9), ratio matches normal population, genuine luxury listing NOT a decimal typo; flagged STATISTICAL_OUTLIER  [True count in df = 426]
+  land_area_outlier_flag: land_area > 10x median, no divisor landed in plausible band -- flagged STATISTICAL_OUTLIER, not corrected  [True count in df = 0]
+  land_area_decimal_typo_flag: land_area decimal-typo corrected (divided by 10/100/1000 to land within [0.5x,2x] median)  [True count in df = 1]

@@ -1,0 +1,71 @@
+# ---- Secrets ----
+.env
+*.env.local
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+.pytest_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
+
+# ---- Pipeline working directory (never commit live runs) ----
+workspace/
+
+# ---- Raw source datasets ----
+# Inputs are large and are not the deliverable. Every case study ships its
+# reports, change log, and reproduction scripts; the raw file is fetched
+# separately. See case_studies/README.md for provenance and checksums.
+case_studies/**/input/
+*.csv.gz
+*.zip
+
+# Large intermediate binaries — reports and logs are committed, these are not
+case_studies/**/*.parquet
+case_studies/**/_*.pkl
+case_studies/**/*_intermediate*.csv
+
+# ---- Large cleaned outputs: ship a 1,000-row sample, not 28 MB ----
+# The audit trail (change_log.csv) and every report ARE committed in full —
+# they are the evidence. The bulk output is reproducible from the numbered
+# scripts, so only a sample is tracked for the three large case studies.
+# sales/ and telecom/ are small enough to commit whole.
+case_studies/healthcare/cleaned_data.csv
+case_studies/healthcare/viz_ready.csv
+case_studies/housing/cleaned_data.csv
+case_studies/housing/viz_ready.csv
+case_studies/logistics/cleaned_data.csv
+case_studies/logistics/viz_ready.csv
+!case_studies/**/*_sample_1000.csv
+
+# ---- IDE / OS ----
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# ---- Agent working memory ----
+# Runs write local agent memory; it is scratch state, not a deliverable.
+**/.claude/agent-memory-local/
+
+# ---- Claude Code ----
+# NOTE: .claude/agents/ is deliberately TRACKED. The agent specification is the
+# design core of this project, not incidental tooling — reviewing this repo
+# without it would mean reviewing the executor and not the decision layer.
+.claude/settings.local.json
+
+# ---- Test artifacts ----
+tests/cleaned_output/
+
+# ---- Logs ----
+*.log

@@ -1,0 +1,68 @@
+--- gender ---
+gender
+Male      28898
+Female    28832
+B+            2
+A-            2
+O-            2
+AB+           1
+AB-           1
+O+            1
+missing_canon (canonical values that DISAPPEARED after cleaning): []
+--- blood_type ---
+blood_type
+A+        7272
+AB-       7264
+B-        7243
+B+        7241
+AB+       7234
+A-        7232
+O+        7190
+O-        7143
+Male         4
+Female       3
+missing_canon (canonical values that DISAPPEARED after cleaning): []
+--- medical_condition ---
+medical_condition
+Diabetes        9782
+Arthritis       9751
+Cancer          9688
+Hypertension    9665
+Asthma          9643
+Obesity         9635
+missing_canon (canonical values that DISAPPEARED after cleaning): []
+--- admission_type ---
+admission_type
+Elective     19531
+Urgent       19474
+Emergency    19079
+missing_canon (canonical values that DISAPPEARED after cleaning): []
+--- insurance_provider ---
+insurance_provider
+Cigna               11636
+UnitedHealthcare    11586
+Medicare            11565
+Blue Cross          11471
+Aetna               11339
+missing_canon (canonical values that DISAPPEARED after cleaning): []
+--- test_results ---
+test_results
+Abnormal        19318
+Normal          19259
+Inconclusive    19073
+Aspirin             2
+Ibuprofen           1
+Lipitor             1
+Pencillin           1
+missing_canon (canonical values that DISAPPEARED after cleaning): []
+--- medication ---
+medication
+Ibuprofen       11615
+Lipitor         11581
+Aspirin         11514
+Paracetamol     11511
+Penicillin      11510
+Abnormal            5
+Inconclusive        3
+Normal              1
+missing_canon (canonical values that DISAPPEARED after cleaning): []

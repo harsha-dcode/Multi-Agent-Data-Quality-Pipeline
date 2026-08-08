@@ -1,0 +1,159 @@
+# STAGE 1 BUSINESS BRIEF
+# Authored 2026-07-29, unattended run (no user available to ask - see project note below).
+# Source lineage: this is the same synthetic "healthcare_dataset_dirty_export.csv" family
+# profiled in a prior run (2026-07-15); structural facts below (shape, columns, canonical sets,
+# fuzzy collision) were RE-VERIFIED against THIS file in 00_peek.py before being written here,
+# not copied blind from memory.
+
+dataset: healthcare_dataset_dirty_export.csv
+
+grain: >
+  One row per hospital admission event. No true unique patient/record ID column exists in the
+  source (confirmed: no id/patient_id/record_id column present among the 19 raw columns). The
+  best-effort composite identifier is (name, date_of_admission, doctor, hospital). This composite
+  is used ONLY for near-duplicate detection/flagging in 4.11, never for automatic row removal,
+  because collisions on it are not proof of a true duplicate admission.
+
+critical_columns:
+  - date_of_admission   # grain anchor; a row with no admission date cannot be placed in any
+                         # time-series or reporting period and is unusable for the stated
+                         # business goal below.
+  - billing_amount      # the core financial measure; this dataset's business goal includes
+                         # billing/revenue reporting, and a null here removes the row from every
+                         # financial rollup.
+  - admission_type      # key clinical/operational dimension (Elective/Emergency/Urgent);
+                         # required for the capacity/operations cut of the EDA.
+
+allowed_values:
+  gender: [Male, Female]
+  blood_type: [A+, A-, B+, B-, AB+, AB-, O+, O-]
+  medical_condition: [Diabetes, Arthritis, Cancer, Asthma, Hypertension, Obesity]
+  admission_type: [Elective, Emergency, Urgent]
+  insurance_provider: [Cigna, UnitedHealthcare, Medicare, Blue Cross, Aetna]
+  test_results: [Normal, Abnormal, Inconclusive]
+  medication: [Ibuprofen, Lipitor, Penicillin, Paracetamol, Aspirin]
+
+dangerous_columns:
+  blood_type:
+    fuzzy_matching: false
+    reason: >
+      MEASURED (02c_collision_guard.py, run against this machine's actual rapidfuzz install,
+      output in 02c_collision_guard_report.txt): rapidfuzz.utils.default_process reduces 'A+'
+      and 'A-' (and every other +/- pair: B+/B-, AB+/AB-, O+/O-) to the identical key ('a',
+      'b', 'ab', 'o' respectively); token_sort_ratio('A+','A-', processor=default_process) =
+      100.0, confirmed for all four pairs. Blood type is exact-match (case-insensitive) only in
+      this run; fuzzy matching is disabled for it.
+  # NOTE: insurance_provider was suspected dangerous when this brief was first drafted (space
+  # variant "United Healthcare" vs canonical "UnitedHealthcare"), but the actual collision guard
+  # (02c_collision_guard.py) was then run against it and found NO collision among its 5
+  # canonicals under rapidfuzz.utils.default_process - the suspected issue is a different failure
+  # mode (default_process does not collapse internal whitespace, so "blue cross" keeps its space
+  # and "United Healthcare" would under-score against "UnitedHealthcare" via plain fuzzy scoring)
+  # - an under-match risk, not a wrong-merge risk, so it does NOT belong in dangerous_columns.
+  # It is handled in cleaning via an extra alnum-only-strip EXACT-match tier (not fuzzy) run
+  # before fuzzy matching, which catches the space/punctuation variant deterministically. This
+  # correction was made after measuring, not assumed - see 02c_collision_guard_report.txt.
+
+missing_value_strategy:
+  name: never_impute              # identifier component of the composite grain key
+  age: leave_null
+  gender: never_impute            # explicit instruction: never_impute
+  blood_type: never_impute        # explicit instruction: never_impute; also a dangerous_column
+  medical_condition: leave_null
+  date_of_admission: never_impute # critical column, identifier component, date field
+  doctor: leave_null
+  hospital: leave_null
+  insurance_provider: leave_null
+  billing_amount: never_impute    # revenue factor per explicit instruction
+  room_number: never_impute       # explicit instruction: never_impute
+  admission_type: leave_null
+  discharge_date: leave_null      # see not_critical below - null is informative, not missing
+  medication: leave_null
+  test_results: never_impute      # explicit instruction: never_impute
+  length_of_stay: leave_null      # cross-checked against (discharge_date - date_of_admission)
+                                   # as a QA flag only; never fills from that computation
+  admission_year: leave_null      # pre-existing derived column; dropped and recomputed in
+                                   # Stage 7 from the cleaned date_of_admission - see business_rules.BR6
+  admission_month: leave_null     # same as admission_year
+  admission_yearmonth: leave_null # same as admission_year
+
+dataset_type: healthcare_admissions_synthetic
+business_goal: >
+  BI dashboard / analytics-portfolio demonstration of hospital admissions volume, billing, and
+  clinical-outcome reporting. Not a regulatory or clinical-decision-support use case; this shapes
+  the flag-vs-fix posture toward "flag and preserve evidence" over "correct and move on" wherever
+  a correction is not unambiguous.
+
+column_types:
+  name: string
+  age: integer
+  gender: category
+  blood_type: category
+  medical_condition: category
+  date_of_admission: date
+  doctor: string
+  hospital: string
+  insurance_provider: category
+  billing_amount: float
+  room_number: integer
+  admission_type: category
+  discharge_date: date
+  medication: category
+  test_results: category
+  length_of_stay: integer
+  admission_year: integer      # pre-existing raw column, distrusted - see business_rules.BR6
+  admission_month: integer     # pre-existing raw column, distrusted - see business_rules.BR6
+  admission_yearmonth: string  # pre-existing raw column, distrusted - see business_rules.BR6
+
+not_critical:
+  discharge_date: >
+    A null discharge_date is plausibly an admission that has not yet concluded (still
+    hospitalized) rather than a data error. Nulling/flagging it as missing information is
+    correct; imputing it would fabricate a discharge event that may not have happened.
+  age: "Demographic descriptor; a null age does not remove the row's billing/clinical value."
+  medical_condition: "Analytically valuable but a null here does not invalidate the admission record for financial/operational reporting."
+
+business_rules:
+  BR1:
+    rule: "age < 0 is treated as a sign-flip data-entry error (e.g. -1 instead of 1)."
+    action: correct
+    reason: "Age cannot be legitimately negative under any interpretation; abs() recovers a plausible value with no ambiguity about intent, unlike billing_amount (BR2)."
+  BR2:
+    rule: "billing_amount < 0 is NOT auto-corrected."
+    action: flag_do_not_correct
+    reason: "A negative charge may be a legitimate refund/credit/adjustment in a billing system. Sign-flipping it would erase real information and could invert a credit into a charge."
+  BR3:
+    rule: "length_of_stay < 0 is treated as a sign-flip data-entry error."
+    action: correct
+    reason: "Length of stay is a duration and cannot be legitimately negative; unlike billing_amount there is no 'credit' interpretation. abs() is applied and logged."
+  BR4:
+    rule: "blood_type is matched exact/case-insensitive only, never fuzzy."
+    action: flag
+    reason: "See dangerous_columns.blood_type - +/- pairs collide under standard fuzzy preprocessing."
+  BR5:
+    rule: >
+      If blood_type contains a gender-word (Male/Female) and the paired gender column contains a
+      blood-type-code, the two values are swapped (not typos) and are exchanged back rather than
+      nulled - contingent on re-confirming this pattern exists in this file during cleaning
+      (see change log for actual counts). Same check applied to test_results<->medication.
+    action: correct
+    reason: "Symmetric evidence (the two columns' values are literally exchanged, not merely malformed) makes this a mechanical un-swap, not a guess - the original information is fully recoverable."
+  BR6:
+    rule: "admission_year, admission_month, admission_yearmonth (pre-existing raw columns) are dropped and recomputed from the cleaned date_of_admission in Stage 7."
+    action: correct
+    reason: "These pre-existing derived columns are known (from prior profiling of this lineage) to disagree with date_of_admission on a material number of rows and share a large null block not explained by the source date - they cannot be trusted as authoritative and recomputing from the cleaned date is strictly more reliable."
+
+assumptions:
+  A1:
+    text: "This is synthetic demonstration data, not real PHI; business_goal is analytics/BI portfolio work, not regulatory (HIPAA) compliance."
+    if_wrong: "If this were real patient data, retention of raw values in cleaned_data.csv and the change log would need PHI-grade access controls not implemented here."
+  A2:
+    text: "No unique record ID exists anywhere in the source; the composite (name, date_of_admission, doctor, hospital) is the best available grain key and is used for flagging only."
+    if_wrong: "If a hidden true ID exists elsewhere, dedup and near-duplicate flagging in 4.11 could be materially wrong in either direction."
+
+risks:
+  - "Fuzzy-matching collision on blood_type (+/- pairs) - mitigated by dangerous_columns guard, exact match only."
+  - "Mixed decimal/thousands-separator notation and currency symbols in billing_amount."
+  - "Mixed date formats and unparseable garbage patterns in date_of_admission/discharge_date."
+  - "Pre-existing admission_year/month/yearmonth columns are known to disagree with source dates in this lineage."
+  - "No true unique ID - near-duplicate flagging on composite key is necessarily imprecise."

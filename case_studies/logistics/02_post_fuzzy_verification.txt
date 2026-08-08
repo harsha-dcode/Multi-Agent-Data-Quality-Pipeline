@@ -1,0 +1,95 @@
+-- delivery_status --
+delivery_status
+On Time       18320
+Delayed        8534
+Early          3018
+In Transit      230
+Name: count, dtype: int64
+missing_canon (expected canonical values that DISAPPEARED): []
+-- customer_type --
+customer_type
+Wholesale     10367
+Enterprise    10027
+Retail         9708
+Name: count, dtype: int64
+missing_canon (expected canonical values that DISAPPEARED): []
+-- industry --
+industry
+Distribution          3995
+Import-Export         2626
+Manufacturing         2299
+E-Commerce            2199
+Automotive            2155
+Electronics Retail    2143
+Banking & Finance     2069
+Pharmacy              1826
+Supermarket           1786
+Fashion Retail        1754
+Pharmaceuticals       1726
+Telecom               1664
+Agriculture Supply    1447
+Technology            1221
+FMCG                  1192
+Name: count, dtype: int64
+missing_canon (expected canonical values that DISAPPEARED): []
+-- transport_mode --
+transport_mode
+Road    16478
+Air      6750
+Rail     6396
+Sea       478
+Name: count, dtype: int64
+missing_canon (expected canonical values that DISAPPEARED): []
+-- vehicle_type --
+vehicle_type
+Heavy Truck                3648
+Container Truck            3563
+Medium Truck               3491
+Cargo Plane                3400
+Mini Truck                 3387
+Commercial Cargo Flight    3350
+Freight Train              3271
+Express Freight Train      3125
+Pickup Van                 2389
+Container Ship              248
+Bulk Carrier                230
+Name: count, dtype: int64
+missing_canon (expected canonical values that DISAPPEARED): []
+-- product_category --
+product_category
+FMCG                    6010
+Clothing & Apparel      3318
+Electronics             3044
+Food & Beverages        2947
+Auto Parts              2724
+Chemicals               2638
+Industrial Equipment    2476
+Books & Stationery      2413
+Pharmaceuticals         2378
+Furniture               2123
+Clothing                  31
+Name: count, dtype: int64
+missing_canon (expected canonical values that DISAPPEARED): []
+-- return_status --
+return_status
+Not Returned    27518
+Returned         2584
+Name: count, dtype: int64
+missing_canon (expected canonical values that DISAPPEARED): []
+-- warehouse_region --
+warehouse_region
+South    9466
+West     9031
+North    7535
+East     4070
+Name: count, dtype: int64
+missing_canon (expected canonical values that DISAPPEARED): []
+-- destination_region --
+destination_region
+South      8212
+West       7298
+North      6799
+East       5210
+Central    2583
+Name: count, dtype: int64
+missing_canon (expected canonical values that DISAPPEARED): []

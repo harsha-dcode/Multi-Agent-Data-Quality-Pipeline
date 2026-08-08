@@ -1,0 +1,109 @@
+==============================================================================
+STAGE 4: DATA CLEANING
+==============================================================================
+rows loaded from pickle: 3333
+
+--- 4.1 Header Normalization ---
+  Churn -> churn
+  AccountWeeks -> account_weeks
+  ContractRenewal -> contract_renewal
+  DataPlan -> data_plan
+  DataUsage -> data_usage
+  CustServCalls -> cust_serv_calls
+  DayMins -> day_mins
+  DayCalls -> day_calls
+  MonthlyCharge -> monthly_charge
+  OverageFee -> overage_fee
+  RoamMins -> roam_mins
+final columns: ['__source_row', 'churn', 'account_weeks', 'contract_renewal', 'data_plan', 'data_usage', 'cust_serv_calls', 'day_mins', 'day_calls', 'monthly_charge', 'overage_fee', 'roam_mins']
+all snake_case, no whitespace/special chars: True
+
+--- 4.2 Null Standardization ---
+Disguised-null tokens found (full 14-token set, all 11 columns, 3333 rows): 0
+0 NULL_STANDARDIZED and 0 NULL_DISGUISE_RETAINED entries logged -- there is nothing to standardize or retain. Confirmed identical to the Stage 3 scan (02_profile_report.txt).
+
+--- 4.3 String Normalization ---
+Cells requiring whitespace strip/collapse: 0
+Every one of 3,333 x 11 = 36,663 cells was checked against its own .strip() + collapsed-whitespace form; only a literal mismatch counts as a change.
+
+--- 4.4 Categorical Typo Correction (Fuzzy Matching) ---
+N/A for this dataset. Collision guard was run in 02_extract_profile.py against all 11 columns: 0 are string/categorical columns eligible for fuzzy matching (churn, contract_renewal, data_plan are numeric {0,1} flags; the rest are continuous numeric measures). 0 fuzzy corrections applied. See 02_profile_report.txt for the full per-column eligibility trace.
+
+--- 4.5 Date Parsing and Standardization ---
+N/A. No column name or sampled value in this dataset resembles a date (headers: churn, account_weeks, contract_renewal, data_plan, data_usage, cust_serv_calls, day_mins, day_calls, monthly_charge, overage_fee, roam_mins). 0 date columns detected, 0 date-parse operations performed.
+
+--- 4.6 Numeric Cleaning ---
+Currency-symbol-contaminated cells found across all numeric columns: 0
+Comma-as-thousands-separator cells found: 0
+No locale ambiguity: every value in every numeric column is a plain decimal (e.g. '89', '9.87', '2.7') with no separators or symbols to strip. 0 NUMERIC_CLEANED symbol-strip operations logged.
+Cells that became NaN after numeric coercion (i.e. genuinely unparseable as numbers): 0
+
+--- 4.7 Phone Number Normalization --- N/A: no phone/tel/mobile/cell/contact/fax column.
+--- 4.8 Email Validation and Normalization --- N/A: no email/e_mail/mail column.
+
+--- 4.9 Impossible Negative Value Flagging ---
+  account_weeks: negative values = 0 (flag column 'account_weeks_sign_flag' created, True count = 0)
+  data_usage: negative values = 0 (flag column 'data_usage_sign_flag' created, True count = 0)
+  cust_serv_calls: negative values = 0 (flag column 'cust_serv_calls_sign_flag' created, True count = 0)
+  day_mins: negative values = 0 (flag column 'day_mins_sign_flag' created, True count = 0)
+  day_calls: negative values = 0 (flag column 'day_calls_sign_flag' created, True count = 0)
+  monthly_charge: negative values = 0 (flag column 'monthly_charge_sign_flag' created, True count = 0)
+  overage_fee: negative values = 0 (flag column 'overage_fee_sign_flag' created, True count = 0)
+  roam_mins: negative values = 0 (flag column 'roam_mins_sign_flag' created, True count = 0)
+TOTAL impossible-negative flags across all 8 checked columns: 0
+Matches Stage 3 profile (0.0% negative in every column). No abs() corrections applied anywhere -- there was nothing to correct.
+
+Closed code set out-of-range re-check (post-cast):
+  churn: out-of-{0,1} = 0
+  contract_renewal: out-of-{0,1} = 0
+  data_plan: out-of-{0,1} = 0
+TOTAL out-of-range closed-code-set values: 0
+
+--- 4.10 Outlier Investigation (Decimal-Typo Detection) ---
+  data_usage: median=0.0 <= 0 -> ratio-to-median test skipped for this column (per spec; would be meaningless). No IQR/MAD substitute applied since this dataset's business columns are never expected to have a non-positive median in practice, and none actually did (see below).
+  day_mins: median=179.4, candidates(>10x median)=0, decimal_typos_found=0, statistical_outliers_flagged=0
+  monthly_charge: median=53.5, candidates(>10x median)=0, decimal_typos_found=0, statistical_outliers_flagged=0
+  overage_fee: median=10.07, candidates(>10x median)=0, decimal_typos_found=0, statistical_outliers_flagged=0
+  roam_mins: median=10.3, candidates(>10x median)=0, decimal_typos_found=0, statistical_outliers_flagged=0
+  account_weeks: median=101.0, candidates(>10x median)=0, decimal_typos_found=0, statistical_outliers_flagged=0
+  cust_serv_calls: median=1.0, candidates(>10x median)=0, decimal_typos_found=0, statistical_outliers_flagged=0
+  day_calls: median=101.0, candidates(>10x median)=0, decimal_typos_found=0, statistical_outliers_flagged=0
+TOTAL >10x-median candidates investigated across all numeric columns: see per-column lines above
+TOTAL decimal-typo corrections applied: 0
+TOTAL statistical outliers flagged (not modified): 0
+
+--- Extra check: logical inconsistency (data_plan == 0 while data_usage > 0) ---
+Rows with data_plan=0 and data_usage>0: 602 (flag column 'data_plan_usage_conflict_flag' created, True count = 602)
+
+--- 4.11 Duplicate Removal ---
+Exact duplicate rows (identical across all 11 data columns, excluding __source_row): 0
+Rows remaining after exact-duplicate removal: 3333
+
+--- Near-duplicate check (fuzzy similarity on key identifier columns) ---
+N/A. Spec 4.11 near-duplicate check operates on key identifier columns (name, email, phone, ID). This dataset has none of those -- no identifier column exists at all (documented as Assumption A1 in 01_business_brief.yaml). 0 near-duplicate pairs flagged because there is no identifier field to compare.
+
+==============================================================================
+FLAG REGISTRY (Stage 4.0 convention -- materialized as boolean columns)
+==============================================================================
+  account_weeks_sign_flag: True count = 0
+  data_usage_sign_flag: True count = 0
+  cust_serv_calls_sign_flag: True count = 0
+  day_mins_sign_flag: True count = 0
+  day_calls_sign_flag: True count = 0
+  monthly_charge_sign_flag: True count = 0
+  overage_fee_sign_flag: True count = 0
+  roam_mins_sign_flag: True count = 0
+  data_usage_outlier_flag: True count = 0
+  day_mins_outlier_flag: True count = 0
+  monthly_charge_outlier_flag: True count = 0
+  overage_fee_outlier_flag: True count = 0
+  roam_mins_outlier_flag: True count = 0
+  account_weeks_outlier_flag: True count = 0
+  cust_serv_calls_outlier_flag: True count = 0
+  day_calls_outlier_flag: True count = 0
+  data_plan_usage_conflict_flag: True count = 602
+Total flag columns created: 17
+
+change_log.csv rows written (header only if 0): 613
+cleaned_data.csv rows written: 3333, columns: 29
+cleaned_data.csv column list: ['__source_row', 'churn', 'account_weeks', 'contract_renewal', 'data_plan', 'data_usage', 'cust_serv_calls', 'day_mins', 'day_calls', 'monthly_charge', 'overage_fee', 'roam_mins', 'account_weeks_sign_flag', 'data_usage_sign_flag', 'cust_serv_calls_sign_flag', 'day_mins_sign_flag', 'day_calls_sign_flag', 'monthly_charge_sign_flag', 'overage_fee_sign_flag', 'roam_mins_sign_flag', 'data_usage_outlier_flag', 'day_mins_outlier_flag', 'monthly_charge_outlier_flag', 'overage_fee_outlier_flag', 'roam_mins_outlier_flag', 'account_weeks_outlier_flag', 'cust_serv_calls_outlier_flag', 'day_calls_outlier_flag', 'data_plan_usage_conflict_flag']

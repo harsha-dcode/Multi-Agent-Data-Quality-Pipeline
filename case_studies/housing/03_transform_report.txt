@@ -1,0 +1,28 @@
+STAGE 6 INTEGRATION: N/A -- Single Source (house_50k_sample.csv only)
+
+STAGE 7 TRANSFORMATION: loaded 49864 rows x 55 cols from post-Stage-4 intermediate
+
+Final dtype enforcement:
+  int64: ['property_id', 'bedrooms', 'bathrooms', 'floors', 'parking_spots', 'built_year', 'days_on_market', 'price_revision_count']
+  string (identifier, not quantity): ['postal_code']
+  float64: ['total_area', 'land_area', 'latitude', 'longitude', 'interest_rate', 'inflation_index', 'housing_index', 'luxury_demand_index', 'final_sale_price', 'listing_price', 'price_per_sqm', 'hoa_fee', 'property_tax', 'noise_0', 'noise_1', 'noise_2', 'noise_3', 'noise_4', 'noise_5', 'noise_6', 'noise_7', 'noise_8', 'noise_9', 'noise_10', 'noise_11', 'noise_12', 'noise_13', 'noise_14']
+  category: ['country', 'property_type', 'condition', 'city', 'currency']
+  datetime64: ['listing_date']
+  bool (flags): ['total_area_sign_flag', 'built_year_future_flag', 'total_area_outlier_flag', 'price_per_sqm_outlier_flag', 'final_sale_price_outlier_flag', 'listing_price_outlier_flag', 'land_area_outlier_flag', 'land_area_decimal_typo_flag']
+  string (kept as object -- free text / district / __source_row is int): title, description, district
+
+Derived columns:
+  property_age_years = 2026 - built_year
+  listing_year / listing_month RECOMPUTED from the cleaned listing_date column (Stage 8 requirement -- never trust a pre-existing derived date part)
+  price_to_listing_ratio = final_sale_price / listing_price (the same ratio used for the BR5/BR9 decimal-typo cross-checks -- exposed as a real KPI for Stage 9)
+  listing_days_since_run_date = days between listing_date and this pipeline run date (2026-07-29)
+
+Final null check:
+  0 nulls in any column post-cleaning -- no imputation needed or performed (matches brief: 0 null disguises found in Stage 3 profiling, missing_value_strategy per column is moot on this run)
+
+Column reorder: 60 columns placed; unaccounted-for columns: NONE; phantom columns in order list not in df: NONE
+
+Index reset to clean 0..49863; __source_row column confirmed present (min=0, max=49999, nunique=49864)
+
+Wrote cleaned_data.csv: 49864 rows x 60 cols
+Final columns: ['__source_row', 'property_id', 'listing_date', 'listing_year', 'listing_month', 'listing_days_since_run_date', 'country', 'city', 'district', 'postal_code', 'property_type', 'condition', 'currency', 'bedrooms', 'bathrooms', 'floors', 'parking_spots', 'built_year', 'property_age_years', 'total_area', 'land_area', 'latitude', 'longitude', 'final_sale_price', 'listing_price', 'price_to_listing_ratio', 'price_per_sqm', 'hoa_fee', 'property_tax', 'days_on_market', 'price_revision_count', 'interest_rate', 'inflation_index', 'housing_index', 'luxury_demand_index', 'title', 'description', 'total_area_sign_flag', 'built_year_future_flag', 'total_area_outlier_flag', 'price_per_sqm_outlier_flag', 'final_sale_price_outlier_flag', 'listing_price_outlier_flag', 'land_area_outlier_flag', 'land_area_decimal_typo_flag', 'noise_0', 'noise_1', 'noise_2', 'noise_3', 'noise_4', 'noise_5', 'noise_6', 'noise_7', 'noise_8', 'noise_9', 'noise_10', 'noise_11', 'noise_12', 'noise_13', 'noise_14']

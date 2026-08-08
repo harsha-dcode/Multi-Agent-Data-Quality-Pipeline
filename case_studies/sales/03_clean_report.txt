@@ -1,0 +1,177 @@
+==============================================================================
+STAGE 4 -- DATA CLEANING
+==============================================================================
+Loaded 312 raw rows from case_studies/sales\_raw_with_source_row.pkl
+
+--- 4.1 Header normalization ---
+  'Order_Date' -> 'order_date'
+  'customer name' -> 'customer_name'
+  'Customer Email' -> 'customer_email'
+  'Phone Number' -> 'phone_number'
+  'region ' -> 'region'
+  'Product' -> 'product'
+  'Units Sold' -> 'units_sold'
+  'Total Revenue' -> 'total_revenue'
+
+--- 4.2 Null standardization ---
+  order_id         null rate before:   0/312  ->  after:   0/312
+  order_date       null rate before:   3/312  ->  after:  13/312
+  customer_name    null rate before:  10/312  ->  after:  19/312
+  customer_email   null rate before:   1/312  ->  after:   1/312
+  phone_number     null rate before:   7/312  ->  after:  17/312
+  region           null rate before:  22/312  ->  after:  57/312
+  product          null rate before:  10/312  ->  after:  48/312
+  channel          null rate before:  18/312  ->  after:  43/312
+  units_sold       null rate before:   0/312  ->  after:  17/312
+  unit_price       null rate before:   3/312  ->  after:  26/312
+  total_revenue    null rate before:  26/312  ->  after:  35/312
+
+--- 4.3 String normalization ---
+  Cells normalized (whitespace/NFC): 281
+
+--- 4.4 Categorical typo correction (fuzzy matching) ---
+  Collision guard result (from 02_extract_and_profile.py): NO collisions on region/
+  product/channel canonical sets -> fuzzy matching is safe for all three.
+  region: alias(whitespace/hyphen-fold)=26  auto-corrected(>=85)=43  warned(70-84)=28  unknown(<70)=0
+  product: alias(whitespace/hyphen-fold)=0  auto-corrected(>=85)=0  warned(70-84)=0  unknown(<70)=0
+  channel: alias(whitespace/hyphen-fold)=25  auto-corrected(>=85)=0  warned(70-84)=0  unknown(<70)=0
+
+  Post-match value_counts() + missing-canon check (behavioral rule 9 / spec 4.4 verify):
+
+  region value_counts:
+    'North': 65
+    'East': 52
+    'South': 52
+    'Northeast': 44
+    'West': 42
+  region missing_canon (canonical values that disappeared entirely): []
+
+  product value_counts:
+    'Alpha': 103
+    'Gamma': 68
+    'Beta': 51
+    'Delta': 42
+  product missing_canon (canonical values that disappeared entirely): []
+
+  channel value_counts:
+    'Online': 88
+    'Retail': 58
+    'Wholesale': 49
+    'B2B': 35
+    'B2C': 20
+    'Brick & Mortar': 19
+  channel missing_canon (canonical values that disappeared entirely): []
+
+--- 4.5 Date parsing (order_date) ---
+  Parsed successfully: 291 (of which Excel-serial: 33)
+  Unparseable (flagged, left null): 8
+  Unparseable examples: [(91, '29/02/2023'), (92, '29/02/2023'), (118, '31/04/2024'), (128, '31/04/2024'), (156, '29/02/2023'), (158, '29/02/2023'), (215, '31/04/2024'), (222, '29/02/2023')]
+  VERIFY (behavioral rule 9): null count before 4.5 loop = 13, + 8 newly-unparseable this step = expected 21, actual after datetime cast = 21  OK
+
+--- 4.6 Numeric cleaning ---
+  units_sold: transformed(logged)=8  unparseable=0
+  unit_price: transformed(logged)=18  unparseable=4
+  total_revenue: transformed(logged)=5  unparseable=0
+
+--- 4.7 Phone number normalization ---
+  Normalized to E.164: 294 (of which country-code inferred: 168)
+  Flagged PHONE_COUNTRY_UNKNOWN: 1
+
+--- 4.8 Email validation and normalization ---
+  Normalized (case/whitespace): 32
+  Valid (post-normalization, PRE-repair, i.e. as-received): 299 / 311
+  Repaired (declared, separate step): 12
+  Invalid, flagged, left as-is: 0
+
+--- 4.9 Impossible negative value flagging ---
+  units_sold: 5 impossible negatives flagged (not corrected)
+  unit_price: 8 impossible negatives flagged (not corrected)
+  total_revenue: 14 impossible negatives flagged (not corrected)
+
+--- 4.10 Outlier investigation (decimal-typo detection) ---
+
+  Column: unit_price  (median over non-null, non-sign-flagged values = 106.5200)
+  Candidates (> 10x median = 1065.20): 2
+  Corrected as decimal typos: 1 (0.36% of 274 valid values)
+  Median before: 106.5200  after: 106.5200  (delta 0.000%)
+  IQR before: 85.1150  after: 84.8100
+
+  Column: units_sold  (median over non-null, non-sign-flagged values = 27.0000)
+  Candidates (> 10x median = 270.00): 6
+  Corrected as decimal typos: 6 (2.07% of 290 valid values)
+  *** SANITY-CHECK TRIP: repair rate 2.07% > 1% cap. ***
+  Reverting all 6 corrections on this column -- reinterpreting them as a
+  scale/segment finding (e.g. a genuine bulk-order cluster) rather than typos.
+  Median before: 27.0000  after: 27.0000  (delta 0.000%)
+  IQR before: 25.0000  after: 25.0000
+
+  total_revenue: deliberately NOT run through the self-referential 4.10 divisor test.
+  Per feedback-outlier-judgment (incident 2), a self-referential median/divisor test on a
+  column that has an INDEPENDENT cross-check available (here: units_sold * unit_price) is
+  the wrong tool -- it can be fooled by coincidence. total_revenue is cross-checked against
+  revenue_calculated instead (business_rules.BR1), below, and never divisor-corrected.
+
+  units_sold non-integer values flagged (not rounded): 6
+
+--- Cross-column check (business_rules.BR1): total_revenue vs units_sold * unit_price ---
+  Rows with both total_revenue and revenue_calculated present (comparable): 233
+  Rows disagreeing by more than 1%: 15 (6.44% of comparable rows)
+  Ratio distribution of mismatches (total_revenue / revenue_calculated):
+    count     15.000000
+    mean      46.707332
+    std       48.015204
+    min        0.010000
+    25%        0.099995
+    50%       50.000000
+    75%      100.000000
+    max      100.000000
+  Mismatches clustering at a clean scalar multiple (~100x/50x/10x/0.1x/0.01x): 15 / 15
+  DECISION: total_revenue is NOT recomputed/overwritten. Which of the three fields is
+  actually wrong cannot be determined from this data alone (BR1). revenue_mismatch_flag
+  marks every disagreeing row; revenue_calculated is retained as a derived column so any
+  downstream consumer can compare both without the pipeline having guessed a winner.
+    source_row=52: total_revenue=532521.00  revenue_calculated=5325.21  ratio=100.0000
+    source_row=61: total_revenue=252264.00  revenue_calculated=2522.64  ratio=100.0000
+    source_row=76: total_revenue=176640.00  revenue_calculated=1766.40  ratio=100.0000
+    source_row=101: total_revenue=37.45  revenue_calculated=374.55  ratio=0.1000
+    source_row=103: total_revenue=37.45  revenue_calculated=374.55  ratio=0.1000
+    source_row=120: total_revenue=140695.50  revenue_calculated=2813.91  ratio=50.0000
+    source_row=122: total_revenue=269.03  revenue_calculated=2690.28  ratio=0.1000
+    source_row=147: total_revenue=38680.00  revenue_calculated=386.80  ratio=100.0000
+    source_row=148: total_revenue=109.70  revenue_calculated=1097.05  ratio=0.1000
+    source_row=220: total_revenue=170840.00  revenue_calculated=3416.80  ratio=50.0000
+    source_row=257: total_revenue=1371.15  revenue_calculated=137115.00  ratio=0.0100
+    source_row=291: total_revenue=109.70  revenue_calculated=1097.05  ratio=0.1000
+    source_row=293: total_revenue=342810.00  revenue_calculated=3428.10  ratio=100.0000
+    source_row=304: total_revenue=35.01  revenue_calculated=350.05  ratio=0.1000
+    source_row=308: total_revenue=258768.00  revenue_calculated=2587.68  ratio=100.0000
+
+--- 4.11 Duplicate removal ---
+  Exact post-normalization duplicate rows removed: 29
+  PK-conflict (customer_name-case-only) rows removed: 2
+  Rows flagged NEAR_DUPLICATE_FLAGGED (order_id repeats, real conflict, kept for review): 0
+
+  Row count: 312 -> 281 (31 removed total)
+
+--- Flag registry (materialized boolean columns) ---
+  channel_fuzzy_review_flag: True count = 0
+  channel_unknown_category_flag: True count = 0
+  customer_email_invalid_flag: True count = 0
+  customer_email_repaired_flag: True count = 11
+  near_duplicate_flag: True count = 0
+  order_date_unparseable_flag: True count = 8
+  phone_number_country_unknown_flag: True count = 1
+  product_fuzzy_review_flag: True count = 0
+  product_unknown_category_flag: True count = 0
+  region_fuzzy_review_flag: True count = 23
+  region_unknown_category_flag: True count = 0
+  revenue_mismatch_flag: True count = 13
+  total_revenue_sign_flag: True count = 13
+  unit_price_outlier_flag: True count = 1
+  unit_price_sign_flag: True count = 7
+  units_sold_non_integer_flag: True count = 6
+  units_sold_outlier_flag: True count = 6
+  units_sold_sign_flag: True count = 5
+
+[WROTE] case_studies/sales\cleaned_data.csv  shape=(281, 31)
+[WROTE] case_studies/sales\change_log.csv  rows=1824

@@ -1,0 +1,383 @@
+Rows: 50000
+Cols: 46
+Columns:
+  property_id
+  country
+  property_type
+  condition
+  bedrooms
+  bathrooms
+  floors
+  parking_spots
+  built_year
+  city
+  total_area
+  land_area
+  latitude
+  longitude
+  district
+  postal_code
+  listing_date
+  interest_rate
+  inflation_index
+  housing_index
+  luxury_demand_index
+  final_sale_price
+  listing_price
+  price_per_sqm
+  currency
+  hoa_fee
+  property_tax
+  days_on_market
+  price_revision_count
+  title
+  description
+  noise_0
+  noise_1
+  noise_2
+  noise_3
+  noise_4
+  noise_5
+  noise_6
+  noise_7
+  noise_8
+  noise_9
+  noise_10
+  noise_11
+  noise_12
+  noise_13
+  noise_14
+
+First 5 rows:
+  property_id    country property_type           condition bedrooms bathrooms floors parking_spots built_year       city   total_area    land_area      latitude     longitude      district postal_code listing_date interest_rate inflation_index housing_index luxury_demand_index final_sale_price listing_price price_per_sqm currency hoa_fee property_tax days_on_market price_revision_count                 title                                                                                     description       noise_0       noise_1       noise_2       noise_3       noise_4       noise_5       noise_6       noise_7       noise_8       noise_9      noise_10      noise_11      noise_12      noise_13      noise_14
+0      268512        UAE     Penthouse                 Old        2         6      2             2       2001      Dubai  1155.002479  127.4952139  -57.34582066   10.93198386  District_195       67692   29-05-2024   7.259355521     128.0362829   113.4689868         0.926277528       3122043.19    ₹2983260.0   2703.061896        ₹    ₹997  7392.069638             91                    4    Penthouse in Dubai    Penthouse in Dubai featuring 2 bedrooms and 6 bathrooms. Priced around 3122k for quick sale.  -0.844130915  -1.490813232   -1.39222016  -0.621338308   0.870921805  -0.321036285   0.080093055   0.026929371  -0.439613349   1.346237153    0.14705575   0.148107195  -0.037419183   1.823758665  -1.405616046
+1      408027        USA     Apartment                 New        5         4      3             1       1984    Chicago  316.8323401  709.1688815  -44.04218336  -130.6595003    District_3       12906   29-11-2022   2.146944624     99.12878401   110.8274021         0.972698238       2137367.03    £2140661.0   6746.050701        £    £286  6210.048155             41                    2  Apartment in Chicago  Apartment in Chicago featuring 5 bedrooms and 4 bathrooms. Priced around 2137k for quick sale.   0.721440889  -0.075028368   0.411365023   1.001486665  -0.114236592  -1.354663807   0.037943653   1.586156325   0.452542341   -0.37766784  -1.163871877   0.381643186  -0.597708577  -0.080133851   0.997806671
+2       49963  Australia          Land              Luxury        1         3      3             0       1952  Melbourne  73.54463133  140.1799323   49.21930302  -98.22942634  District_248       53596   03-03-2022   2.385254608     87.98859549   103.1349778         0.296080795        695092.43     $663039.0    9015.45851        $     624  12799.64066            138                    5     Land in Melbourne      Land in Melbourne featuring 1 bedrooms and 3 bathrooms. Priced around 695k for quick sale.   0.334220745   0.966708492  -0.187258293  -1.610739072   0.003939107  -1.433918972  -0.850445617   0.550257909  -0.492418369  -0.225968763   0.616432556   1.684731424  -0.362007086   1.579469188  -1.160318232
+3      343330        UAE        Studio              Luxury        2         5      1             1       1989  Abu Dhabi  1349.646088  190.5467086   8.719951492  -141.8469208  District_326       89043   24-12-2019   4.514524782     122.5044194   142.1230219         0.937252876       2741490.62    €2468472.0   1828.977391        €   €1159  6830.749497            213                    0   Studio in Abu Dhabi   Studio in Abu Dhabi featuring 2 bedrooms and 5 bathrooms. Priced around 2741k for quick sale.  -0.160356004   0.828342553   -0.70686226   0.305655064  -1.117363668   0.513766077  -0.857888182  -0.030612808   0.602164317   0.630764126  -0.685498311   0.657783953  -1.780712346   0.116003725   0.837408056
+4      428987    Germany        Studio  Under Construction       11         6      3             3       2005  Frankfurt  701.7446453  178.3650259   28.07810702  -143.2531219  District_247       84769   11-02-2023   3.588610913     119.9412782   167.3812462         0.053823497       1475726.45    £1608123.0   2102.939381        £    £929  2948.411226            233                    5   Studio in Frankfurt                                   Studio in Frankfurt featuring 11 bedrooms and 6 bathrooms. 🏡✨   0.051522377  -2.452011488   0.168183455   1.233796673  -0.483343659  -1.129497285    1.20097897  -1.271847116  -2.047050378    -0.2541574   0.001413516  -0.515254327   -0.21192567   1.362831337  -0.624277526
+
+Last 5 rows:
+      property_id country property_type     condition bedrooms bathrooms floors parking_spots built_year         city   total_area    land_area      latitude     longitude      district postal_code listing_date interest_rate inflation_index housing_index luxury_demand_index final_sale_price listing_price price_per_sqm currency hoa_fee property_tax days_on_market price_revision_count                     title                                                                                                description       noise_0       noise_1       noise_2       noise_3       noise_4       noise_5       noise_6       noise_7       noise_8       noise_9      noise_10      noise_11      noise_12      noise_13      noise_14
+49995      105201     USA     Townhouse        Luxury        8         4      4             2       1956  Los Angeles  17.68593609  18.64099809  -43.45945655   -20.2241758  District_127       26657   22-08-2022    3.85963695     108.1724875   140.0525679         0.786325362       1822242.78    £1907716.0   107866.2681        £    1732  10021.60702            140                    4  Townhouse in Los Angeles  <b>Townhouse in Los Angeles featuring 8 bedrooms and 4 bathrooms. Priced around 1822k for quick sale.</b>  -0.664600472  -1.477731208    0.58091262  -2.715199997  -1.937651979   2.252110032   0.015018797  -0.445517472  -0.692879353  -2.058430997  -0.263733874   0.182300299  -0.119112393   0.687093819   0.723958891
+49996      153991      UK        Studio           New        8         6      2             3       1967   Manchester  86.33693079   109.981455   34.77508672    21.9153972  District_137       53838   31-10-2015   6.634644789     91.17903984   115.2751951         0.427969922       1983921.77    £2102531.0   24352.63028        £    £392   6840.82385             18                    0      Studio in Manchester                                                 Studio in Manchester featuring 8 bedrooms and 6 bathrooms.  -0.908500122  -0.542682937   0.183985801  -0.157894953   0.761441777  -1.240451816   -0.25613939  -0.195906491   0.400873734  -1.108627451   0.153199011  -0.596494455    0.26430692  -0.086147119  -0.803045755
+49997      141888     UAE     Penthouse        Luxury        6         2      2             2       2015        Dubai  143.3418029  344.2976997   18.07232752  -43.95705951   District_73       56408   18-11-2020   6.219581884     97.46259234   172.9625442         0.061903198        777411.48     ₹830254.0   5792.130448        ₹    ₹568  4895.477043            237                    4        Penthouse in Dubai                Penthouse in Dubai featuring 6 bedrooms and 2 bathrooms. Priced around 777k for quick sale.   0.942060055  -0.859648454   0.387903248  -0.333067108   -0.01661032   0.830924451  -1.877772379  -1.359182584  -0.053410931  -0.811420935  -0.288425859   0.762136694  -0.490700945   0.817444592   0.801022375
+49998      320470   India     Penthouse  Needs Repair       11         2      2             1       1968       Mumbai  105.5493365   213.557423   29.38324337  -63.22682397   District_78       29002   03-07-2020    0.86098032     101.1957929   128.9568478         0.911053627        807822.03     €778144.0   7372.322937        €   €1237  4646.504587             71                    2       Penthouse in Mumbai                                              Penthouse in Mumbai featuring 11 bedrooms and 2 bathrooms. 🏡✨   0.137878174   -1.25597216  -1.166877783  -1.732567371  -1.837149918    0.71022664   0.358302709   0.267062407   1.840363991   2.295849915  -0.164651168  -0.869663566   0.009456926   2.102932548   0.964965158
+49999      410410     USA     Penthouse           new        0         4      1             1       2014  Los Angeles  1452.601389  162.6730718   27.11282855   142.7995443  District_111       79347   28-05-2016    1.30619453     84.46312887   105.3330638         0.221854145       1514301.32    $1590433.0   1094.885807        $    1739  5119.312136             89                    4  Penthouse in Los Angeles                                             Penthouse in Los Angeles featuring 0 bedrooms and 4 bathrooms.  -0.738442061  -1.508836758   0.815355758  -0.758410023   0.617668779   0.999075012   0.082328865   0.953620199   1.092106699   0.467515275  -0.481024176   0.681934291   0.466789259  -2.494753074   0.434036261
+
+Dtypes (raw, all read as str):
+property_id             str
+country                 str
+property_type           str
+condition               str
+bedrooms                str
+bathrooms               str
+floors                  str
+parking_spots           str
+built_year              str
+city                    str
+total_area              str
+land_area               str
+latitude                str
+longitude               str
+district                str
+postal_code             str
+listing_date            str
+interest_rate           str
+inflation_index         str
+housing_index           str
+luxury_demand_index     str
+final_sale_price        str
+listing_price           str
+price_per_sqm           str
+currency                str
+hoa_fee                 str
+property_tax            str
+days_on_market          str
+price_revision_count    str
+title                   str
+description             str
+noise_0                 str
+noise_1                 str
+noise_2                 str
+noise_3                 str
+noise_4                 str
+noise_5                 str
+noise_6                 str
+noise_7                 str
+noise_8                 str
+noise_9                 str
+noise_10                str
+noise_11                str
+noise_12                str
+noise_13                str
+noise_14                str
+dtype: object
+
+
+=== Per-column sample of unique values (first 15) and null-disguise scan ===
+
+Column: property_id | nunique=49864 | disguise_hits=0
+  sample: ['268512', '408027', '49963', '343330', '428987', '357510', '360697', '229564', '155058', '248451', '195230', '451723', '332585', '318982', '180768']
+
+Column: country | nunique=10 | disguise_hits=0
+  sample: ['UAE', 'USA', 'Australia', 'Germany', 'Spain', 'India', 'Brazil', 'UK', 'Canada', 'France']
+
+Column: property_type | nunique=7 | disguise_hits=0
+  sample: ['Penthouse', 'Apartment', 'Land', 'Studio', 'Villa', 'Condo', 'Townhouse']
+
+Column: condition | nunique=7 | disguise_hits=0
+  sample: ['Old', 'New', 'Luxury', 'Under Construction', 'Renovated', 'Needs Repair', 'new']
+
+Column: bedrooms | nunique=12 | disguise_hits=0
+  sample: ['2', '5', '1', '11', '9', '7', '0', '3', '4', '8', '10', '6']
+
+Column: bathrooms | nunique=7 | disguise_hits=0
+  sample: ['6', '4', '3', '5', '7', '2', '1']
+
+Column: floors | nunique=4 | disguise_hits=0
+  sample: ['2', '3', '1', '4']
+
+Column: parking_spots | nunique=4 | disguise_hits=0
+  sample: ['2', '1', '0', '3']
+
+Column: built_year | nunique=74 | disguise_hits=0
+  sample: ['2001', '1984', '1952', '1989', '2005', '2014', '1985', '2016', '1977', '2010', '1971', '1972', '1999', '1982', '1962']
+
+Column: city | nunique=33 | disguise_hits=0
+  sample: ['Dubai', 'Chicago', 'Melbourne', 'Abu Dhabi', 'Frankfurt', 'Barcelona', 'Delhi', 'Sydney', 'Hamburg', 'Sao Paulo', 'London', 'Madrid', 'Mumbai', 'Montreal', 'São Paulo']
+
+Column: total_area | nunique=49864 | disguise_hits=0
+  sample: ['1155.002479', '316.8323401', '73.54463133', '1349.646088', '701.7446453', '27.94727376', '275.6755741', '55.25213351', '-320.5839891', '47.74825024', '2136.271422', '114.4348989', '83.92733179', '112.7297781', '88.46951829']
+
+Column: land_area | nunique=49864 | disguise_hits=0
+  sample: ['127.4952139', '709.1688815', '140.1799323', '190.5467086', '178.3650259', '68.89156062', '583.2247648', '130.2192531', '46.11691761', '63.03364317', '508.9456735', '274.7517237', '186.4484926', '310.527196', '264.328423']
+
+Column: latitude | nunique=49863 | disguise_hits=0
+  sample: ['-57.34582066', '-44.04218336', '49.21930302', '8.719951492', '28.07810702', '15.47464858', '-0.887530239', '27.42404673', '-39.84030818', '-50.48791341', '-51.22933311', '-30.50872639', '-40.33913422', '-26.98539229', '29.98632425']
+
+Column: longitude | nunique=49863 | disguise_hits=0
+  sample: ['10.93198386', '-130.6595003', '-98.22942634', '-141.8469208', '-143.2531219', '5.0540344', '-21.2732663', '110.2363457', '-145.8920305', '-52.9171647', '-3.862854556', '135.2288862', '-136.9131746', '-87.22556153', '48.66823667']
+
+Column: district | nunique=499 | disguise_hits=0
+  sample: ['District_195', 'District_3', 'District_248', 'District_326', 'District_247', 'District_114', 'District_325', 'District_433', 'District_211', 'District_7', 'District_147', 'District_102', 'District_397', 'District_292', 'District_491']
+
+Column: postal_code | nunique=38223 | disguise_hits=0
+  sample: ['67692', '12906', '53596', '89043', '84769', '69293', '71222', '59784', '37171', '74899', '35175', '48204', '76641', '10802', '75690']
+
+Column: listing_date | nunique=3500 | disguise_hits=0
+  sample: ['29-05-2024', '29-11-2022', '03-03-2022', '24-12-2019', '11-02-2023', '31-05-2017', '16-09-2017', '13-09-2021', '19-01-2022', '30-07-2021', '11-06-2021', '17-08-2019', '01-03-2020', '22-01-2017', '08-03-2020']
+
+Column: interest_rate | nunique=49863 | disguise_hits=0
+  sample: ['7.259355521', '2.146944624', '2.385254608', '4.514524782', '3.588610913', '5.584367249', '4.923918264', '3.450355624', '4.488073742', '2.00752173', '6.98438162', '3.12014367', '3.22704572', '4.258233737', '0.58653124']
+
+Column: inflation_index | nunique=49862 | disguise_hits=0
+  sample: ['128.0362829', '99.12878401', '87.98859549', '122.5044194', '119.9412782', '108.8234468', '128.2081477', '112.7951357', '106.5029869', '121.5640831', '88.85619382', '118.4923942', '119.836341', '85.25134314', '122.0377604']
+
+Column: housing_index | nunique=49864 | disguise_hits=0
+  sample: ['113.4689868', '110.8274021', '103.1349778', '142.1230219', '167.3812462', '130.3159483', '140.3650764', '137.6875143', '169.1920879', '138.9432606', '143.8992168', '132.6561272', '133.9514391', '178.822602', '166.0728188']
+
+Column: luxury_demand_index | nunique=49862 | disguise_hits=0
+  sample: ['0.926277528', '0.972698238', '0.296080795', '0.937252876', '0.053823497', '0.406137321', '0.835064425', '0.362970432', '0.479866027', '0.577053372', '0.511461333', '0.128059291', '0.553204634', '0.092413801', '0.628140472']
+
+Column: final_sale_price | nunique=49862 | disguise_hits=0
+  sample: ['3122043.19', '2137367.03', '695092.43', '2741490.62', '1475726.45', '2579273.78', '1929752.94', '325536.07', '1917799.61', '1437186.49', '861406.73', '808847.67', '1039200.38', '434149.46', '1008538.82']
+
+Column: listing_price | nunique=49760 | disguise_hits=0
+  sample: ['₹2983260.0', '£2140661.0', '$663039.0', '€2468472.0', '£1608123.0', '£2815489.0', '£2068893.0', '€321288.0', 'AED1822583.0', '₹1452628.0', '£802245.0', '€789442.0', '€980367.0', '€444143.0', '₹992459.0']
+
+Column: price_per_sqm | nunique=49864 | disguise_hits=0
+  sample: ['2703.061896', '6746.050701', '9015.45851', '1828.977391', '2102.939381', '100742.888', '7504.811706', '5814.936718', '5685.197338', '30422.6537', '375.5353659', '6898.610751', '11681.14599', '3939.887607', '11218.08941']
+
+Column: currency | nunique=5 | disguise_hits=0
+  sample: ['₹', '£', '$', '€', 'AED']
+
+Column: hoa_fee | nunique=10735 | disguise_hits=0
+  sample: ['₹997', '£286', '624', '€1159', '£929', '£734', '1697', '€431', '956', '₹922', '£1369', '€1033', '€748', '386', '752']
+
+Column: property_tax | nunique=49863 | disguise_hits=0
+  sample: ['7392.069638', '6210.048155', '12799.64066', '6830.749497', '2948.411226', '1553.805738', '2765.604286', '693.4686876', '8642.651139', '11832.05299', '606.9753573', '11098.97062', '2018.474929', '13355.13494', '13663.52559']
+
+Column: days_on_market | nunique=364 | disguise_hits=0
+  sample: ['91', '41', '138', '213', '233', '65', '61', '293', '199', '196', '98', '187', '231', '299', '186']
+
+Column: price_revision_count | nunique=6 | disguise_hits=0
+  sample: ['4', '2', '5', '0', '1', '3']
+
+Column: title | nunique=231 | disguise_hits=0
+  sample: ['Penthouse in Dubai', 'Apartment in Chicago', 'Land in Melbourne', 'Studio in Abu Dhabi', 'Studio in Frankfurt', 'Apartment in Dubai', 'Penthouse in Barcelona', 'Apartment in Delhi', 'Penthouse in Sydney', 'Penthouse in Hamburg', 'Penthouse in Sao Paulo', 'Villa in London', 'Villa in Madrid', 'Condo in Madrid', 'Land in Mumbai']
+
+Column: description | nunique=34397 | disguise_hits=0
+  sample: ['Penthouse in Dubai featuring 2 bedrooms and 6 bathrooms. Priced around 3122k for quick sale.', 'Apartment in Chicago featuring 5 bedrooms and 4 bathrooms. Priced around 2137k for quick sale.', 'Land in Melbourne featuring 1 bedrooms and 3 bathrooms. Priced around 695k for quick sale.', 'Studio in Abu Dhabi featuring 2 bedrooms and 5 bathrooms. Priced around 2741k for quick sale.', 'Studio in Frankfurt featuring 11 bedrooms and 6 bathrooms. 🏡✨', 'Apartment in Dubai featuring 9 bedrooms and 6 bathrooms. Priced around 2579k for quick sale.', 'Penthouse in Barcelona featuring 7 bedrooms and 7 bathrooms.', 'Apartment in Delhi featuring 0 bedrooms and 2 bathrooms.', 'Penthouse in Sydney featuring 11 bedrooms and 1 bathrooms.', 'Penthouse in Hamburg featuring 9 bedrooms and 2 bathrooms.', 'Penthouse in Sao Paulo featuring 2 bedrooms and 1 bathrooms. Priced around 861k for quick sale.', 'Penthouse in Barcelona featuring 3 bedrooms and 6 bathrooms. Priced around 808k for quick sale.', 'Villa in London featuring 0 bedrooms and 2 bathrooms.', '<b>Villa in London featuring 1 bedrooms and 4 bathrooms. Priced around 434k for quick sale.</b>', 'Villa in Madrid featuring 3 bedrooms and 4 bathrooms.']
+
+Column: noise_0 | nunique=49863 | disguise_hits=0
+  sample: ['-0.844130915', '0.721440889', '0.334220745', '-0.160356004', '0.051522377', '1.292501354', '2.691305324', '-0.872310573', '0.12716623', '-2.004212972', '0.103164113', '1.303849183', '-0.934228153', '0.305413366', '-0.162128297']
+
+Column: noise_1 | nunique=49862 | disguise_hits=0
+  sample: ['-1.490813232', '-0.075028368', '0.966708492', '0.828342553', '-2.452011488', '0.051783486', '1.623611455', '1.198409077', '-0.930414187', '0.451092813', '-0.641795053', '1.787636501', '0.050179509', '-0.874526391', '0.774618956']
+
+Column: noise_2 | nunique=49864 | disguise_hits=0
+  sample: ['-1.39222016', '0.411365023', '-0.187258293', '-0.70686226', '0.168183455', '1.817178977', '1.443510639', '0.950926082', '-1.269871489', '-0.179594008', '-0.373534514', '-2.085103357', '0.253768339', '1.622564774', '0.547824857']
+
+Column: noise_3 | nunique=49864 | disguise_hits=0
+  sample: ['-0.621338308', '1.001486665', '-1.610739072', '0.305655064', '1.233796673', '-0.310401551', '0.587503402', '0.855989947', '-0.347917921', '1.687414474', '-0.633299602', '0.740747788', '-0.198051557', '-0.603989298', '0.783739539']
+
+Column: noise_4 | nunique=49864 | disguise_hits=0
+  sample: ['0.870921805', '-0.114236592', '0.003939107', '-1.117363668', '-0.483343659', '-1.164202533', '-1.197835489', '-0.148280227', '2.803384881', '1.472592502', '-1.290190706', '0.61232041', '0.266981248', '-0.526682948', '2.940278124']
+
+Column: noise_5 | nunique=49863 | disguise_hits=0
+  sample: ['-0.321036285', '-1.354663807', '-1.433918972', '0.513766077', '-1.129497285', '-0.497817088', '-0.04324579', '0.220359393', '-0.750665174', '-2.09275738', '0.812211737', '-1.105562588', '0.158752244', '-0.086814857', '-0.647612018']
+
+Column: noise_6 | nunique=49864 | disguise_hits=0
+  sample: ['0.080093055', '0.037943653', '-0.850445617', '-0.857888182', '1.20097897', '1.148104405', '0.30797944', '1.755088769', '0.218763852', '-0.131470751', '-1.166439032', '-0.127998852', '-1.094732415', '1.836045501', '-1.114251543']
+
+Column: noise_7 | nunique=49864 | disguise_hits=0
+  sample: ['0.026929371', '1.586156325', '0.550257909', '-0.030612808', '-1.271847116', '-1.535212304', '-0.932397689', '1.253679927', '1.838818716', '-0.034130559', '0.80953861', '-0.389942354', '-0.961938111', '0.937394378', '-0.932028743']
+
+Column: noise_8 | nunique=49864 | disguise_hits=0
+  sample: ['-0.439613349', '0.452542341', '-0.492418369', '0.602164317', '-2.047050378', '-0.534747967', '0.376820909', '0.650064853', '-1.254965354', '0.78808125', '0.239853316', '1.029204836', '-0.650686429', '0.132938828', '-1.711830643']
+
+Column: noise_9 | nunique=49863 | disguise_hits=0
+  sample: ['1.346237153', '-0.37766784', '-0.225968763', '0.630764126', '-0.2541574', '-0.239389135', '-0.047718785', '0.539569902', '0.666307255', '0.255083269', '0.199696037', '-1.385779147', '-0.011783458', '-0.333102082', '-1.189382617']
+
+Column: noise_10 | nunique=49864 | disguise_hits=0
+  sample: ['0.14705575', '-1.163871877', '0.616432556', '-0.685498311', '0.001413516', '1.535673078', '-1.043723357', '-0.516752894', '1.360433365', '1.008030312', '1.43821614', '-0.978593479', '1.036959166', '-1.053459289', '-0.523718407']
+
+Column: noise_11 | nunique=49864 | disguise_hits=0
+  sample: ['0.148107195', '0.381643186', '1.684731424', '0.657783953', '-0.515254327', '-1.162986566', '0.389355804', '0.008729759', '-0.439003124', '-1.187699642', '-0.184993281', '0.528344597', '1.632613107', '-0.476963595', '0.853403675']
+
+Column: noise_12 | nunique=49864 | disguise_hits=0
+  sample: ['-0.037419183', '-0.597708577', '-0.362007086', '-1.780712346', '-0.21192567', '0.672507096', '-0.44790939', '-0.348992033', '0.891102503', '0.022829739', '0.14350357', '0.381909999', '1.650308866', '1.183412963', '0.893807708']
+
+Column: noise_13 | nunique=49863 | disguise_hits=0
+  sample: ['1.823758665', '-0.080133851', '1.579469188', '0.116003725', '1.362831337', '-0.040764592', '0.129293865', '-0.16440724', '-0.762395425', '0.683000305', '-0.02545364', '1.743721652', '-0.244110533', '-0.196255326', '-1.336276666']
+
+Column: noise_14 | nunique=49864 | disguise_hits=0
+  sample: ['-1.405616046', '0.997806671', '-1.160318232', '0.837408056', '-0.624277526', '-0.676430779', '1.403254358', '-0.719364335', '-1.447898665', '0.446458898', '-0.505988009', '-0.75157547', '-0.282312724', '0.397310122', '-1.119140681']
+
+
+=== Full value_counts for likely categorical columns (nunique < 50) ===
+
+--- country ---
+country
+France       5087
+India        5044
+Spain        5038
+Canada       5020
+USA          5007
+Australia    4993
+UK           4981
+Germany      4955
+Brazil       4953
+UAE          4922
+
+--- property_type ---
+property_type
+Studio       7257
+Villa        7168
+Penthouse    7165
+Townhouse    7144
+Land         7140
+Apartment    7095
+Condo        7031
+
+--- condition ---
+condition
+new                   7239
+New                   7231
+Needs Repair          7150
+Old                   7127
+Luxury                7127
+Renovated             7088
+Under Construction    7038
+
+--- bedrooms ---
+bedrooms
+2     4282
+1     4266
+11    4203
+5     4202
+9     4184
+3     4179
+0     4155
+6     4139
+10    4116
+8     4102
+7     4099
+4     4073
+
+--- bathrooms ---
+bathrooms
+1    7246
+4    7195
+3    7165
+6    7134
+2    7116
+7    7104
+5    7040
+
+--- floors ---
+floors
+2    12676
+1    12515
+3    12461
+4    12348
+
+--- parking_spots ---
+parking_spots
+1    12624
+3    12508
+2    12478
+0    12390
+
+--- city ---
+city
+Barcelona         2538
+Madrid            2500
+Dubai             2482
+Abu Dhabi         2440
+Mumbai            1744
+Vancouver         1726
+Lyon              1724
+Melbourne         1723
+Delhi             1697
+Paris             1684
+Marseille         1679
+Montreal          1663
+São Paulo         1663
+Rio de Janeiro    1658
+Brisbane          1641
+Sao Paulo         1632
+Toronto           1631
+Sydney            1629
+Bangalore         1603
+Birmingham        1271
+Manchester        1249
+London            1247
+Leeds             1214
+Chicago           1033
+Los Angeles       1009
+Munich            1009
+Frankfurt         1008
+Hamburg           1005
+New York          1004
+Houston            989
+München            986
+Phoenix            972
+Berlin             947
+
+--- currency ---
+currency
+€      10174
+₹      10030
+AED    10006
+£       9982
+$       9808
+
+--- price_revision_count ---
+price_revision_count
+4    8514
+1    8406
+5    8308
+3    8288
+0    8284
+2    8200

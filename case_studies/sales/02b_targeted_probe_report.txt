@@ -1,0 +1,91 @@
+==============================================================================
+PROBE 1 -- email cells NOT containing literal 'example.com'
+==============================================================================
+Count: 21
+  row 51: 'PRIYA.PATEL@EXAMPLE.COM'
+  row 52: 'ANITA.SINGH@EXAMPLE.COM'
+  row 62: 'PRIYA.PATEL@EXAMPLE.COM'
+  row 68: ''
+  row 75: 'ARJUN.MEHTA@EXAMPLE.COM'
+  row 100: 'SANJAY.PILLAI@EXAMPLE.COM'
+  row 117: 'DIVYA.NAIR@EXAMPLE.COM'
+  row 120: 'KARAN.VERMA@EXAMPLE.COM'
+  row 132: 'POOJA.DESAI@EXAMPLE.COM'
+  row 134: 'KAVYA.IYER@EXAMPLE.COM'
+  row 151: 'ANITA.SINGH@EXAMPLE.COM'
+  row 162: 'VIKRAM.REDDY@EXAMPLE.COM'
+  row 164: 'DIVYA.NAIR@EXAMPLE.COM'
+  row 170: 'ROHAN.JOSHI@EXAMPLE.COM'
+  row 179: 'PRIYA.PATEL@EXAMPLE.COM'
+  row 199: 'DIVYA.NAIR@EXAMPLE.COM'
+  row 211: 'KAVYA.IYER@EXAMPLE.COM'
+  row 244: 'ROHAN.JOSHI@EXAMPLE.COM'
+  row 274: 'PRIYA.PATEL@EXAMPLE.COM'
+  row 281: 'KAVYA.IYER@EXAMPLE.COM'
+  row 283: 'KARAN.VERMA@EXAMPLE.COM'
+
+==============================================================================
+PROBE 2 -- exact-duplicate row groups (raw strings, before any normalization)
+==============================================================================
+  group of 2 identical raw rows, __source_row = [146, 297], order_id='  ORD-1034  '
+  group of 2 identical raw rows, __source_row = [9, 58], order_id='  ORD-1147  '
+  group of 2 identical raw rows, __source_row = [19, 240], order_id='ORD-1000'
+  group of 2 identical raw rows, __source_row = [63, 82], order_id='ORD-1007'
+  group of 2 identical raw rows, __source_row = [101, 103], order_id='ORD-1013'
+  group of 2 identical raw rows, __source_row = [184, 231], order_id='ORD-1021'
+  group of 2 identical raw rows, __source_row = [251, 287], order_id='ORD-1047'
+  group of 2 identical raw rows, __source_row = [89, 204], order_id='ORD-1051'
+  group of 2 identical raw rows, __source_row = [167, 309], order_id='ORD-1078'
+  group of 2 identical raw rows, __source_row = [143, 180], order_id='ORD-1080'
+  group of 2 identical raw rows, __source_row = [141, 263], order_id='ORD-1102'
+  group of 2 identical raw rows, __source_row = [7, 246], order_id='ORD-1113'
+  group of 2 identical raw rows, __source_row = [178, 289], order_id='ORD-1116'
+  group of 2 identical raw rows, __source_row = [83, 206], order_id='ORD-1160'
+  group of 2 identical raw rows, __source_row = [169, 249], order_id='ORD-1161'
+  group of 4 identical raw rows, __source_row = [8, 64, 207, 282], order_id='ORD-1164'
+  group of 2 identical raw rows, __source_row = [79, 188], order_id='ORD-1177'
+  group of 2 identical raw rows, __source_row = [225, 288], order_id='ORD-1195'
+
+Total duplicate groups: 18
+Total rows involved (incl. first occurrence): 38
+Extra rows that 4.11 exact-dup removal would drop (keep first per group): 20
+
+==============================================================================
+PROBE 3 -- order_id repeats that are NOT raw exact-duplicates (potential PK conflicts)
+==============================================================================
+  order_id 'ORD-1116': 3 rows, NOT all-identical on other columns -> real PK conflict candidate
+      row 178: customer='' date='03/07/24' rev='1787.84'
+      row 258: customer='' date='03/07/24' rev=' 1787.84 '
+      row 289: customer='' date='03/07/24' rev='1787.84'
+  order_id 'ORD-1120': 2 rows, NOT all-identical on other columns -> real PK conflict candidate
+      row 16: customer='Kavya Iyer,' date='June 11, 2024' rev='222.5'
+      row 209: customer='kavya iyer,' date=' June 11, 2024 ' rev=' 222.5 '
+  order_id 'ORD-1072': 2 rows, NOT all-identical on other columns -> real PK conflict candidate
+      row 37: customer=' Mr. Sanjay Pillai ' date=' 06/07/24 ' rev=' 367.95 '
+      row 110: customer='Mr. Sanjay Pillai' date='06/07/24' rev='367.95'
+  order_id 'ORD-1066': 2 rows, NOT all-identical on other columns -> real PK conflict candidate
+      row 42: customer='PRIYA PATEL,' date='APRIL 12, 2024' rev='908.8'
+      row 296: customer='Priya Patel,' date='April 12, 2024' rev='908.8'
+  order_id 'ORD-1050': 2 rows, NOT all-identical on other columns -> real PK conflict candidate
+      row 107: customer='vikram reddy' date='26-Feb-2024' rev=''
+      row 154: customer=' vikram reddy ' date=' 26-Feb-2024 ' rev=''
+  order_id 'ORD-1118': 2 rows, NOT all-identical on other columns -> real PK conflict candidate
+      row 117: customer=' Divya Nair Jr. ' date='07-07-2024' rev='7592.0'
+      row 243: customer='Divya Nair Jr.' date='07-07-2024' rev='7592.0'
+  order_id 'ORD-1037': 2 rows, NOT all-identical on other columns -> real PK conflict candidate
+      row 137: customer='Mr. Sanjay Pillai' date='15/06/2024 05:05:00' rev='4451'
+      row 292: customer='Mr. Sanjay Pillai' date=' 15/06/2024 05:05:00 ' rev='4451'
+  order_id 'ORD-1028': 2 rows, NOT all-identical on other columns -> real PK conflict candidate
+      row 148: customer='Mr. Arjun Mehta' date='03/02/24' rev='109.7'
+      row 291: customer='Mr. Arjun Mehta' date='03/02/24' rev='109.7'
+  order_id 'ORD-1134': 2 rows, NOT all-identical on other columns -> real PK conflict candidate
+      row 171: customer='Mr. Aditya Shah' date=' 22/08/2024 ' rev='5132.7'
+      row 235: customer='Mr. Aditya Shah' date='22/08/2024' rev='5132.7'
+  order_id 'ORD-1090': 2 rows, NOT all-identical on other columns -> real PK conflict candidate
+      row 198: customer='Rajesh Kumar Jr.' date='2024-09-07' rev='6730.5'
+      row 232: customer='Rajesh Kumar Jr.' date='2024-09-07' rev='6730.5'
+  order_id 'ORD-1038': 2 rows, NOT all-identical on other columns -> real PK conflict candidate
+      row 223: customer='PRIYA PATEL' date='21.03.2024' rev='1698.55'
+      row 274: customer='PRIYA PATEL' date=' 21.03.2024 ' rev='1698.55'
+
+Total order_id groups with a genuine (non-exact-dup) conflict: 11

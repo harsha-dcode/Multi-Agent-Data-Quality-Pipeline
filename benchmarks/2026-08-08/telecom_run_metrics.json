@@ -1,0 +1,14 @@
+{
+  "dataset": "telecom",
+  "input_rows": 3333,
+  "input_cols": 11,
+  "cleaned_rows": 3333,
+  "viz_ready_rows": 3333,
+  "change_log_entries": 630,
+  "value_edits": 0,
+  "validation_checks_passed": 11,
+  "validation_checks_failed": 0,
+  "started_at_epoch": 1786182816,
+  "ended_at_epoch": 1786184255,
+  "duration_seconds": 1439
+}

@@ -1,0 +1,277 @@
+=== STAGE 3: DATA PROFILING ===
+Total rows: 30102
+Total columns: 35
+
+--- Column: Shipment_ID ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 30000
+  Top 10 values: {'SHP021833': np.int64(2), 'SHP027922': np.int64(2), 'SHP009392': np.int64(2), 'SHP006495': np.int64(2), 'SHP008089': np.int64(2), 'SHP005642': np.int64(2), 'SHP004136': np.int64(2), 'SHP003000': np.int64(2), 'SHP028734': np.int64(2), 'SHP027304': np.int64(2)}
+  [STRING] min_len=9, max_len=9, avg_len=9.00
+  Longest sample: 'SHP003395'
+  Shortest sample: 'SHP003395'
+
+--- Column: Order_ID ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 23621
+  Top 10 values: {'ORD0003213': np.int64(5), 'ORD0003523': np.int64(5), 'ORD0022626': np.int64(5), 'ORD0013522': np.int64(5), 'ORD0016925': np.int64(5), 'ORD0021789': np.int64(5), 'ORD0011405': np.int64(5), 'ORD0012831': np.int64(4), 'ORD0019269': np.int64(4), 'ORD0003078': np.int64(4)}
+  [STRING] min_len=10, max_len=10, avg_len=10.00
+  Longest sample: 'ORD0002616'
+  Shortest sample: 'ORD0002616'
+
+--- Column: Shipment_Date ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 1461
+  Top 10 values: {'2025-10-01': np.int64(57), '2025-12-29': np.int64(57), '2025-12-08': np.int64(55), '2024-10-28': np.int64(54), '2023-11-16': np.int64(54), '2025-10-17': np.int64(51), '2025-12-30': np.int64(50), '2024-11-12': np.int64(50), '2024-12-23': np.int64(50), '2025-12-15': np.int64(50)}
+  [DATE] min=2022-01-01 00:00:00, max=2025-12-31 00:00:00, unparseable=0
+
+--- Column: Pickup_Date ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 1463
+  Top 10 values: {'2025-12-30': np.int64(55), '2025-12-10': np.int64(54), '2025-11-07': np.int64(54), '2025-10-17': np.int64(51), '2025-12-04': np.int64(50), '2024-10-18': np.int64(49), '2024-11-19': np.int64(49), '2023-11-17': np.int64(49), '2025-11-28': np.int64(48), '2025-12-31': np.int64(48)}
+  [DATE] min=2022-01-01 00:00:00, max=2026-01-02 00:00:00, unparseable=0
+
+--- Column: Dispatch_Date ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 1463
+  Top 10 values: {'2025-12-31': np.int64(59), '2025-10-18': np.int64(55), '2025-11-14': np.int64(52), '2024-11-13': np.int64(51), '2025-10-02': np.int64(51), '2025-10-08': np.int64(50), '2025-12-13': np.int64(49), '2025-11-07': np.int64(48), '2025-12-04': np.int64(47), '2024-10-31': np.int64(47)}
+  [DATE] min=2022-01-01 00:00:00, max=2026-01-02 00:00:00, unparseable=0
+
+--- Column: Expected_Delivery_Date ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 1475
+  Top 10 values: {'2024-11-21': np.int64(53), '2025-12-07': np.int64(50), '2025-10-19': np.int64(48), '2025-11-20': np.int64(48), '2025-10-10': np.int64(46), '2025-12-20': np.int64(46), '2025-11-27': np.int64(46), '2023-11-23': np.int64(46), '2025-12-01': np.int64(45), '2025-10-23': np.int64(45)}
+  [DATE] min=2022-01-02 00:00:00, max=2026-01-24 00:00:00, unparseable=0
+
+--- Column: Actual_Delivery_Date ---
+  Null count (incl. disguises): 230 (0.76%)
+  Disguise token breakdown: {'': np.int64(230)}
+  Unique non-null values: 1476
+  Top 10 values: {'2024-11-21': np.int64(51), '2025-10-19': np.int64(46), '2025-11-27': np.int64(46), '2023-12-03': np.int64(46), '2024-10-14': np.int64(46), '2023-11-23': np.int64(44), '2025-11-22': np.int64(44), '2024-11-06': np.int64(44), '2025-10-09': np.int64(43), '2025-12-20': np.int64(43)}
+  [DATE] min=2022-01-02 00:00:00, max=2026-01-24 00:00:00, unparseable=0
+
+--- Column: Delivery_Status ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 13
+  Top 10 values: {'On Time': np.int64(17586), 'Delayed': np.int64(8201), 'Early': np.int64(2886), 'In Transit': np.int64(230), 'On time': np.int64(201), 'on time': np.int64(194), 'ON TIME': np.int64(174), 'On-Time': np.int64(165), 'delayed': np.int64(114), 'delay': np.int64(112)}
+  [STRING] min_len=5, max_len=10, avg_len=6.81
+  Longest sample: 'In Transit'
+  Shortest sample: 'Early'
+  [CATEGORICAL] all unique values: ['DELAYED', 'Delayed', 'EARLY', 'Early', 'In Transit', 'ON TIME', 'On Time', 'On time', 'On-Time', 'delay', 'delayed', 'early', 'on time']
+
+--- Column: Delay_Days ---
+  Null count (incl. disguises): 230 (0.76%)
+  Disguise token breakdown: {'': np.int64(230)}
+  Unique non-null values: 55
+  Top 10 values: {'0.0': np.int64(18320), '1.0': np.int64(3648), '2.0': np.int64(1233), '-2.0': np.int64(1053), '-3.0': np.int64(984), '-1.0': np.int64(981), '3.0': np.int64(932), '4.0': np.int64(671), '5.0': np.int64(517), '6.0': np.int64(363)}
+  [NUMERIC] min=-3.0, max=87.0, mean=0.7912, median=0.0000, std=3.1463, skew=9.8804, pct_negative=10.10%, pct_zero=61.33%
+
+--- Column: Customer_ID ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 4421
+  Top 10 values: {'CUST00001': np.int64(1696), 'CUST00002': np.int64(940), 'CUST00003': np.int64(643), 'CUST00004': np.int64(511), 'CUST00005': np.int64(417), 'CUST00006': np.int64(367), 'CUST00007': np.int64(325), 'CUST00008': np.int64(266), 'CUST00009': np.int64(262), 'CUST00010': np.int64(258)}
+  [STRING] min_len=9, max_len=9, avg_len=9.00
+  Longest sample: 'CUST03007'
+  Shortest sample: 'CUST03007'
+
+--- Column: Customer_Type ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 8
+  Top 10 values: {'Wholesale': np.int64(10138), 'Enterprise': np.int64(10027), 'Retail': np.int64(9537), 'RETAIL': np.int64(95), 'WHOLESALE': np.int64(82), 'whole sale': np.int64(77), 'retail': np.int64(76), 'wholesale': np.int64(70)}
+  [STRING] min_len=6, max_len=10, avg_len=8.37
+  Longest sample: 'Enterprise'
+  Shortest sample: 'Retail'
+  [CATEGORICAL] all unique values: ['Enterprise', 'RETAIL', 'Retail', 'WHOLESALE', 'Wholesale', 'retail', 'whole sale', 'wholesale']
+
+--- Column: Industry ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 15
+  Top 10 values: {'Distribution': np.int64(3995), 'Import-Export': np.int64(2626), 'Manufacturing': np.int64(2299), 'E-Commerce': np.int64(2199), 'Automotive': np.int64(2155), 'Electronics Retail': np.int64(2143), 'Banking & Finance': np.int64(2069), 'Pharmacy': np.int64(1826), 'Supermarket': np.int64(1786), 'Fashion Retail': np.int64(1754)}
+  [STRING] min_len=4, max_len=18, avg_len=12.25
+  Longest sample: 'Electronics Retail'
+  Shortest sample: 'FMCG'
+  [CATEGORICAL] all unique values: ['Agriculture Supply', 'Automotive', 'Banking & Finance', 'Distribution', 'E-Commerce', 'Electronics Retail', 'FMCG', 'Fashion Retail', 'Import-Export', 'Manufacturing', 'Pharmaceuticals', 'Pharmacy', 'Supermarket', 'Technology', 'Telecom']
+
+--- Column: Warehouse_ID ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 12
+  Top 10 values: {'WH002': np.int64(4223), 'WH001': np.int64(4214), 'WH005': np.int64(3599), 'WH004': np.int64(2904), 'WH003': np.int64(2784), 'WH006': np.int64(2472), 'WH008': np.int64(2444), 'WH007': np.int64(2373), 'WH009': np.int64(1804), 'WH010': np.int64(1508)}
+  [STRING] min_len=5, max_len=5, avg_len=5.00
+  Longest sample: 'WH003'
+  Shortest sample: 'WH003'
+  [CATEGORICAL] all unique values: ['WH001', 'WH002', 'WH003', 'WH004', 'WH005', 'WH006', 'WH007', 'WH008', 'WH009', 'WH010', 'WH011', 'WH012']
+
+--- Column: Warehouse_Name ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 12
+  Top 10 values: {'Delhi NCR Hub': np.int64(4223), 'Mumbai Central Hub': np.int64(4214), 'Bangalore Tech Hub': np.int64(3599), 'Kolkata East Hub': np.int64(2904), 'Chennai South Hub': np.int64(2784), 'Hyderabad Central': np.int64(2472), 'Pune Distribution Centre': np.int64(2444), 'Ahmedabad West Hub': np.int64(2373), 'Jaipur North Hub': np.int64(1804), 'Lucknow Central Hub': np.int64(1508)}
+  [STRING] min_len=13, max_len=24, avg_len=17.36
+  Longest sample: 'Pune Distribution Centre'
+  Shortest sample: 'Delhi NCR Hub'
+  [CATEGORICAL] all unique values: ['Ahmedabad West Hub', 'Bangalore Tech Hub', 'Bhubaneswar East Hub', 'Chennai South Hub', 'Delhi NCR Hub', 'Hyderabad Central', 'Jaipur North Hub', 'Kochi South Hub', 'Kolkata East Hub', 'Lucknow Central Hub', 'Mumbai Central Hub', 'Pune Distribution Centre']
+
+--- Column: Warehouse_City ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 12
+  Top 10 values: {'Delhi': np.int64(4223), 'Mumbai': np.int64(4214), 'Bangalore': np.int64(3599), 'Kolkata': np.int64(2904), 'Chennai': np.int64(2784), 'Hyderabad': np.int64(2472), 'Pune': np.int64(2444), 'Ahmedabad': np.int64(2373), 'Jaipur': np.int64(1804), 'Lucknow': np.int64(1508)}
+  [STRING] min_len=4, max_len=11, avg_len=6.95
+  Longest sample: 'Bhubaneswar'
+  Shortest sample: 'Pune'
+  [CATEGORICAL] all unique values: ['Ahmedabad', 'Bangalore', 'Bhubaneswar', 'Chennai', 'Delhi', 'Hyderabad', 'Jaipur', 'Kochi', 'Kolkata', 'Lucknow', 'Mumbai', 'Pune']
+
+--- Column: Warehouse_State ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 11
+  Top 10 values: {'Maharashtra': np.int64(6658), 'Delhi': np.int64(4223), 'Karnataka': np.int64(3599), 'West Bengal': np.int64(2904), 'Tamil Nadu': np.int64(2784), 'Telangana': np.int64(2472), 'Gujarat': np.int64(2373), 'Rajasthan': np.int64(1804), 'Uttar Pradesh': np.int64(1508), 'Odisha': np.int64(1166)}
+  [STRING] min_len=5, max_len=13, avg_len=9.03
+  Longest sample: 'Uttar Pradesh'
+  Shortest sample: 'Delhi'
+  [CATEGORICAL] all unique values: ['Delhi', 'Gujarat', 'Karnataka', 'Kerala', 'Maharashtra', 'Odisha', 'Rajasthan', 'Tamil Nadu', 'Telangana', 'Uttar Pradesh', 'West Bengal']
+
+--- Column: Warehouse_Region ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 4
+  Top 10 values: {'South': np.int64(9466), 'West': np.int64(9031), 'North': np.int64(7535), 'East': np.int64(4070)}
+  [STRING] min_len=4, max_len=5, avg_len=4.56
+  Longest sample: 'South'
+  Shortest sample: 'West'
+  [CATEGORICAL] all unique values: ['East', 'North', 'South', 'West']
+
+--- Column: Destination_City ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 41
+  Top 10 values: {'Guwahati': np.int64(1536), 'Visakhapatnam': np.int64(1509), 'Agra': np.int64(1440), 'Pune': np.int64(1330), 'Coimbatore': np.int64(1277), 'Mumbai': np.int64(1102), 'Nagpur': np.int64(1065), 'Varanasi': np.int64(1053), 'Ranchi': np.int64(1051), 'Bhopal': np.int64(1016)}
+  [STRING] min_len=4, max_len=18, avg_len=7.51
+  Longest sample: 'Thiruvananthapuram'
+  Shortest sample: 'Pune'
+  [CATEGORICAL] all unique values: ['Agra', 'Ahmedabad', 'Amritsar', 'BANGALORE', 'Bangalore', 'Bengaluru', 'Bhopal', 'Bhubaneswar', 'Bombay', 'CHENNAI', 'Calcutta', 'Chandigarh', 'Chennai', 'Coimbatore', 'Delhi', 'Guwahati', 'Hyderabad', 'Indore', 'Jaipur', 'Kochi', 'Kolkata', 'Lucknow', 'MUMBAI', 'Madras', 'Madurai', 'Mumbai', 'Nagpur', 'Nashik', 'Patna', 'Pune', 'Raipur', 'Ranchi', 'Surat', 'Thiruvananthapuram', 'Vadodara', 'Varanasi', 'Visakhapatnam', 'bangalore', 'chennai', 'kolkata', 'mumbai']
+
+--- Column: Destination_State ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 18
+  Top 10 values: {'Maharashtra': np.int64(4506), 'Uttar Pradesh': np.int64(3310), 'Tamil Nadu': np.int64(2987), 'Gujarat': np.int64(2792), 'Kerala': np.int64(1961), 'Madhya Pradesh': np.int64(1722), 'Punjab': np.int64(1675), 'Assam': np.int64(1536), 'Andhra Pradesh': np.int64(1509), 'Jharkhand': np.int64(1051)}
+  [STRING] min_len=5, max_len=14, avg_len=9.43
+  Longest sample: 'Madhya Pradesh'
+  Shortest sample: 'Assam'
+  [CATEGORICAL] all unique values: ['Andhra Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Delhi', 'Gujarat', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Odisha', 'Punjab', 'Rajasthan', 'Tamil Nadu', 'Telangana', 'Uttar Pradesh', 'West Bengal']
+
+--- Column: Destination_Region ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 5
+  Top 10 values: {'South': np.int64(8212), 'West': np.int64(7298), 'North': np.int64(6799), 'East': np.int64(5210), 'Central': np.int64(2583)}
+  [STRING] min_len=4, max_len=7, avg_len=4.76
+  Longest sample: 'Central'
+  Shortest sample: 'East'
+  [CATEGORICAL] all unique values: ['Central', 'East', 'North', 'South', 'West']
+
+--- Column: Distance_KM ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 370
+  Top 10 values: {'1312': np.int64(321), '635': np.int64(309), '153': np.int64(307), '2498': np.int64(294), '1211': np.int64(290), '1498': np.int64(269), '1477': np.int64(266), '1465': np.int64(266), '1074': np.int64(262), '1868': np.int64(237)}
+  [NUMERIC] min=15, max=3085, mean=1312.8969, median=1312.0000, std=672.2167, skew=0.1206, pct_negative=0.00%, pct_zero=0.00%
+
+--- Column: Transport_Mode ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 10
+  Top 10 values: {'Road': np.int64(15977), 'Air': np.int64(6557), 'Rail': np.int64(6396), 'Sea': np.int64(478), 'road': np.int64(181), 'Road Transport': np.int64(169), 'ROAD': np.int64(151), 'air': np.int64(68), 'Airways': np.int64(66), 'AIR': np.int64(59)}
+  [STRING] min_len=3, max_len=14, avg_len=3.82
+  Longest sample: 'Road Transport'
+  Shortest sample: 'Air'
+  [CATEGORICAL] all unique values: ['AIR', 'Air', 'Airways', 'ROAD', 'Rail', 'Road', 'Road Transport', 'Sea', 'air', 'road']
+
+--- Column: Vehicle_Type ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 11
+  Top 10 values: {'Heavy Truck': np.int64(3648), 'Container Truck': np.int64(3563), 'Medium Truck': np.int64(3491), 'Cargo Plane': np.int64(3400), 'Mini Truck': np.int64(3387), 'Commercial Cargo Flight': np.int64(3350), 'Freight Train': np.int64(3271), 'Express Freight Train': np.int64(3125), 'Pickup Van': np.int64(2389), 'Container Ship': np.int64(248)}
+  [STRING] min_len=10, max_len=23, avg_len=14.02
+  Longest sample: 'Commercial Cargo Flight'
+  Shortest sample: 'Pickup Van'
+  [CATEGORICAL] all unique values: ['Bulk Carrier', 'Cargo Plane', 'Commercial Cargo Flight', 'Container Ship', 'Container Truck', 'Express Freight Train', 'Freight Train', 'Heavy Truck', 'Medium Truck', 'Mini Truck', 'Pickup Van']
+
+--- Column: Driver_ID ---
+  Null count (incl. disguises): 7228 (24.01%)
+  Disguise token breakdown: {'': np.int64(7228)}
+  Unique non-null values: 852
+  Top 10 values: {'DRV0299': np.int64(44), 'DRV0104': np.int64(44), 'DRV0102': np.int64(42), 'DRV0766': np.int64(42), 'DRV0276': np.int64(42), 'DRV0292': np.int64(42), 'DRV0697': np.int64(41), 'DRV0234': np.int64(41), 'DRV0314': np.int64(41), 'DRV0356': np.int64(40)}
+  [STRING] min_len=7, max_len=7, avg_len=7.00
+  Longest sample: 'DRV0286'
+  Shortest sample: 'DRV0286'
+
+--- Column: Product_Category ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 16
+  Top 10 values: {'FMCG': np.int64(6010), 'Clothing & Apparel': np.int64(3261), 'Electronics': np.int64(2973), 'Food & Beverages': np.int64(2947), 'Auto Parts': np.int64(2724), 'Chemicals': np.int64(2638), 'Industrial Equipment': np.int64(2476), 'Books & Stationery': np.int64(2413), 'Pharmaceuticals': np.int64(2378), 'Furniture': np.int64(2123)}
+  [STRING] min_len=4, max_len=20, avg_len=12.07
+  Longest sample: 'Industrial Equipment'
+  Shortest sample: 'FMCG'
+  [CATEGORICAL] all unique values: ['Apparel & Clothing', 'Auto Parts', 'Books & Stationery', 'Chemicals', 'Clothing', 'Clothing & Apparel', 'ELECTRONICS', 'Electronic', 'Electronics', 'FMCG', 'Food & Beverages', 'Furniture', 'Industrial Equipment', 'Pharmaceuticals', 'clothing & apparel', 'electronics']
+
+--- Column: Shipment_Weight_KG ---
+  Null count (incl. disguises): 900 (2.99%)
+  Disguise token breakdown: {'': np.int64(900)}
+  Unique non-null values: 15164
+  Top 10 values: {'0.5': np.int64(95), '1.62': np.int64(20), '1.42': np.int64(19), '1.29': np.int64(19), '2.1': np.int64(18), '1.72': np.int64(17), '2.7': np.int64(17), '5.45': np.int64(16), '1.63': np.int64(16), '3.49': np.int64(16)}
+  [NUMERIC] min=-2189.11, max=27944.54, mean=219.8088, median=36.8950, std=1049.5228, skew=15.7412, pct_negative=0.30%, pct_zero=0.00%
+
+--- Column: Shipment_Volume_CBM ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 4362
+  Top 10 values: {'0.007': np.int64(254), '0.012': np.int64(228), '0.008': np.int64(209), '0.009': np.int64(209), '0.004': np.int64(204), '0.005': np.int64(202), '0.013': np.int64(201), '0.011': np.int64(200), '0.014': np.int64(197), '0.01': np.int64(187)}
+  [NUMERIC] min=0.001, max=134.64, mean=1.0017, median=0.1850, std=3.6896, skew=14.6301, pct_negative=0.00%, pct_zero=0.00%
+
+--- Column: Shipping_Cost_INR ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 28915
+  Top 10 values: {'597.91': np.int64(4), '738.35': np.int64(4), '483.14': np.int64(3), '725.9': np.int64(3), '694.75': np.int64(3), '326.87': np.int64(3), '786.38': np.int64(3), '670.48': np.int64(3), '806.94': np.int64(3), '938.39': np.int64(3)}
+  [NUMERIC] min=-265359.87, max=1530927.43, mean=5896.6269, median=1439.1400, std=25379.8981, skew=22.2129, pct_negative=0.50%, pct_zero=0.00%
+
+--- Column: Fuel_Cost_INR ---
+  Null count (incl. disguises): 1203 (4.00%)
+  Disguise token breakdown: {'': np.int64(1203)}
+  Unique non-null values: 28406
+  Top 10 values: {'2065.48': np.int64(3), '853.36': np.int64(3), '2186.27': np.int64(3), '5153.85': np.int64(2), '12378.34': np.int64(2), '4364.86': np.int64(2), '1117.56': np.int64(2), '7385.45': np.int64(2), '3948.26': np.int64(2), '4357.8': np.int64(2)}
+  [NUMERIC] min=126.48, max=92372.5, mean=5748.4180, median=4294.7600, std=5676.1182, skew=3.8112, pct_negative=0.00%, pct_zero=0.00%
+
+--- Column: Operational_Cost_INR ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 22052
+  Top 10 values: {'341.17': np.int64(7), '414.53': np.int64(6), '414.92': np.int64(6), '369.28': np.int64(6), '382.86': np.int64(6), '355.93': np.int64(6), '354.75': np.int64(6), '429.55': np.int64(6), '345.46': np.int64(6), '363.7': np.int64(6)}
+  [NUMERIC] min=264.34, max=32945.78, mean=599.5316, median=430.6100, std=812.5929, skew=12.7679, pct_negative=0.00%, pct_zero=0.00%
+
+--- Column: Revenue_INR ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 22338
+  Top 10 values: {'6250.0': np.int64(41), '4900.0': np.int64(41), '5350.0': np.int64(40), '3550.0': np.int64(40), '6800.0': np.int64(40), '6600.0': np.int64(39), '6750.0': np.int64(39), '6000.0': np.int64(39), '4300.0': np.int64(38), '5300.0': np.int64(38)}
+  [NUMERIC] min=600.0, max=4013950.0, mean=20547.4657, median=9610.6500, std=63671.9413, skew=24.7397, pct_negative=0.00%, pct_zero=0.00%
+
+--- Column: Profit_INR ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 29607
+  Top 10 values: {'2365.13': np.int64(4), '3650.3': np.int64(3), '1970.56': np.int64(3), '253.26': np.int64(3), '1667.53': np.int64(3), '118.37': np.int64(3), '1343.74': np.int64(3), '1797.05': np.int64(3), '1018.99': np.int64(3), '2673.97': np.int64(3)}
+  [NUMERIC] min=-13613.33, max=2408191.41, mean=8026.7294, median=2589.7400, std=32556.3626, skew=28.6083, pct_negative=11.85%, pct_zero=0.00%
+
+--- Column: Customer_Rating ---
+  Null count (incl. disguises): 1718 (5.71%)
+  Disguise token breakdown: {'': np.int64(1718)}
+  Unique non-null values: 46
+  Top 10 values: {'4.9': np.int64(1418), '4.2': np.int64(1417), '4.4': np.int64(1389), '4.6': np.int64(1377), '4.5': np.int64(1370), '4.8': np.int64(1358), '4.7': np.int64(1354), '4.3': np.int64(1325), '3.5': np.int64(1281), '3.6': np.int64(1275)}
+  [NUMERIC] min=-1.0, max=9.0, mean=3.7328, median=4.0000, std=1.0215, skew=-0.7621, pct_negative=0.06%, pct_zero=0.08%
+
+--- Column: Return_Status ---
+  Null count (incl. disguises): 0 (0.00%)
+  Unique non-null values: 2
+  Top 10 values: {'Not Returned': np.int64(27518), 'Returned': np.int64(2584)}
+  [STRING] min_len=8, max_len=12, avg_len=11.66
+  Longest sample: 'Not Returned'
+  Shortest sample: 'Returned'
+  [CATEGORICAL] all unique values: ['Not Returned', 'Returned']
+
+--- Column: Delay_Reason ---
+  Null count (incl. disguises): 21738 (72.21%)
+  Disguise token breakdown: {'': np.int64(21738)}
+  Unique non-null values: 11
+  Top 10 values: {'Traffic Congestion': np.int64(1800), 'Bad Weather': np.int64(1754), 'High Volume Season': np.int64(1312), 'Vehicle Breakdown': np.int64(873), 'Recipient Unavailable': np.int64(640), 'Strike / Bandh': np.int64(565), 'Scheduling Delay': np.int64(513), 'Address Issue': np.int64(427), 'Documentation Issues': np.int64(312), 'Customs Clearance': np.int64(147)}
+  [STRING] min_len=11, max_len=21, avg_len=16.06
+  Longest sample: 'Recipient Unavailable'
+  Shortest sample: 'Bad Weather'
+  [CATEGORICAL] all unique values: ['Address Issue', 'Bad Weather', 'Customs Clearance', 'Documentation Issues', 'High Volume Season', 'Port Congestion', 'Recipient Unavailable', 'Scheduling Delay', 'Strike / Bandh', 'Traffic Congestion', 'Vehicle Breakdown']
+  *** HIGH RISK: >30% nulls ***

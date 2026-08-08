@@ -1,0 +1,348 @@
+# =====================================================================
+# STAGE 1 BUSINESS BRIEF -- house_50k_sample.csv
+# Written before any cleaning code ran. Unattended run (no user available
+# to ask); every judgment call below is made by the agent and justified
+# inline, per unattended-run-conventions.
+# =====================================================================
+
+dataset: house_50k_sample.csv
+grain: >
+  One row per property_id (listing) after de-duplication. The raw file
+  contains 136 rows that are exact full-row duplicates of another row
+  (all 46 columns identical, including property_id) -- these are removed
+  in Stage 4.11 so that property_id is unique on cleaned_data.csv.
+  Pre-dedup raw grain was "one row per listing scrape event", which
+  collapses to "one row per listing" post-dedup.
+
+critical_columns:
+  - property_id
+  - country
+  - property_type
+  - city
+  - listing_date
+  - total_area
+  - final_sale_price
+  - listing_price
+  - currency
+
+allowed_values:
+  country: [UAE, USA, Australia, Germany, Spain, India, Brazil, UK, Canada, France]
+  property_type: [Penthouse, Apartment, Land, Studio, Villa, Condo, Townhouse]
+  condition: [New, Old, Luxury, Under Construction, Renovated, Needs Repair]
+  currency: ["₹", "£", "$", "€", "AED"]
+  city:
+    - Barcelona
+    - Madrid
+    - Dubai
+    - Abu Dhabi
+    - Mumbai
+    - Vancouver
+    - Lyon
+    - Melbourne
+    - Delhi
+    - Paris
+    - Marseille
+    - Montreal
+    - "São Paulo"
+    - "Rio de Janeiro"
+    - Brisbane
+    - Toronto
+    - Sydney
+    - Bangalore
+    - Birmingham
+    - Manchester
+    - London
+    - Leeds
+    - Chicago
+    - Los Angeles
+    - "München"
+    - Frankfurt
+    - Hamburg
+    - "New York"
+    - Houston
+    - Phoenix
+    - Berlin
+    # 31 canonical cities. Two raw-value collapses required (see
+    # dangerous_columns.city and business_rules.BR2 below):
+    #   "Sao Paulo" (ASCII) -> "São Paulo" (diacritic form retained as canonical)
+    #   "Munich" (English exonym) -> "München" (diacritic/native form retained as canonical)
+
+dangerous_columns:
+  city:
+    fuzzy_matching: false
+    reason: >
+      MEASURED with rapidfuzz.fuzz.token_sort_ratio on 2026-07-29:
+      token_sort_ratio('Munich','München') = 61.54 -- below even the 70
+      "flag for review" floor, so a generic fuzzy pass would classify this
+      pair as UNKNOWN CATEGORY and leave two cities that are the same place
+      permanently split. token_sort_ratio('Sao Paulo','São Paulo') = 88.89
+      -- this one WOULD auto-correct under the 85 threshold, but relying on
+      fuzzy matching for one pair and an explicit map for the other in the
+      same column is an inconsistent, hard-to-audit policy. Both are
+      ASCII-transliteration pairs, not edit-distance typos, so both are
+      handled by one explicit alias map (BR2) instead of any fuzzy pass.
+      Canonical choice (São Paulo, München) is by linguistic/native-spelling
+      correctness, not frequency -- counts are near-tied (São Paulo 1663 vs
+      Sao Paulo 1632; München 986 vs Munich 1009) so frequency would be an
+      arbitrary tiebreaker here anyway.
+  condition:
+    fuzzy_matching: false
+    reason: >
+      Not a fuzzy-matching case at all: raw values are "New" (7231) and
+      "new" (7239), a pure case duplicate of the same canonical token, not
+      an edit-distance typo. Resolved by case normalization (Title Case) in
+      Stage 4.3, which merges them losslessly. No other condition value is
+      within edit distance of another (Old/Luxury/Under Construction/
+      Renovated/Needs Repair are all lexically distinct) -- verified by
+      inspecting the full 7-value distribution, no fuzzy pass required or run.
+  country:
+    fuzzy_matching: false
+    reason: >
+      nunique(country) = 10, and all 10 raw values exactly match the
+      canonical list with zero variant spellings observed in profiling
+      (Stage 3 full value_counts on this column matched allowed_values
+      exactly). No typos to correct, so no fuzzy matching was run.
+  property_type:
+    fuzzy_matching: false
+    reason: >
+      nunique(property_type) = 7, exact match to canonical list, zero
+      variants observed. No fuzzy matching run.
+  currency:
+    fuzzy_matching: false
+    reason: >
+      COLLISION GUARD TRIPS on this column: rapidfuzz's default_process
+      strips non-alphanumeric characters, so "₹", "£", "$", "€" (none of
+      which contain a letter/digit) all reduce to the same empty-string
+      key -- 4 of the 5 canonicals become indistinguishable to a fuzzy
+      matcher. Fuzzy matching is refused outright for this column
+      regardless of whether it's needed. Separately (and moot given the
+      guard trip): nunique(currency) = 5, exact match to canonical
+      symbols, zero variants observed, so exact-match handling alone is
+      sufficient -- 0 corrections applied either way.
+
+missing_value_strategy:
+  # Stage 3 profiling scanned every one of the 46 columns for the full
+  # null-disguise set ('', ' ', '-', '?', 'n/a', 'na', 'null', 'none',
+  # 'tbd', 'unknown', 'undefined', '#n/a', '#value!', '#ref!') plus true
+  # NaN. ZERO nulls or null disguises were found in any column of this
+  # 50,000-row file. Every entry below is therefore a standing policy for
+  # if a null ever appears (e.g. on a future refresh of this feed), not a
+  # correction applied on this run.
+  property_id: never_impute
+  country: never_impute
+  property_type: never_impute
+  condition: leave_null
+  bedrooms: leave_null
+  bathrooms: leave_null
+  floors: leave_null
+  parking_spots: leave_null
+  built_year: leave_null
+  city: never_impute
+  total_area: never_impute
+  land_area: leave_null
+  latitude: leave_null
+  longitude: leave_null
+  district: leave_null
+  postal_code: leave_null
+  listing_date: never_impute
+  interest_rate: leave_null
+  inflation_index: leave_null
+  housing_index: leave_null
+  luxury_demand_index: leave_null
+  final_sale_price: never_impute
+  listing_price: never_impute
+  price_per_sqm: never_impute
+  currency: never_impute
+  hoa_fee: leave_null
+  property_tax: leave_null
+  days_on_market: leave_null
+  price_revision_count: leave_null
+  title: leave_null
+  description: leave_null
+  noise_0: leave_null
+  noise_1: leave_null
+  noise_2: leave_null
+  noise_3: leave_null
+  noise_4: leave_null
+  noise_5: leave_null
+  noise_6: leave_null
+  noise_7: leave_null
+  noise_8: leave_null
+  noise_9: leave_null
+  noise_10: leave_null
+  noise_11: leave_null
+  noise_12: leave_null
+  noise_13: leave_null
+  noise_14: leave_null
+
+# ---------------------------------------------------------------------
+# OPTIONAL EXTRAS
+# ---------------------------------------------------------------------
+
+dataset_type: real_estate_listings
+
+business_goal: >
+  Feed a BI/analytics dashboard and downstream price-analysis work
+  (auto-selected General EDA in Stage 9, unattended run). Data must be
+  trustworthy enough to chart price/area distributions by country,
+  property_type, and condition without a bad cleaning decision distorting
+  the picture.
+
+column_types:
+  property_id: integer
+  country: category
+  property_type: category
+  condition: category
+  bedrooms: integer
+  bathrooms: integer
+  floors: integer
+  parking_spots: integer
+  built_year: integer
+  city: category
+  total_area: float
+  land_area: float
+  latitude: float
+  longitude: float
+  district: category
+  postal_code: string
+  listing_date: date
+  interest_rate: float
+  inflation_index: float
+  housing_index: float
+  luxury_demand_index: float
+  final_sale_price: float
+  listing_price: float
+  price_per_sqm: float
+  currency: category
+  hoa_fee: float
+  property_tax: float
+  days_on_market: integer
+  price_revision_count: integer
+  title: string
+  description: string
+  noise_0: float
+  noise_1: float
+  noise_2: float
+  noise_3: float
+  noise_4: float
+  noise_5: float
+  noise_6: float
+  noise_7: float
+  noise_8: float
+  noise_9: float
+  noise_10: float
+  noise_11: float
+  noise_12: float
+  noise_13: float
+  noise_14: float
+
+not_critical:
+  hoa_fee: "amenity fee, listing can be valid without an HOA (e.g. Land property_type routinely has none)"
+  property_tax: "assessed downstream of sale; absence does not invalidate the listing record"
+  district: "sub-city detail; city + postal_code already localize the row"
+  title: "auto-generated display string, derivable from property_type + city"
+  description: "auto-generated free text, cosmetic; some legitimately contain emoji (🏡✨) or HTML tags (<b></b>) -- these are content, not corruption, and are left as-is"
+  noise_0..noise_14: "synthetic noise features with no business meaning, confirmed in profiling; irrelevant to row usability"
+
+business_rules:
+  BR1:
+    rule: "latitude and longitude may be negative -- this is legitimate geography (southern/western hemispheres), never sign-flip-corrected."
+    action: flag_do_not_correct
+    reason: >
+      Measured: latitude range [-59.997, 59.9999] (0 out-of-[-90,90] range
+      values), longitude range [-149.996, 149.992] (0 out-of-[-180,180]
+      range values). 24,933 negative latitudes and 24,904 negative
+      longitudes are a normal ~50/50 hemisphere split, not an error
+      pattern. No action taken.
+  BR2:
+    rule: "city alias collapse: 'Sao Paulo' -> 'São Paulo', 'Munich' -> 'München'. Explicit map, not fuzzy matching (see dangerous_columns.city)."
+    action: correct
+    reason: "Same underlying city recorded under two transliterations; collapsing is required for city to function as a grouping key. Canonical form chosen for linguistic correctness (native spelling), not raw frequency, since counts are near-tied."
+  BR3:
+    rule: "total_area negative values (996 rows, 1.99%) are flagged as IMPOSSIBLE_NEGATIVE, NEVER sign-corrected with abs()."
+    action: flag_do_not_correct
+    reason: >
+      total_area is a physical quantity (sqm) and cannot legitimately be
+      negative -- unlike quantity/units_sold columns, area is not on this
+      pipeline's abs()-safe list, because flipping the sign risks
+      silently manufacturing a plausible-looking value for a row whose
+      true error mode is unknown (could be a sign-flip, could be a
+      wrong-column data-entry swap). Corroborating evidence the true
+      magnitude is probably abs(value) exists (price_per_sqm for these
+      rows implies final_sale_price/abs(total_area) with ratio
+      mean=1.0017, median=1.0000 -- see change_log reason field) but per
+      the "never guess a value into existence" rule this is reported, not
+      acted on. The row is kept and flagged, not corrected.
+  BR4:
+    rule: "total_area right-tail values (>10x median, 4,959 rows, 9.92%) are STATISTICAL_OUTLIER, not decimal-typo corrections."
+    action: flag_do_not_correct
+    reason: >
+      9.92% of a column failing the >10x-median screen is far above the
+      ~1% sanity cap for genuine decimal-typo populations (Stage 4.10) --
+      this is real scale variation (large estates/land parcels exist
+      within every property_type), not a data-entry error class. Applying
+      the /10 divisor here would rewrite the shape of the distribution.
+  BR5:
+    rule: "final_sale_price candidates for decimal-typo correction (>10x median, 425 rows) are NOT corrected -- cross-checked against listing_price and found to be genuine luxury listings."
+    action: flag_do_not_correct
+    reason: >
+      Per [[feedback-outlier-judgment]] incident 2 (this exact fixture,
+      2026-07-25 run): the self-referential median/divisor-band test alone
+      is not sufficient evidence. Cross-check against the independent
+      listing_price column: final_sale_price/listing_price ratio for all
+      425 candidates falls in [0.9098, 1.1108], essentially identical to
+      the non-candidate population's ratio band [0.9091, 1.1111]; 418/425
+      fall within the normal population's 1st-99th percentile band. This
+      is the signature of correctly-priced luxury properties, not typos.
+      Flagged STATISTICAL_OUTLIER only.
+  BR6:
+    rule: "price_per_sqm candidates for decimal-typo correction (>10x median, 1,577 rows, 3.15%) are NOT corrected -- mathematically explained by final_sale_price/total_area."
+    action: flag_do_not_correct
+    reason: >
+      Cross-checked against final_sale_price/abs(total_area) (an
+      independently-derivable value for the same row): ratio is
+      [0.90, 1.10], mean 1.0022, for all candidates -- price_per_sqm is
+      just what you get when total_area is small, not an independent
+      error. Flagged STATISTICAL_OUTLIER only.
+  BR7:
+    rule: "listing_price and hoa_fee currency prefixes always agree with the row's currency column -- verified, not assumed."
+    action: correct
+    reason: >
+      Measured: 50,000/50,000 listing_price rows carry a prefix and 0
+      mismatch the currency column. hoa_fee has a prefix on 25,155/50,000
+      rows (the other 24,845 are bare numbers) and 0 of the prefixed rows
+      mismatch currency. Safe to strip symbol and cast to float uniformly;
+      currency unit for bare hoa_fee values is the row's currency column.
+  BR9:
+    rule: "listing_price candidates for decimal-typo correction (>10x median, 427 rows) are NOT corrected -- cross-checked against final_sale_price and found to be genuine luxury listings, same pattern as BR5."
+    action: flag_do_not_correct
+    reason: >
+      Caught during development of this run's cleaning script: listing_price
+      was initially routed through the generic (uncross-checked) 4.10 loop,
+      which would have divided 370 of 427 candidates by 10/100 -- a
+      column-wide repair rate of 0.74%, under the 1% sanity cap, so the cap
+      alone would NOT have caught this. Direct measurement:
+      final_sale_price/listing_price ratio for the 427 candidates is
+      [0.9098, 1.1108], essentially identical to the non-candidate
+      population's ratio band [0.9108, 1.1087]; 421/427 fall within that
+      normal band. This is the same signature as BR5 (genuine luxury
+      listings), on the same underlying rows in many cases. Generalizes
+      [[feedback-outlier-judgment]]'s rule: every 4.10-corrected column
+      must be cross-checked against its independent quantity partner, not
+      just the first column that seemed to need it.
+  BR8:
+    rule: "currency is not correlated with country (chi-square p=0.16) -- reported as a likely synthetic-data/upstream schema artifact in insights, not treated as a data quality defect to fix."
+    action: flag
+    reason: "Every country has listings in all 5 currencies at roughly even proportions, which is not realistic for real-world FX/geography but is not something cleaning can 'correct' -- it is a fact about the source, to be surfaced in Stage 9."
+
+assumptions:
+  A1:
+    text: "listing_date is DD-MM-YYYY (verified: 50,000/50,000 rows parse cleanly under this format, range 2015-01-01 to 2024-07-31, none in the future)."
+    if_wrong: "Dates would silently swap day/month for any day<=12, corrupting all time-series analysis. Mitigated by the 100% clean parse rate under this single format assumption -- if MM-DD-YYYY were tried instead, dates like 29-05-2024 (day=29) would fail to parse, so the fact that DD-MM-YYYY parses ALL 50,000 rows with zero failures is strong evidence it's correct."
+  A2:
+    text: "built_year <= 2026 (current year) is the only 'impossible' bound; no lower bound violation exists in this data (min observed 1950)."
+    if_wrong: "N/A for this run -- measured built_year range is [1950, 2023], zero rows > 2026 or < 1800, so this assumption is not load-bearing on the current file."
+
+risks:
+  - "city column requires an explicit alias map, not generic fuzzy matching -- already mitigated by BR2, called out here so any future run of a similar dataset checks for this before trusting a fuzzy pass."
+  - "total_area and price_per_sqm both have legitimate heavy right tails; any future automated outlier-correction pass must re-run the cross-check against final_sale_price/listing_price rather than trusting the raw ratio-to-median test in isolation."

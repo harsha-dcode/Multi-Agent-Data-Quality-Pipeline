@@ -1,0 +1,35 @@
+==============================================================================
+STAGE 7: DATA TRANSFORMATION
+==============================================================================
+rows in: 3333, columns in: 29
+
+--- Final dtype enforcement ---
+  churn: dtype=int64, expected=int64, match=True
+  contract_renewal: dtype=int64, expected=int64, match=True
+  data_plan: dtype=int64, expected=int64, match=True
+  account_weeks: dtype=int64, expected=int64, match=True
+  cust_serv_calls: dtype=int64, expected=int64, match=True
+  day_calls: dtype=int64, expected=int64, match=True
+  data_usage: dtype=float64, expected=float64, match=True
+  day_mins: dtype=float64, expected=float64, match=True
+  monthly_charge: dtype=float64, expected=float64, match=True
+  overage_fee: dtype=float64, expected=float64, match=True
+  roam_mins: dtype=float64, expected=float64, match=True
+
+--- Derived columns ---
+Added total_charge = monthly_charge + overage_fee (min=19.38, max=123.63, mean=66.36)
+
+--- Final null check ---
+Total nulls across all columns (post-transform): 0
+0 nulls -> 0 NULL_FLAGGED_NOT_IMPUTED and 0 NULL_IMPUTED entries logged. No missing_value_strategy from 01_business_brief.yaml needed to be invoked, because there was nothing missing to apply it to.
+
+--- Column ordering ---
+New column order: ['__source_row', 'churn', 'contract_renewal', 'data_plan', 'account_weeks', 'data_usage', 'cust_serv_calls', 'day_mins', 'day_calls', 'monthly_charge', 'overage_fee', 'roam_mins', 'total_charge', 'account_weeks_outlier_flag', 'account_weeks_sign_flag', 'cust_serv_calls_outlier_flag', 'cust_serv_calls_sign_flag', 'data_plan_usage_conflict_flag', 'data_usage_outlier_flag', 'data_usage_sign_flag', 'day_calls_outlier_flag', 'day_calls_sign_flag', 'day_mins_outlier_flag', 'day_mins_sign_flag', 'monthly_charge_outlier_flag', 'monthly_charge_sign_flag', 'overage_fee_outlier_flag', 'overage_fee_sign_flag', 'roam_mins_outlier_flag', 'roam_mins_sign_flag']
+
+--- Index reset ---
+Index reset to 0..3332. __source_row column present: True
+__source_row still unique and matches row count: True
+
+cleaned_data.csv (FINAL) rows: 3333, columns: 30
+columns: ['__source_row', 'churn', 'contract_renewal', 'data_plan', 'account_weeks', 'data_usage', 'cust_serv_calls', 'day_mins', 'day_calls', 'monthly_charge', 'overage_fee', 'roam_mins', 'total_charge', 'account_weeks_outlier_flag', 'account_weeks_sign_flag', 'cust_serv_calls_outlier_flag', 'cust_serv_calls_sign_flag', 'data_plan_usage_conflict_flag', 'data_usage_outlier_flag', 'data_usage_sign_flag', 'day_calls_outlier_flag', 'day_calls_sign_flag', 'day_mins_outlier_flag', 'day_mins_sign_flag', 'monthly_charge_outlier_flag', 'monthly_charge_sign_flag', 'overage_fee_outlier_flag', 'overage_fee_sign_flag', 'roam_mins_outlier_flag', 'roam_mins_sign_flag']
+change_log.csv total rows after Stage 7 append: 615 (was 613, added 2)

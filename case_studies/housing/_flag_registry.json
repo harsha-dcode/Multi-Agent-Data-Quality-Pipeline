@@ -1,0 +1,10 @@
+{
+  "total_area_sign_flag": "total_area was negative in raw data -- physically impossible for an area; flagged, NOT corrected (BR3)",
+  "built_year_future_flag": "built_year > 2026 (current year) -- physically impossible, flagged",
+  "total_area_outlier_flag": "total_area > 10x column median -- real scale variation (large estates/land), NOT a decimal typo (BR4); flagged STATISTICAL_OUTLIER, value unchanged",
+  "price_per_sqm_outlier_flag": "price_per_sqm > 10x median -- mathematically explained by final_sale_price/abs(total_area) (BR6), NOT an independent decimal typo; flagged STATISTICAL_OUTLIER",
+  "final_sale_price_outlier_flag": "final_sale_price > 10x median -- cross-checked against listing_price (BR5), ratio matches normal population, genuine luxury listing NOT a decimal typo; flagged STATISTICAL_OUTLIER",
+  "listing_price_outlier_flag": "listing_price > 10x median -- cross-checked against final_sale_price (BR9), ratio matches normal population, genuine luxury listing NOT a decimal typo; flagged STATISTICAL_OUTLIER",
+  "land_area_outlier_flag": "land_area > 10x median, no divisor landed in plausible band -- flagged STATISTICAL_OUTLIER, not corrected",
+  "land_area_decimal_typo_flag": "land_area decimal-typo corrected (divided by 10/100/1000 to land within [0.5x,2x] median)"
+}

@@ -1,0 +1,395 @@
+STAGE 3: DATA PROFILING REPORT
+============================================================
+Rows: 58164  Columns (excl __source_row): 19
+
+--- Column: Name ---
+pandas dtype as read: str
+pandas-native null count: 0 (0.00%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {}
+unique non-null values: 50877
+top 10 values:
+Name
+nICoLE SnYder     4
+ROdNey AvilA      4
+rACHel LaWsoN     4
+vALerIe ConRAd    4
+jEFfrEY coBb      4
+HeAThEr gRahAM    4
+beth roBInsOn     4
+derRICK RIveRA    4
+ELAIne agUiLAR    4
+heatHER mIller    3
+string length: min=6 max=28 avg=13.30
+
+--- Column: Age ---
+pandas dtype as read: str
+pandas-native null count: 164 (0.28%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 164, 'unknown': 77}
+unique non-null values: 87
+top 10 values:
+Age
+37    934
+38    926
+57    918
+80    888
+34    883
+66    882
+69    873
+43    872
+54    872
+75    871
+NUMERIC PROBE (loose strip of $,₹,comma): 57798/58000 parseable
+  min=-5.0 max=150.0 mean=51.7249 median=52.0000 std=21.2214
+  skew=0.4075  pct_negative=0.38%
+string length: min=1 max=7 avg=2.02
+
+--- Column: Gender ---
+pandas dtype as read: str
+pandas-native null count: 283 (0.49%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 283, 'unknown': 142}
+unique non-null values: 80
+top 10 values:
+Gender
+Male       28415
+Female     28362
+Unknown      142
+ Male         85
+female        69
+FEMALE        69
+MALE          67
+ Female       59
+male          58
+Female        55
+string length: min=2 max=7 avg=4.99
+
+--- Column: Blood Type ---
+pandas dtype as read: str
+pandas-native null count: 185 (0.32%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 185, 'unknown': 69, '?': 27, 'not available': 21, '--': 9, 'missing': 10}
+unique non-null values: 20
+top 10 values:
+Blood Type
+A+        7238
+AB-       7232
+B-        7207
+B+        7205
+AB+       7190
+A-        7188
+O+        7141
+O-        7109
+Male       163
+Female     149
+string length: min=1 max=13 avg=2.27
+
+--- Column: Medical Condition ---
+pandas dtype as read: str
+pandas-native null count: 0 (0.00%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {}
+unique non-null values: 779
+top 10 values:
+Medical Condition
+Diabetes        9364
+Arthritis       9292
+Cancer          9268
+Asthma          9201
+Hypertension    9198
+Obesity         9196
+Cancor           155
+Hypertention     102
+Arthrytis        100
+Hypertenson       99
+string length: min=4 max=14 avg=8.01
+
+--- Column: Date of Admission ---
+pandas dtype as read: str
+pandas-native null count: 123 (0.21%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 123}
+unique non-null values: 2557
+top 10 values:
+Date of Admission
+2020-10-22    54
+2024-03-16    53
+0000-00-00    53
+2021-12-28    52
+31/31/2021    52
+2021-01-03    51
+2022-07-01    51
+2020-05-30    50
+2021-12-05    50
+2022-06-21    49
+DATE PROBE (mixed-format auto): 57842/58041 parseable, 199 unparseable
+  min=2019-01-06 00:00:00 max=2024-12-03 00:00:00
+string length: min=10 max=17 avg=10.01
+
+--- Column: Doctor ---
+pandas dtype as read: str
+pandas-native null count: 0 (0.00%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {}
+unique non-null values: 41586
+top 10 values:
+Doctor
+Michael Smith       30
+John Smith          22
+Robert Smith        22
+Michael Johnson     20
+James Smith         19
+Robert Johnson      19
+Michael Williams    19
+David Smith         18
+John Johnson        17
+Michael Brown       17
+string length: min=6 max=32 avg=13.35
+
+--- Column: Hospital ---
+pandas dtype as read: str
+pandas-native null count: 0 (0.00%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {}
+unique non-null values: 41141
+top 10 values:
+Hospital
+LLC Smith      45
+Ltd Smith      40
+Johnson PLC    38
+Smith Ltd      38
+Smith PLC      38
+Smith Group    38
+Johnson Inc    36
+Smith LLC      33
+Smith Inc      33
+LLC Johnson    32
+string length: min=6 max=35 avg=16.56
+
+--- Column: Insurance Provider ---
+pandas dtype as read: str
+pandas-native null count: 243 (0.42%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 243, 'unknown': 137, '?': 18, 'not available': 128, '--': 16, 'missing': 15}
+unique non-null values: 36
+top 10 values:
+Insurance Provider
+Cigna               11482
+UnitedHealthcare    11426
+Medicare            11421
+Blue Cross          11295
+Aetna               11192
+Unknown               137
+Not Available         128
+UnitedHealthcar        68
+BlueCross              59
+Cgna                   56
+string length: min=1 max=17 avg=8.81
+
+--- Column: Billing Amount ---
+pandas dtype as read: str
+pandas-native null count: 57 (0.10%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 57, 'pending': 164, 'see invoice': 191, 'tbd': 191}
+unique non-null values: 49592
+top 10 values:
+Billing Amount
+TBD                   191
+see invoice           191
+pending               164
+999999                 76
+0                      68
+10622.282543736745      4
+39155.12264281956       4
+48001.62318214661       4
+30826.494621405807      4
+7582.4114179031385      4
+NUMERIC PROBE (loose strip of $,₹,comma): 57420/58107 parseable
+  min=-49108.42 max=999999.0 mean=26713.9328 median=25508.6062 std=38234.2960
+  skew=21.8160  pct_negative=0.36%
+string length: min=1 max=19 avg=17.14
+
+--- Column: Room Number ---
+pandas dtype as read: str
+pandas-native null count: 285 (0.49%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 285, 'unknown': 66, '?': 19, 'tbd': 141, 'not available': 26, '--': 15, 'missing': 14}
+unique non-null values: 622
+top 10 values:
+Room Number
+393    186
+491    185
+104    183
+147    176
+420    176
+209    175
+446    175
+299    174
+496    174
+458    173
+NUMERIC PROBE (loose strip of $,₹,comma): 57308/57879 parseable
+  min=101.0 max=500.0 mean=301.1591 median=302.0000 std=115.2965
+  skew=-0.0128  pct_negative=0.00%
+string length: min=1 max=13 avg=3.02
+
+--- Column: Admission Type ---
+pandas dtype as read: str
+pandas-native null count: 21 (0.04%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 21, 'unknown': 9, '?': 11, 'not available': 8, '--': 5, 'missing': 14}
+unique non-null values: 172
+top 10 values:
+Admission Type
+Elective       19154
+Urgent         19102
+Emergency      18712
+Elective          76
+Emergency         70
+Urgent            68
+ Elective         65
+elective          65
+emergency         63
+URGENT            63
+string length: min=1 max=13 avg=7.67
+
+--- Column: Discharge Date ---
+pandas dtype as read: str
+pandas-native null count: 129 (0.22%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 129}
+unique non-null values: 2564
+top 10 values:
+Discharge Date
+2023-04-29    54
+2020-12-02    54
+2021-12-13    53
+0000-00-00    52
+2020-03-15    52
+2021-01-28    51
+2020-09-03    51
+2021-02-05    50
+2021-12-06    50
+2019-09-10    50
+DATE PROBE (mixed-format auto): 57835/58035 parseable, 200 unparseable
+  min=2019-03-09 00:00:00 max=2024-12-03 00:00:00
+string length: min=10 max=17 avg=10.01
+
+--- Column: Medication ---
+pandas dtype as read: str
+pandas-native null count: 229 (0.39%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 229, 'n/a': 1, 'unknown': 61, '?': 11, 'not available': 8, '--': 55, 'missing': 47}
+unique non-null values: 37
+top 10 values:
+Medication
+Ibuprofen       11350
+Lipitor         11304
+Penicillin      11248
+Paracetamol     11244
+Aspirin         11222
+Abnormal          122
+Normal            120
+Inconclusive      109
+aspirin            79
+lipitor            73
+string length: min=1 max=13 avg=8.79
+
+--- Column: Test Results ---
+pandas dtype as read: str
+pandas-native null count: 260 (0.45%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 260, 'unknown': 101, '?': 18, 'not available': 57, '--': 16, 'missing': 13}
+unique non-null values: 24
+top 10 values:
+Test Results
+Abnormal         19199
+Normal           19137
+Inconclusive     18963
+Unknown            101
+Penicillin          74
+Aspirin             72
+Ibuprofen           69
+Lipitor             65
+Paracetamol         63
+Not Available       57
+string length: min=1 max=13 avg=8.65
+
+--- Column: Length of Stay ---
+pandas dtype as read: str
+pandas-native null count: 2066 (3.55%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 2066}
+unique non-null values: 68
+top 10 values:
+Length of Stay
+21    1945
+14    1909
+11    1904
+20    1890
+7     1886
+27    1882
+4     1878
+6     1870
+9     1868
+19    1867
+NUMERIC PROBE (loose strip of $,₹,comma): 56098/56098 parseable
+  min=-32.0 max=36.0 mean=14.9866 median=15.0000 std=9.5442
+  skew=-0.5523  pct_negative=1.69%
+string length: min=1 max=3 avg=1.72
+
+--- Column: Admission Year ---
+pandas dtype as read: str
+pandas-native null count: 1079 (1.86%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 1079}
+unique non-null values: 8
+top 10 values:
+Admission Year
+2020    11636
+2022    11340
+2023    11283
+2021    11246
+2019     7582
+2024     3973
+2018       16
+2025        9
+NUMERIC PROBE (loose strip of $,₹,comma): 57085/57085 parseable
+  min=2018.0 max=2025.0 mean=2021.3331 median=2021.0000 std=1.4983
+  skew=0.0342  pct_negative=0.00%
+DATE PROBE (mixed-format auto): 57085/57085 parseable, 0 unparseable
+  min=2018-01-01 00:00:00 max=2025-01-01 00:00:00
+string length: min=4 max=4 avg=4.00
+
+--- Column: Admission Month ---
+pandas dtype as read: str
+pandas-native null count: 1079 (1.86%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 1079}
+unique non-null values: 12
+top 10 values:
+Admission Month
+07    4964
+08    4959
+06    4833
+10    4819
+01    4815
+03    4809
+12    4790
+05    4754
+09    4715
+11    4680
+NUMERIC PROBE (loose strip of $,₹,comma): 57085/57085 parseable
+  min=1.0 max=12.0 mean=6.5357 median=7.0000 std=3.4358
+  skew=-0.0189  pct_negative=0.00%
+DATE PROBE (mixed-format auto): 42796/57085 parseable, 14289 unparseable
+  min=0001-01-01 00:00:00 max=0001-01-09 00:00:00
+string length: min=2 max=2 avg=2.00
+
+--- Column: Admission YearMonth ---
+pandas dtype as read: str
+pandas-native null count: 1079 (1.86%)
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 1079}
+unique non-null values: 63
+top 10 values:
+Admission YearMonth
+2020-07    1046
+2020-08    1044
+2019-10    1037
+2019-08    1031
+2021-07    1022
+2020-05    1005
+2021-03     999
+2020-01     999
+2023-08     997
+2022-06     994
+DATE PROBE (mixed-format auto): 57085/57085 parseable, 0 unparseable
+  min=2019-01-01 00:00:00 max=2024-06-01 00:00:00
+string length: min=7 max=7 avg=7.00
+
+ZERO-VARIANCE COLUMNS (all values identical):
+
+HIGH RISK COLUMNS (>30% null, pandas-native count):
+(none found)

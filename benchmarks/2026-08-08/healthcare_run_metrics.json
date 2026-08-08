@@ -1,0 +1,14 @@
+{
+  "dataset": "healthcare",
+  "input_rows": 58164,
+  "input_cols": 19,
+  "cleaned_rows": 55869,
+  "viz_ready_rows": 55399,
+  "change_log_entries": 37897,
+  "value_edits": 22298,
+  "validation_checks_passed": 10,
+  "validation_checks_failed": 1,
+  "started_at_epoch": 1786182784,
+  "ended_at_epoch": 1786185291,
+  "duration_seconds": 2507
+}

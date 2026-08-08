@@ -1,0 +1,313 @@
+﻿order_id,Order_Date,customer name,Customer Email,Phone Number,region ,Product,channel,Units Sold,unit_price,Total Revenue
+ORD-1058,11/03/2024,Meera Krishnan ,meera.krishnan@example.com,98826 13750,Esat,GAMMA,Retail,42,86.82,3646.44
+ORD-1068,07/03/24,ARJUN MEHTA,arjun.mehta@example.com,+91-98842-49818,Nort,gamma,n/a,4,113.26,453.04
+ORD-1178,07.02.2024,  Rohan Joshi  ,rohan.joshi@example.com,(987) 790-7141,north east,BETA,wholesale,8,192.21,1537.68
+ORD-1170,,Mr. Pooja Desai,pooja.desai.example.com,98809 20242,WEST,Unknown,online,44 units,57.93,₹2548.92
+ORD-1016,06/02/2024,Rohan Joshi ,rohan.joshi@example.com,980.443.6995,north east,beta,Brick & Mortar,27,145.5,3928.5
+ORD-1129,07/30/2024,Kavya Iyer,kavya.iyer@example.com,+919854115262, ,ALPHA,wholesale,23,38.26,879.98
+ORD-1179,30/07/24,Sneha.Gupta,sneha.gupta@example.com,919839423733,South,BETA,retail,1,67.4,67.4
+ORD-1113,07/01/2024,,sneha.gupta @ example.com,98300 68486,NORTH,N/A,,9,171.02,1539.18
+ORD-1164,05-Jun-2024,anita singh,anita.singh@example.com,(989) 087-8141,northeast,Unknown,B2C,47,94.28,4431.16
+  ORD-1147  ,23/03/2024 03:53:00,aarav sharma,aarav.sharma@example.com,+91 98811 43744,-,Beta,Online,14,106.52,1491.28
+ORD-1242,"October 06, 2024",Rajesh.Kumar,rajesh.kumar@example.com,+91 98902 19620,North,Alpha,on line,14,126.76,1774.64
+ORD-1035,2024-07-29,Mr. Aarav Sharma,aarav.sharma@example.com,+91-98171-87026,NORTH,DELTA,RETAIL,31,166.05,5147.55
+ORD-1079,24-Nov-2024,Rohan Joshi,rohan.joshi@example.com,98493 29668,north east, Alpha ,on line,9,104.24,938.16
+ORD-1069,2024/01/22,"Meera Krishnan,",meera.krishnan@example.com,98473 64710,Eaast,delta,retail,6,-,2268
+ORD-1167,2024/10/05,ADITYA SHAH,aditya.shah@example.com,+91-98803-92827,northeast,DELTA,Wholesale,31,46.75,1449.25
+ORD-1199,04/01/24,Mr. Vikram Reddy,vikram.reddy@example.com  ,919807522459,N/A,Gamma,ONLINE,14,23.91,334.74
+ORD-1120,"June 11, 2024","Kavya Iyer,",kavya.iyer@example.com,919837474112,-,alpha,retail,5,44.5,222.5
+ORD-1096,02/11/24,Sanjay  Pillai,sanjay.pillai.example.com,919844472126,Eaast,ALPHA,Wholesale,25,?,3276
+ORD-1033,05/02/2024,Pooja Desai ,pooja.desai@example.com,+919846773782,northeast,Alpha ,ONLINE,36.5,?,863
+ORD-1000,2024-11-23,  Priya Patel  ,priya.patel@example.com,9808386379,,Beta,B2B,null,45.12,939
+ORD-1104,2024/04/05, Kavya Iyer,kavya.iyer@example.com,98723 68876,North-East,delta,B2C,45,187.53,-8438.85
+ORD-1017,30-Aug-2024,  Sanjay Pillai  ,sanjay.pillai@example.com  ,98037 91769,Eaast,Gamma  ,Retail,48,  35.26,1692.48
+ORD-1194,27-Jun-2024,Sneha.Gupta,sneha.gupta @ example.com,+91 98862 09593,north east,N/A,WHOLESALE,18,127.76,2299.68
+ORD-1082,2024-10-20,"Rohan Joshi,",rohan.joshi@example.com,(989) 087-4064,west,ALPHA,Online,  21  ,99.53,2090.13
+ORD-1009,2024/07/13,Aarav Sharma ,aarav.sharma@example.com,+919809805009,Nort,alpha,Brick & Mortar,17,161.32,2742.44
+ORD-1107,45440,divya nair,divya.nair@example.com,+91 98536 72946,Wst,ALPHA,WHOLESALE,33,142.27,N/A
+ORD-1085,02/11/24,  Karan Verma  ,karan.verma@example.com,+919895995342,south,Delta,Retail  ,4,27.96,111.84
+ORD-1112,45363,  Anita Singh  ,anita.singh@example.com,988.364.0376,Wst,ALPHA,Brick & Mortar,6,128.18,769.08
+ORD-1200,19/10/2024 22:44:00,ARJUN MEHTA,arjun.mehta@example.com,98409 61055,EAST, Alpha ,Retail,14,150.24,2103.36
+ORD-1015,13.05.2024,  Rajesh Kumar  ,rajesh.kumar@example.com,  9860883561  ,WEST,gamma,  Online  ,17,-,3659
+ord-1138,2024/04/19,Meera Krishnan Jr.,meera.krishnan.example.com,980.349.4466,SOUTH,beta,b2b,15,68.44,1026.6
+ORD-1237,12/05/2024 13:13:00,Meera.Krishnan,meera.krishnan@example.com,+91-98101-19470,Wst,Alpha,Online,29,N/A,-3316
+ORD-1213,2024/10/16,meera krishnan,  meera.krishnan@example.com,+919823094077,N/A,Alpha,-,10,  46.03,460.3
+ORD-1185,23/03/2024 11:47:00,Sneha.Gupta,sneha.gupta@example.com,+91 98202 34132,NORTH,DELTA,,21,147.88,3105.48
+ORD-1266,05/02/24,ADITYA SHAH,  aditya.shah@example.com,98669 12153,  North,BETA,B2B,31,86.14,
+ORD-1132,14/05/24,Anita  Singh,anita.singh@example.com,9868793741,Esat,Unknown,Brick & Mortar,37,,802
+ORD-1127,45515,sanjay pillai,sanjay.pillai@example.com,  9842209690  ,N/A,BETA,n/a,32,51.36,1643.52
+ORD-1072, 06/07/24 , Mr. Sanjay Pillai ,sanjay.pillai@example.com, (981) 216-5585 ,WEST,, WHOLESALE ,3,122.65, 367.95 
+ORD-1155,"July 22, 2024","Sneha Gupta,",sneha.gupta@example.com,  9833945228  ,North-East, Alpha ,Wholesale,29,44.87,1301.23
+ORD-1246,45533,Divya Nair ,divya.nair@example.com,+91-98209-04217,,gamma,Retail,28,INR 187.02,5236.56
+ORD-1084,20.07.2024,  Rohan Joshi  ,rohan.joshi@example.com,+91 98243 10690,  North,alpha,b2b,15 units,156.11,2341.65
+ORD-1247,31/05/24,  Divya Nair  ,divya.nair@example.com,+91-98740-63356,west,Alpha,B2B,41.5,183.0,7594.5
+ ORD-1066 ,"APRIL 12, 2024","PRIYA PATEL,",priya.patel@example.com,(984) 225-8313, N/A ,DELTA,online,   5   , 181.76 ,908.8
+ORD-1081,09-03-2024,Kavya Iyer Jr.,kavya.iyer@example.com,?, ,,retail,48.5,87.25,4231.62
+ORD-1026,17/08/24,Sanjay.Pillai,sanjay.pillai@example.com,984.313.5182,SOUTH,Unknown,Brick & Mortar,null,-144.52,2608
+ORD-1095,"February 12, 2024",VIKRAM REDDY,vikram.reddy@example.com  ,-,West,ALPHA,-,46.5,47.77,2221.31
+ORD-1052,45450,  Pooja Desai  ,  pooja.desai@example.com,984.329.2127,north east,Unknown,-,22,33.75,742.5
+ORD-1187,45572,Kavya Iyer ,kavya.iyer@example.com,919878317456,North,Alpha,Brick & Mortar,  45  ,126.35,5685.75
+ORD-1018,2024/03/16,  Karan Verma  ,karan.verma@example.com,981.727.8895,WEST,,B2B,49,179.38,8789.62
+ORD-1086,45432,"Aarav Sharma,",aarav.sharma@example.com,(986) 624-6287,Sout,Alpha ,b2b,38,184.08,6995.04
+ORD-1278,31/08/2024 00:41:00,,karan.verma@example.com,983.486.4518,east,Alpha,WHOLESALE,18,188.66,3395.88
+ORD-1226,2024/10/11,Priya Patel,PRIYA.PATEL@EXAMPLE.COM,982.902.2784,South,beta,wholesale,12,93.04,1116.48
+ORD-1265,05-Aug-2024,Anita Singh,ANITA.SINGH@EXAMPLE.COM,98716 47947,Sout,Delta,retail,27,$ 197.23,532521.0
+ORD-1223,2024/12/11,Aarav Sharma ,aarav.sharma@example.com,919838179217,north east,delta,B2C,4000,₹90.55,362200.0
+ORD-1125,"April 22, 2024",Divya Nair,divya.nair@example.com,985.992.9378,north,ALPHA,Online,25,171.06,4276.5
+ORD-1269,2024/08/18,Sneha Gupta ,sneha.gupta@example.com,+91-98719-78897,Esat,alpha,WHOLESALE,29,25.91,751.39
+ORD-1151,25-03-2024,Priya.Patel,priya.patel@example.com,98717 75170,north,N/A,,21,194.63,
+ORD-1059,2024/07/16,priya patel,priya.patel@example.com,+919877901043,northeast,,B2B,2,37.83,75.66
+  ORD-1147  ,23/03/2024 03:53:00,aarav sharma,aarav.sharma@example.com,+91 98811 43744,-,Beta,Online,14,106.52,1491.28
+ORD-1071,2024/06/09,  Anita Singh  ,anita.singh@example.com,,EAST,Alpha ,RETAIL,32,104.03,3328.96
+ORD-1143,45523,Vikram  Reddy,vikram.reddy@example.com,+919860083505,South,Alpha,online,50,  157.61,7880.5
+ORD-1217,02-04-2024,Aditya  Shah,aditya.shah@example.com,919855830344,Sout,,,46,54.84,252264.0
+ORD-1030,13/03/24,Priya.Patel,PRIYA.PATEL@EXAMPLE.COM,9806594013,, beta,n/a,null,168.36,2464
+ORD-1007,04-01-2024,Mr. Priya Patel,priya.patel@example.com,983.763.1165,null,alpha,  Online  ,4,-182.98,-731.92
+ORD-1164,05-Jun-2024,anita singh,anita.singh@example.com,(989) 087-8141,northeast,Unknown,B2C,47,94.28,4431.16
+ORD-1190,2024/05/17,Rajesh Kumar,rajesh.kumar@example.com,919820461872,-,Gamma  ,online,47,,
+ORD-1263,45512,,aarav.sharma@example.com,919893932501,west,GAMMA,Wholesale,3,112.43,
+ORD-1186,28-01-2024,Aarav Sharma ,aarav.sharma@example.com,982.282.0055,null,N/A,RETAIL,34,34.99,1189.66
+ORD-1153,20.11.2024,Mr. Sanjay Pillai,,+91 98637 35160,,delta,b2b,34,39.14,1330.76
+ORD-1044,10/03/2024,vikram reddy,vikram.reddy@example.com,+919881177589,south,alpha,Brick & Mortar,8,24.64,
+ORD-1098,45586,Sanjay Pillai,sanjay.pillai@example.com,(987) 374-1672,SOUTH,Alpha ,B2B,25,161.46,4036.5
+ORD-1236,14-Feb-2024,Meera Krishnan Jr.,meera.krishnan@example.com,98746 54214,east,gamma,Online,25,181.98,4549.5
+ORD-1209,17.12.2024,aarav sharma,aarav.sharma.example.com,+91 98306 04633,Nort,delta,-,45,44.14,1986.3
+ORD-1099,"July 12, 2024","Priya Patel,",priya.patel@example.com,98113 52909,,gamma,B2B,39,92.14,3593.46
+ORD-1146,15/04/2024,Mr. Pooja Desai,  pooja.desai@example.com,  9811739348  ,North-East,Delta,Retail  ,1,139.1,139.1
+ORD-1008,01/02/2024,"Arjun Mehta,",ARJUN.MEHTA@EXAMPLE.COM,98801 32677, ,alpha,on line,7,54.24,379.68
+ORD-1097,08/05/2024 10:53:00, Anita Singh,anita.singh@example.com,98692 45937,Sourh,Gamma,B2C,32,55.2,176640.0
+ORD-1040,"July 06, 2024",Rohan.Joshi,rohan.joshi@example.com,+91 98236 85160,  East ,GAMMA,RETAIL,18,66.25,1192.5
+ORD-1073,13/09/2024 10:59:00,Aarav  Sharma,aarav.sharma@example.com,9849588879,East,gamma,  Online  ,N/A,164.71,4354
+ORD-1177,23/07/24, Sneha Gupta,sneha.gupta@example.com,98439 37690,Esat, Alpha ,,26,113.19,2942.94
+ORD-1156,2024-10-14,Kavya Iyer,kavya.iyer@example.com,919800342442,South,N/A,Online,43,141.36,6078.48
+ORD-1174,04-07-2024,"Priya Patel,",priya.patel@example.com,98588 74495,northeast,Alpha ,  Online  ,42.5,67.03,2848.78
+ORD-1007,04-01-2024,Mr. Priya Patel,priya.patel@example.com,983.763.1165,null,alpha,  Online  ,4,-182.98,-731.92
+ORD-1160,"July 03, 2024",Vikram Reddy Jr.,vikram.reddy@example.com,919893056164,North,,Wholesale,49,105.47,5168.03
+ORD-1088,08-01-2024,Anita Singh ,anita.singh@example.com,988.544.5877,,gamma,retail,48,$ 199.92,9596.16
+ORD-1274,12/09/2024 13:59:00,Anita Singh,anita.singh@example.com,+91 98572 32466,Wst,beta,B2B,48,68.23,3275.04
+ORD-1219,06/02/2024,Divya Nair,divya.nair@example.com,919868299629,North-East,gamma,Online,21,23.37,490.77
+ORD-1197,19/02/24,PRIYA PATEL,priya.patel@example.com,  9895761228  ,north east,Beta,,35,54.76,1916.6
+ORD-1260,15-Mar-2024,Sneha Gupta Jr.,sneha.gupta@example.com,919883219285,SOUTH,GAMMA,  Online  ,45,INR 49.4,2223.0
+ORD-1051,45328,ARJUN MEHTA,arjun.mehta@example.com,98529 75161,Esat,ALPHA,WHOLESALE,3,102.76,N/A
+ORD-1229,10.03.2024,Priya.Patel,priya.patel@example.com,919832690973,EAST,N/A,n/a,  27  ,180.84,4882.68
+ORD-1142,29/02/2023,priya patel,priya.patel@example.com,+91-98569-72521,Sourh,alpha,online,13,176.15,2289.95
+ORD-1135,29/02/2023,Divya Nair ,divya.nair@example.com,980.544.4713,,gamma,RETAIL,45,91.24,4105.8
+ORD-1070,23/06/2024,Divya.Nair,  divya.nair@example.com,+91-98732-10469,-,gamma,n/a,  46  ,197.84,9100.64
+ORD-1093,16.12.2024,Aditya Shah ,aditya.shah.example.com,  9839685621  ,north, Alpha ,B2B,35,25.92,907.2
+ORD-1181,2024-09-01,N/A,rohan.joshi@example.com,981.559.4284,WEST,gamma,Wholesale,null,143.54,1531
+ORD-1114,45607,RAJESH KUMAR,rajesh.kumar@example.com,9863031617,Sout,Beta,  Online  ,20,₹185.77,3715.4
+ORD-1252,03/25/2024,Vikram  Reddy,vikram.reddy@example.com,  9804310385  ,Wst,gamma,B2C,10 units,177.5,1775.0
+ord-1218,"June 14, 2024",Sanjay.Pillai,sanjay.pillai@example.com,98027 27857,northeast,alpha,Brick & Mortar,TBD,91.29,4760
+ORD-1139,45446,Karan Verma ,karan.verma@example.com,919817154544,South,Alpha ,Brick & Mortar,40,38.42,1536.8
+ORD-1055,27/01/2024 21:58:00, Sanjay Pillai,SANJAY.PILLAI@EXAMPLE.COM,  9825462914  ,-,Alpha ,Brick & Mortar,22,,4670
+ORD-1013,"December 19, 2024",  Aditya Shah  ,aditya.shah@example.com,9858692322,Nort,gamma,B2B,  3  ,124.85,37.45
+ORD-1238,06.12.2024,ARJUN MEHTA,arjun.mehta@example.com,98067 19855,north,ALPHA,Wholesale,45,90.44,
+ORD-1013,"December 19, 2024",  Aditya Shah  ,aditya.shah@example.com,9858692322,Nort,gamma,B2B,  3  ,124.85,37.45
+ORD-1162,"January 28, 2024",,rajesh.kumar@example.com,919891901581,WEST,ALPHA,Retail  ,36,₹167.89,6044.04
+ORD-1042,2024/07/17,Kavya Iyer ,kavya.iyer @ example.com,  9853773515  ,north,Gamma  ,RETAIL,48,117.23,5627.04
+ORD-1140,03.05.2024,Aditya Shah,aditya.shah@example.com,+91-98935-38758,-,N/A,on line,?,77.53,1246
+ORD-1050,26-Feb-2024,vikram reddy,vikram.reddy@example.com,(984) 510-7622,Esat,N/A,Wholesale,38,140.08,
+ORD-1255,16/09/2024 04:51:00,Sneha.Gupta,sneha.gupta@example.com,(981) 702-8140,  East ,GAMMA,ONLINE,19,72.17,1371.23
+ORD-1267,12/09/2024 15:42:00,Vikram.Reddy,vikram.reddy@example.com,+91-98271-14773,North, Alpha ,Online,50,69.14,3457.0
+ORD-1072,06/07/24,Mr. Sanjay Pillai,sanjay.pillai@example.com,(981) 216-5585,WEST,,WHOLESALE,3,122.65,367.95
+ORD-1254,"March 23, 2024",Anita.Singh,anita.singh@example.com,  9828410672  ,North  ,Alpha,,21 units,99.36,2086.56
+ORD-1025,18-Aug-2024,Mr. Anita Singh,anita.singh@example.com,(984) 808-3136,North-East,DELTA,B2C,37,88.22,
+ORD-1031,2024/01/21, Sanjay Pillai,sanjay.pillai@example.com,,Sourh, beta,wholesale,31,99.6,3087.6
+ORD-1230,06/07/24,Aarav Sharma ,aarav.sharma@example.com,919818913718,WEST,alpha,wholesale,37,86.34,3194.58
+ORD-1241,11/12/2024,AARAV SHARMA,aarav.sharma@example.com,98117 99313,Sourh, Alpha ,n/a,42,INR 51.0,
+ORD-1110,21/07/2024 02:08:00,Karan Verma Jr.,karan.verma@example.com,+91 98051 62713,  North,gamma,Wholesale,45,97.26,N/A
+ ORD-1118 ,07-07-2024, Divya Nair Jr. ,DIVYA.NAIR@EXAMPLE.COM, 98050 64138 , Eaast , alpha ,on-line, 50 ,151.84,7592.0
+ORD-1060,31/04/2024,Sanjay.Pillai,sanjay.pillai@example.com,(980) 893-2460,west,Delta,on line,20,$ 62.92,1258.4
+ORD-1062,2024/10/06,N/A,sneha.gupta @ example.com,(983) 054-8687,Sout,GAMMA,Online,12,143.24,1718.88
+ORD-1056,17-02-2024,karan verma,KARAN.VERMA@EXAMPLE.COM,+91-98188-80592,Nort,Beta,-,33,85.27,140695.5
+ORD-1089,08-Jul-2024, Sneha Gupta,sneha.gupta@example.com,  9893785477  ,Nort,Alpha ,,37,153.43,
+ORD-1253,2024/10/30,Karan Verma ,karan.verma@example.com,919802547292,Nort,Beta,on-line,36,74.73,269.03
+ORD-1211,17-Jul-2024,Rohan Joshi,rohan.joshi@example.com,+919827718129,North  ,Gamma  ,B2B,4,99.12,396.48
+ORD-1176,24-07-2024,"Divya Nair,",divya.nair@example.com,9809883920,Nort,ALPHA,RETAIL,19,127.55,2423.45
+ORD-1201,"November 30, 2024",  Meera Krishnan  ,meera.krishnan@example.com  ,98679 98136,North  ,Alpha ,wholesale,1,133.79,
+ord-1067, 2024/07/03 , Rohan  Joshi ,rohan.joshi@example.com, +919812517785 ,Wst,Unknown, on line ,30,119.3, 3579.0 
+ORD-1005,2024/11/23,null,rohan.joshi@example.com,+919843039117,,Alpha ,on-line,10,49.08,490.8
+ORD-1276,31/04/2024, Meera Krishnan,meera.krishnan@example.com,+919816231981,SOUTH,DELTA,ONLINE,TBD,23.58,787
+ORD-1121,16.06.2024,"Rajesh Kumar,",rajesh.kumar@example.com,(983) 171-2100,North  ,beta,WHOLESALE,16000,91.32,
+ORD-1258,11.07.2024,Priya.Patel,priya.patel @ example.com,+91-98494-78730,SOUTH,Gamma,B2C,TBD,94.61,4653
+ord-1191,45354,Sanjay.Pillai,sanjay.pillai@example.com,919845208814,South,GAMMA,Online,25,99.73,2493.25
+ORD-1196,15/11/2024,Pooja Desai Jr.,POOJA.DESAI@EXAMPLE.COM,919886509480,NORTH,beta,Brick & Mortar,4,129.07,N/A
+ORD-1148,TBD,sneha gupta,sneha.gupta@example.com,987.941.5521,SOUTH,Gamma  ,B2C,21,40.86,858.06
+ORD-1212,06/14/2024,KAVYA IYER,KAVYA.IYER@EXAMPLE.COM,98751 86892,north,Beta,wholesale,-,148.27,1754
+ORD-1233,"March 19, 2024",Meera Krishnan ,meera.krishnan@example.com,+919810276747,south,Gamma  ,WHOLESALE,27,62.83,1696.41
+ORD-1273,30-Oct-2024,"Sneha Gupta,",sneha.gupta@example.com,+919866498782,null,Beta,n/a,37,105.55,3905.35
+ORD-1037,15/06/2024 05:05:00,Mr. Sanjay Pillai,sanjay.pillai@example.com,987.923.7474, ,Gamma,,null,46.2,4451
+ORD-1123,45641,Arjun  Mehta,arjun.mehta@example.com,+919870146263,south,N/A,online,0,69.5,0.0
+ORD-1053,14/06/24,Meera.Krishnan,meera.krishnan@example.com,+919805411998,N/A,alpha,b2b,21,  32.29,678.09
+ORD-1006,03-12-2024,Kavya  Iyer,kavya.iyer@example.com,+919857871331,south,Unknown,Retail,11,177.04,1947.44
+ORD-1102,n/a,KARAN VERMA,karan.verma@example.com,988.255.3714,Esat,gamma,-,26,-,1716
+ORD-1163,45516,Arjun Mehta Jr.,arjun.mehta@example.com,98508 82100,West,N/A,ONLINE,43,N/A,4470
+ORD-1080,12/03/2024 18:46:00,null,kavya.iyer@example.com,919801742684,East,BETA,Retail,16,?,2029
+ORD-1048,-,null,anita.singh@example.com,,NORTH,,retail,36,167.32,6023.52
+ORD-1270,, Kavya Iyer,kavya.iyer@example.com,9890561655,north east,BETA,Retail,25,83.5,2087.5
+  ORD-1034  ,45433,sanjay pillai,sanjay.pillai@example.com,(987) 558-8675,west,Gamma  ,Retail,27,161.79,4368.33
+ORD-1222,12/06/24, Sanjay Pillai,sanjay.pillai@example.com,9849321495,North  ,Alpha,B2C,8,48.35,38680.0
+ ORD-1028 ,03/02/24,Mr. Arjun Mehta,arjun.mehta@example.com,919893867749,west, alpha ,-, 37 ,29.65,109.7
+ORD-1272,2024/02/21,POOJA DESAI,pooja.desai@example.com,+91 98834 40496,North-East,Unknown,  Online  ,22,166.06,3653.32
+ORD-1234,30/08/24,Vikram  Reddy,vikram.reddy@example.com,(984) 544-1496,northeast,Unknown,retail,  28  ,?,3229
+ORD-1092,2024-12-22,anita singh,ANITA.SINGH@EXAMPLE.COM,986.591.8033,SOUTH,alpha,ONLINE,6,174.48,1046.88
+ORD-1077,2024-09-02,"Anita Singh,",anita.singh@example.com,?,Nort,Delta,B2C,35,121.16,4240.6
+ORD-1124,"July 14, 2024",Sanjay Pillai,sanjay.pillai@example.com,(984) 078-5932,SOUTH,N/A,Online,31,107.24,3324.44
+ ORD-1050 , 26-Feb-2024 , vikram reddy , vikram.reddy@example.com ,(984) 510-7622,ESAT, N/A ,wholesale, 38 , 140.08 ,
+ORD-1103,17/07/2024 09:58:00,Divya Nair Jr.,divya.nair@example.com  ,+91-98134-12528,west,Gamma  ,B2B,8,172.19,1377.52
+ORD-1117,29/02/2023,Divya.Nair,divya.nair@example.com,919845187053,northeast,BETA,b2b,33,29.48,972.84
+ORD-1225,11/10/2024,Mr. Karan Verma,karan.verma@example.com,+91 98695 83219,west,delta,wholesale,-20,92.15,-1843.0
+ORD-1043,29/02/2023,priya patel,priya.patel@example.com,9831839335,SOUTH,Alpha ,on-line,30,₹58.18,1745.4
+ORD-1003,17/10/24,Mr. Aditya Shah,aditya.shah@example.com,+91 98965 32871,North  ,Beta,B2B,14,91.21,1276.94
+ORD-1192,2024-12-07,Anita.Singh,anita.singh@example.com,9825132719,north,GAMMA,on-line,16,78.41,₹1254.56
+ord_1101,"September 04, 2024",Sneha Gupta Jr.,sneha.gupta@example.com,(983) 828-2586,N/A,Gamma  ,on line,29,101.44,
+ORD-1001,2024/06/23,Vikram  Reddy,VIKRAM.REDDY@EXAMPLE.COM,+91 98495 93103,null,BETA,  Online  ,49.5,36.69,N/A
+ORD-1193,25-12-2024,Unknown,rohan.joshi@example.com,(982) 407-7848,west,Beta,,9,77.01,693.09
+ORD-1136,2024-08-01,divya nair,DIVYA.NAIR@EXAMPLE.COM,(988) 628-9023,-,alpha,Retail,13,184.42,2397.46
+ORD-1261,30-09-2024,  Divya Nair  ,divya.nair@example.com,+91 98898 88167,-,Alpha ,online,10,-,2405
+ORD-1208,2024/09/29,Pooja Desai Jr.,pooja.desai@example.com,(984) 231-2209,WEST,BETA,Retail,21 units,46.19,
+ORD-1078,2024-09-01,karan verma,karan.verma@example.com,+91 98206 72400,Sourh,Gamma,b2b,19,136.26,2588.94
+ORD-1154,03/12/24,divya nair,divya.nair@example.com,98221 69958,WEST,BETA,RETAIL,9,20.78,187.02
+ORD-1161,2024-09-20,  Sanjay Pillai  ,sanjay.pillai@example.com,-,north,ALPHA,ONLINE,32,N/A,2724
+ORD-1172,13/04/24,ROHAN JOSHI,ROHAN.JOSHI@EXAMPLE.COM,+919829806865,EAST,BETA,B2C,33,168.77,5569.41
+ORD-1134, 22/08/2024 ,Mr. Aditya Shah, aditya.shah@example.com ,9848564679, Nort ,  beta ,WHOLESALE, 45 , 114.06 ,5132.7
+ORD-1271,?,Unknown,karan.verma@example.com,  9864079056  ,west, Alpha ,B2C,6,31.79,190.74
+ORD-1244,01-Mar-2024,ROHAN JOSHI,rohan.joshi@example.com,919877220054,Sourh,delta,Online,40,157.0,6280.0
+ORD-1268,04/02/24,Kavya.Iyer,kavya.iyer@example.com,,EAST, Alpha ,WHOLESALE,12,142.26,₹1707.12
+ORD-1159,01/11/24,aarav sharma,aarav.sharma@example.com,(988) 268-8615,north east,gamma,wholesale,41,139.14,5704.74
+ORD-1115,01/07/2024,Pooja Desai ,pooja.desai@example.com,+91 98105 64814,Eaast,delta,Brick & Mortar,  1  ,  191.54,191.54
+ORD-1171,12/04/2024,meera krishnan,meera.krishnan@example.com,98842 57991,North  , Alpha ,online,6,-129.17,-775.02
+ORD-1116,03/07/24,,aarav.sharma@example.com,(987) 562-2086,EAST,gamma,RETAIL,37,  48.32,1787.84
+ORD-1150,24/01/24,Mr. Priya Patel,PRIYA.PATEL@EXAMPLE.COM,N/A,Esat,DELTA,B2C,21,-,4823
+ORD-1080,12/03/2024 18:46:00,null,kavya.iyer@example.com,919801742684,East,BETA,Retail,16,?,2029
+ORD-1220,2024-05-19,ARJUN MEHTA,arjun.mehta@example.com,  9807823578  ,North  , Alpha ,Brick & Mortar,-16,169.3,-2708.8
+ORD-1180,07/05/24,Meera.Krishnan,meera.krishnan@example.com,+91-98579-47284,north,,B2B,10,41.58,N/A
+ORD-1279,2024-05-10,VIKRAM REDDY,vikram.reddy@example.com,  9877656124  ,EAST,N/A,wholesale,49000,57.87/-,2835630.0
+ORD-1021,21/06/2024 12:37:00,KARAN VERMA,karan.verma@example.com,  9827204653  ,,Gamma  ,RETAIL,26,171.29,4453.54
+ORD-1210,07.09.2024,Mr. Pooja Desai,pooja.desai@example.com,98808 17703,northeast,alpha,,30,96.96,2908.8
+ORD-1100,45346,"Aarav Sharma,",aarav.sharma@example.com  ,  9807146112  ,  East ,beta,Brick & Mortar,15000,113.38,1700700.0
+ORD-1256,  ,AARAV SHARMA,aarav.sharma@example.com,  9863759980  ,east,Alpha ,B2B,13,59.99,779.87
+ORD-1177,23/07/24, Sneha Gupta,sneha.gupta@example.com,98439 37690,Esat, Alpha ,,26,113.19,2942.94
+ord-1203,2024/02/27,Karan.Verma,karan.verma @ example.com,+91-98335-21103,null,Gamma,online,24,77.73,1865.52
+ORD-1202,12/02/24,Kavya  Iyer,kavya.iyer@example.com,  9838983314  ,north east,Unknown,ONLINE,4,67.26,269.04
+ORD-1189,09-Nov-2024,Sanjay.Pillai,sanjay.pillai@example.com,9849735020,Nort, Alpha ,Retail  ,18,153.73,2767.14
+ORD-1029,20/02/2024 13:28:00,Sanjay Pillai,sanjay.pillai@example.com,(984) 713-4936,Wst,Alpha ,RETAIL,14,34.61,484.54
+ORD-1004,N/A,"Priya Patel,",priya.patel@example.com,+91-98514-62704,Esat, Alpha ,Retail  ,39,115.24,4494.36
+ORD-1128,45345, Aditya Shah,aditya.shah@example.com,not provided,northeast,Delta,on line,22,62.84,1382.48
+ORD-1227,2024-06-02,"Divya Nair,",divya.nair@example.com,  9824058008  ,  North,Gamma,online,44,189.8,8351.2
+ORD-1149,03/08/2024 13:58:00,Mr. Karan Verma,karan.verma@example.com,+91 98296 59027, ,Delta,b2b,11,$ 145.31,
+ORD-1065,"July 15, 2024",  Divya Nair  ,divya.nair@example.com,980.278.6814,South,Gamma,B2C,N/A,190.79,3147
+ORD-1090,2024-09-07,Rajesh Kumar Jr.,rajesh.kumar@example.com,982.038.7509,north east,DELTA,online,35,192.3,6730.5
+ORD-1064,45520,Divya Nair,DIVYA.NAIR@EXAMPLE.COM,,south,GAMMA,Wholesale,11,83.28,
+ORD-1214,09/09/2024 17:17:00,  Anita Singh  ,anita.singh @ example.com,+91 98205 02099,north, Alpha ,B2B,43,93.83,N/A
+ORD-1184,45354,Sneha.Gupta,sneha.gupta@example.com,98694 72256,null,ALPHA,ONLINE,39,"123,66",4822.74
+ORD-1169,21/09/24,Vikram.Reddy,vikram.reddy.example.com,+91 98184 32225,north east,BETA,B2B,15,83.52,1252.8
+ORD-1259,04/03/2024, Karan Verma,karan.verma@example.com,-,Nort,Unknown,Online,19,108.54,2062.26
+ORD-1051,45328,ARJUN MEHTA,arjun.mehta@example.com,98529 75161,Esat,ALPHA,WHOLESALE,3,102.76,N/A
+ORD-1105,2024/03/26,PRIYA PATEL,priya.patel@example.com,+91 98485 80783,northeast,BETA,Retail  ,49,-25.89,-1268.61
+ORD-1160,"July 03, 2024",Vikram Reddy Jr.,vikram.reddy@example.com,919893056164,North,,Wholesale,49,105.47,5168.03
+ORD-1164,05-Jun-2024,anita singh,anita.singh@example.com,(989) 087-8141,northeast,Unknown,B2C,47,94.28,4431.16
+ORD-1027,01/11/24,vikram reddy,vikram.reddy@example.com,9871094777,SOUTH,DELTA,  Online  ,13,84.96,1104.48
+ ORD-1120 ," June 11, 2024 ","kavya iyer,",kavya.iyer@example.com,919837474112,-, alpha , retail , 5 , 44.5 , 222.5 
+ORD-1011,05-01-2024,kavya iyer,kavya.iyer@example.com,+91-98849-80841,SOUTH, Alpha ,  Online  ,37,33.19,1228.03
+ORD-1019,45572,Kavya.Iyer,KAVYA.IYER@EXAMPLE.COM,98434 55812,North-East,Alpha ,retail,48,101.01,4848.48
+ORD-1141,30/05/2024,  Priya Patel  ,priya.patel@example.com,984.655.4947,north,Unknown,n/a,48,165.5,7944.0
+ORD-1012,2024-10-10,Rajesh  Kumar,rajesh.kumar@example.com,+919800524278,North, Alpha ,ONLINE,39,-81.72,-3187.08
+ORD-1275,16-May-2024,"Meera Krishnan,",meera.krishnan@example.com,919860324204,north east,N/A,on line,11,128.22,1410.42
+ORD-1075,31/04/2024,  Pooja Desai  ,pooja.desai@example.com,919878652785,WEST,DELTA,retail,33,185.69,6127.77
+ORD-1248,2024/01/23,"Aarav Sharma,",aarav.sharma@example.com,919863254310,Nort,delta,n/a,47,26.05,1224.35
+ORD-1133,2024-10-19,Karan Verma Jr.,karan.verma@example.com,  9829451168  ,null, beta,Brick & Mortar,10,$ 156.29,-1562.9
+ORD-1063,2024/12/01,"Sneha Gupta,",sneha.gupta@example.com,+91 98161 69284,Sourh,Gamma,Retail  ,24,92.0,2208.0
+ORD-1215,"April 01, 2024",RAJESH KUMAR,rajesh.kumar@example.com,+91 98556 16814,North-East, beta,wholesale,40,145.97,5838.8
+ORD-1224,2024/04/28,Unknown,  anita.singh@example.com,98772 45992,-, Alpha ,wholesale,  40  ,85.42,170840.0
+ORD-1239,30-09-2024,Meera  Krishnan,meera.krishnan@example.com,?,south,DELTA,WHOLESALE,6,156.88,941.28
+ORD-1032,29/02/2023,Mr. Sanjay Pillai,sanjay.pillai@example.com,987.034.8247,  North,Alpha,-,33,20.21,666.93
+ORD-1038,21.03.2024,PRIYA PATEL,priya.patel@example.com,,WEST,DELTA,Retail  ,23,73.85,1698.55
+ORD-1076,2024/05/06,Vikram Reddy ,vikram.reddy@example.com,+91 98986 65240,East,delta,RETAIL,15,196.81,2952.15
+ORD-1195,07/04/2024,rohan joshi,rohan.joshi.example.com,98031 73109,north east,DELTA,Brick & Mortar,50,130.35,6517.5
+ORD-1205,45530,Karan  Verma,karan.verma@example.com,981.579.8123,West,Alpha,Online,5,68.84,344.2
+ORD-1020,02/02/2024 22:01:00,Arjun Mehta,arjun.mehta@example.com,98466 88937,Eaast,Alpha,WHOLESALE,35,31.21,1092.35
+ORD-1264,23-03-2024,meera krishnan,meera.krishnan@example.com,+91 98801 38759,Nort,GAMMA,WHOLESALE,47,110.88,
+ORD-1119,30/12/2024,Vikram Reddy Jr.,vikram.reddy@example.com,  9819906234  ,N/A,Gamma  ,wholesale,15000,113.56,1703400.0
+ORD-1074,01-08-2024,Mr. Divya Nair,divya.nair@example.com,988.962.3091,Sourh,Delta,on-line,47,133.27,6263.69
+ORD-1021,21/06/2024 12:37:00,KARAN VERMA,karan.verma@example.com,  9827204653  ,,Gamma  ,RETAIL,26,171.29,4453.54
+ORD-1090,2024-09-07,Rajesh Kumar Jr.,rajesh.kumar@example.com, 982.038.7509 , north east ,DELTA, online , 35 ,192.3,6730.5
+ORD-1240,?,Sanjay Pillai,sanjay.pillai@example.com,N/A,Eaast,Alpha,B2C,20,193.69,3873.8
+ORD-1249,45590,,aarav.sharma@example.com,(985) 804-6498,N/A,ALPHA,-,30,177.36,5320.8
+ORD-1134,22/08/2024,Mr. Aditya Shah,aditya.shah@example.com,9848564679,Nort, beta,WHOLESALE,45,114.06,5132.7
+ORD-1126,"April 29, 2024",divya nair,divya.nair@example.com,919821851569,Sourh,Alpha ,on line,34,79.71,2710.14
+ORD-1039,27/04/2024,Divya Nair Jr.,divya.nair @ example.com,+91-98709-52145,South,Alpha ,,15,131.76,1976.4
+ORD-1182,45386,KAVYA IYER,kavya.iyer@example.com,+91-98386-63227,EAST,DELTA,on-line,27,87.02,2349.54
+ORD-1175,2024-04-27,Kavya Iyer Jr.,kavya.iyer @ example.com,+91 98127 96114,WEST,alpha,WHOLESALE,11,$ 111.5,1226.5
+ORD-1000,2024-11-23,  Priya Patel  ,priya.patel@example.com,9808386379,,Beta,B2B,null,45.12,939
+ORD-1057,25/03/24,Pooja.Desai,pooja.desai@example.com,+91-98359-77468,-,beta,-,27,149.53,4037.31
+ORD-1173,14/07/2024,"Sneha Gupta,",sneha.gupta@example.com,(983) 009-8180,North-East,gamma,B2B,48,170.69,8193.12
+ORD-1118,07-07-2024,Divya Nair Jr.,divya.nair@example.com,98050 64138,Eaast,alpha,on-line,50,151.84,7592.0
+ORD-1087,"January 30, 2024",  Rohan Joshi  ,ROHAN.JOSHI@EXAMPLE.COM,(986) 990-1398,null,gamma,Retail  ,27,44.14,1191.78
+ORD-1131,06/08/2024,Priya  Patel,priya.patel@example.com,9841862565,SOUTH,delta,b2b,43,106.46,N/A
+ORD-1113,07/01/2024,,sneha.gupta @ example.com,98300 68486,NORTH,N/A,,9,171.02,1539.18
+ORD-1023,-,Divya  Nair,divya.nair@example.com,9831931491,East,N/A,B2B,46,$ 167.47,7703.62
+ORD-1109,10/16/2024,Meera Krishnan,meera.krishnan@example.com,  9863242415  ,north east,Beta,Online,22,157.21,
+ORD-1161,2024-09-20,  Sanjay Pillai  ,sanjay.pillai@example.com,-,north,ALPHA,ONLINE,32,N/A,2724
+ORD-1111,06/02/2024,  Rajesh Kumar  ,rajesh.kumar@example.com,98269 73112,East,Delta,wholesale,49,135.48,6638.52
+ORD-1047,2024-10-11,Mr. Aarav Sharma,aarav.sharma@example.com,+919819832731,East, Alpha ,RETAIL,36,140.6,5061.6
+ORD-1157,02-Jul-2024,Meera Krishnan,meera.krishnan@example.com,986.658.0043,-,BETA,Wholesale,40,153.11,6124.4
+ORD-1094,-,Meera.Krishnan,meera.krishnan@example.com,919858662961,N/A,BETA,ONLINE,-39,191.87,-7482.93
+ORD-1207,13/12/24,Divya Nair Jr.,divya.nair@example.com  ,+91-98832-48262,Sourh,ALPHA,,44,-63.26,₹-2783.44
+ORD-1257,08.07.2024,Arjun Mehta ,arjun.mehta.example.com,+919866299123,Sourh,ALPHA,n/a,19,75.46,1433.74
+ORD-1046,2024/12/25,PRIYA PATEL,priya.patel@example.com,+91 98545 27111,northeast,GAMMA,on-line,42,119.24,5008.08
+ORD-1216,26/09/2024 02:30:00,Arjun Mehta ,arjun.mehta@example.com,+919854899529,northeast,DELTA,B2C,45,"30,47",1371.15
+ORD-1116,03/07/24,, aarav.sharma@example.com ,(987) 562-2086,EAST, gamma ,RETAIL, 37 ,  48.32, 1787.84 
+ORD-1243,15/02/24,  Pooja Desai  ,pooja.desai@example.com,9890927914,West,BETA,retail,19,165.33,3141.27
+ORD-1277,05/01/2024,  Divya Nair  ,divya.nair@example.com,+91 98764 90785,Sourh,N/A,B2B,21 units,125.18,2628.78
+ORD-1228,04/30/2024,Arjun  Mehta,arjun.mehta@example.com,+91-98562-42201,northeast,DELTA,B2B,26,148.12,3851.12
+ORD-1250,"June 20, 2024",Pooja Desai Jr.,pooja.desai@example.com,(981) 832-5381,,BETA,wholesale,33,141.44,4667.52
+ORD-1102,n/a,KARAN VERMA,karan.verma@example.com,988.255.3714,Esat,gamma,-,26,-,1716
+ORD-1262,02-Sep-2024,,sneha.gupta@example.com,+91 98234 23216,NORTH,Alpha,B2C,24,INR 99.55,2389.2
+ORD-1188,2024-03-10,  Sneha Gupta  ,sneha.gupta@example.com,98866 32663,Wst,BETA,Brick & Mortar,35,?,4008
+ORD-1049,07/11/2024,Arjun Mehta,arjun.mehta@example.com,+919847679764,  North,GAMMA,B2B,11,149.89,1648.79
+ORD-1183,2024-11-18,Rohan Joshi ,rohan.joshi@example.com,919817545588,East,Alpha,B2B,21,74.01,1554.21
+ORD-1067,2024/07/03,Rohan  Joshi,rohan.joshi@example.com,+919812517785,Wst,Unknown,on line,30,119.3,3579.0
+ORD-1158,28/10/24,Rohan Joshi,rohan.joshi@example.com,+91-98842-29405,north,Alpha ,wholesale,13,193.57,2516.41
+  ORD-1221  ,12/12/2024 21:54:00, Rajesh Kumar,rajesh.kumar@example.com,(980) 184-0943,Sout, beta,,3,148.46,445.38
+ORD-1251,29/06/24,"Aditya Shah,",aditya.shah@example.com,+91-98795-13711,Sout,ALPHA,  Online  ,44,29.8,1311.2
+ORD-1152,"January 01, 2024",  Meera Krishnan  ,meera.krishnan@example.com,(985) 899-7571,North,gamma,Wholesale,39000,134.76,5255640.0
+ORD-1061,2024/12/06,Karan  Verma,karan.verma@example.com,  9840515319  ,North  ,alpha,Wholesale,-24,-,4557
+ ORD-1038 , 21.03.2024 ,PRIYA PATEL,PRIYA.PATEL@EXAMPLE.COM,,WEST,DELTA,Retail  ,23, 73.85 ,1698.55
+ORD-1145,45408,"Anita Singh,",anita.singh@example.com,+919890100167,SOUTH,DELTA,on-line,9,-23.94,-215.46
+ORD-1206,06/05/24,Aditya Shah,aditya.shah@example.com,+91 98608 43256,northeast,Gamma  ,Brick & Mortar,22,153.99,
+ORD-1198,03/11/2024 23:20:00,"Kavya Iyer,",kavya.iyer@example.com,9884577600,Esat,Alpha ,Retail  ,21,199.43,4188.03
+ORD-1083,null,sneha gupta,sneha.gupta@example.com,  9865676618  ,  North,Beta,,35,188.22,
+ORD-1106,"January 17, 2024",Mr. Kavya Iyer,kavya.iyer@example.com,+919829233095,Nort,gamma,Retail  ,6,198.91,1193.46
+ORD-1010,11/02/2024 19:02:00,Meera Krishnan Jr.,meera.krishnan@example.com,919885435346,  East ,gamma,ONLINE,39,N/A,340700
+ORD-1045,03/06/2024,kavya iyer,KAVYA.IYER@EXAMPLE.COM,+919849985698,WEST,Delta,  Online  ,2,?,3390
+ORD-1164,05-Jun-2024,anita singh,anita.singh@example.com,(989) 087-8141,northeast,Unknown,B2C,47,94.28,4431.16
+ORD-1122,45482,karan verma,KARAN.VERMA@EXAMPLE.COM,98510 70296,Eaast,Alpha,WHOLESALE,42,₹125.5,5271.0
+  ORD-1091  ,01/04/2024,ROHAN JOSHI,rohan.joshi@example.com,98339 84546,  East ,Unknown,Retail,1,TBD,4488
+ORD-1130,31/10/24,"Divya Nair,",divya.nair@example.com,+91-98443-10698,north,GAMMA,online,46,N/A,₹3656
+ORD-1204,24-Jun-2024,Mr. Pooja Desai,pooja.desai@example.com,N/A,N/A, beta,Online,20,24.09,481.8
+ORD-1047,2024-10-11,Mr. Aarav Sharma,aarav.sharma@example.com,+919819832731,East, Alpha ,RETAIL,36,140.6,5061.6
+ORD-1195,07/04/2024,rohan joshi,rohan.joshi.example.com,98031 73109,north east,DELTA,Brick & Mortar,50,130.35,6517.5
+ORD-1116,03/07/24,,aarav.sharma@example.com,(987) 562-2086,EAST,gamma,RETAIL,37,  48.32,1787.84
+ORD-1036,2024/06/22,Divya Nair,divya.nair@example.com,919834316117, ,Alpha,Online,42,₹79.14,3323.88
+ORD-1028,03/02/24,Mr. Arjun Mehta,arjun.mehta@example.com,919893867749,west,alpha,-,37,29.65,109.7
+ ORD-1037 , 15/06/2024 05:05:00 ,Mr. Sanjay Pillai, sanjay.pillai@example.com , 987.923.7474 , ,GAMMA,,null,46.2,4451
+ORD-1144,2024-11-16,Pooja Desai ,pooja.desai@example.com,(988) 985-6257,Nort,Gamma  ,online,45,76.18,342810.0
+ORD-1024,2024/12/04,Sneha  Gupta,sneha.gupta.example.com,(988) 498-7769,-,ALPHA,RETAIL,-42,172.92,-7262.64
+ORD-1108,2024/09/20, Pooja Desai,pooja.desai@example.com,  9886363745  ,West,Unknown,on-line,24,107.85,2588.4
+ORD-1066,"April 12, 2024","Priya Patel,",priya.patel@example.com,(984) 225-8313,N/A,DELTA,online,  5  ,181.76,908.8
+  ORD-1034  ,45433,sanjay pillai,sanjay.pillai@example.com,(987) 558-8675,west,Gamma  ,Retail,27,161.79,4368.33
+ORD-1166,13-Dec-2024,pooja desai,pooja.desai@example.com,(983) 411-0809,north,N/A,RETAIL,31,84.57,2621.67
+ORD-1231,2024-09-30,Mr. Sanjay Pillai,sanjay.pillai@example.com,919894079290,N/A,Alpha,Retail  ,-,104.46,2815
+ORD-1022,2024-08-03,  Vikram Reddy  ,vikram.reddy@example.com,919892327193,,GAMMA,on line,31,-,526
+ORD-1168,2024/01/21,Anita Singh,anita.singh @ example.com,98518 44989,East,Unknown,ONLINE,15,TBD,
+ORD-1002,45486,  Vikram Reddy  ,vikram.reddy.example.com,98648 35030,SOUTH,ALPHA,retail,24,  83.95,2014.8
+ORD-1137,"January 17, 2024",Kavya.Iyer,kavya.iyer.example.com,98798 55241,north,Beta,n/a,null,69.32,3902
+ORD-1232,05/09/2024,Mr. Priya Patel,priya.patel@example.com,  9875243728  ,NORTH,Alpha ,-,5 units,70.01,35.01
+ORD-1245,23/02/2024 14:37:00,  Pooja Desai  ,pooja.desai@example.com,98531 53136, ,BETA,ONLINE,?,161.39,4073
+ORD-1235,45558,  Sneha Gupta  ,sneha.gupta@example.com,(984) 300-9109,WEST, Alpha ,  Online  ,12,21.9,
+ORD-1041,45591,Arjun.Mehta,arjun.mehta@example.com,(984) 612-0047, ,N/A,on-line,24,$ 62.09,
+ORD-1014,2024/12/08,  Meera Krishnan  ,meera.krishnan@example.com,+919836541458,Sourh,Alpha,  Online  ,16,161.73,258768.0
+ORD-1078,2024-09-01,karan verma,karan.verma@example.com,+91 98206 72400,Sourh,Gamma,b2b,19,136.26,2588.94
+ORD-1165,45461,Mr. Sneha Gupta,sneha.gupta@example.com  ,98955 62053,SOUTH,GAMMA,on-line,42 units,71.32/-,
+ORD-1054,19/10/2024,karan verma,karan.verma @ example.com,98778 89255,EAST,gamma,-,39,47.15,

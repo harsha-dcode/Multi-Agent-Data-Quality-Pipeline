@@ -1,0 +1,14 @@
+{
+  "dataset": "sales",
+  "input_rows": 312,
+  "input_cols": 11,
+  "cleaned_rows": 281,
+  "viz_ready_rows": 266,
+  "change_log_entries": 2081,
+  "value_edits": 1505,
+  "validation_checks_passed": 12,
+  "validation_checks_failed": 1,
+  "started_at_epoch": 1786182808,
+  "ended_at_epoch": 1786183669,
+  "duration_seconds": 861
+}

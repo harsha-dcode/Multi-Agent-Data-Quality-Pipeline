@@ -1,0 +1,75 @@
+utf-8 strict decode: SUCCESS - file is valid UTF-8
+first 4 bytes: b'Name'
+file size bytes: 9862441
+shape: (58164, 19)
+columns (raw, exact): ['Name', 'Age', 'Gender', 'Blood Type', 'Medical Condition', 'Date of Admission', 'Doctor', 'Hospital', 'Insurance Provider', 'Billing Amount', 'Room Number', 'Admission Type', 'Discharge Date', 'Medication', 'Test Results', 'Length of Stay', 'Admission Year', 'Admission Month', 'Admission YearMonth']
+
+dtypes as read:
+Name                       str
+Age                        str
+Gender                     str
+Blood Type                 str
+Medical Condition          str
+Date of Admission          str
+Doctor                     str
+Hospital                   str
+Insurance Provider         str
+Billing Amount             str
+Room Number                str
+Admission Type             str
+Discharge Date             str
+Medication                 str
+Test Results               str
+Length of Stay         float64
+Admission Year         float64
+Admission Month        float64
+Admission YearMonth        str
+dtype: object
+
+first 10 rows:
+                 Name Age  Gender Blood Type Medical Condition Date of Admission            Doctor                     Hospital Insurance Provider      Billing Amount Room Number Admission Type Discharge Date   Medication  Test Results  Length of Stay  Admission Year  Admission Month Admission YearMonth
+0       Bobby JacksOn  30    Male         B-            Cancer        2024-01-31     Matthew Smith              Sons and Miller         Blue Cross  18856.281305978155         328         Urgent     2024-02-02  Paracetamol        Normal             2.0          2024.0              1.0             2024-01
+1        LesLie TErRy  62    Male         A+           Obesity        2019-08-20   Samantha Davies                      Kim Inc           Medicare  33643.327286577885         265      emergency     2019-08-26    Ibuprofen  Inconclusive             6.0          2019.0              8.0             2019-08
+2         DaNnY sMitH  76  Female         A-           Obesity        2022-09-22  Tiffany Mitchell                     Cook PLC              Aetna  27955.096078842456         205      Emergency     2022-10-07      Aspirin        Normal            15.0          2022.0              9.0             2022-09
+3        andrEw waTtS  28  Female         O+          Diabetes        2020-11-18       Kevin Wells   Hernandez Rogers and Vang,           Medicare   37909.78240987528         450       Elective     2020-12-18    Ibuprofen      Abnormal            30.0          2020.0             11.0             2020-11
+4       adrIENNE bEll  43  Female        AB+            Cancer        2022-09-19    Kathleen Hanna                  White-White              Aetna  14238.317813937623         458         Urgent     2022-10-09   Penicillin      Abnormal            20.0          2022.0              9.0             2022-09
+5       EMILY JOHNSOn  36    Male         A+            Asthma        2023-12-20     Taylor Newton               Nunez-Humphrey   UnitedHealthcare   48145.11095104189         389         Urgent     2023-12-24    Ibuprofen        Normal             2.0          2023.0             12.0             2023-12
+6      edwArD EDWaRDs  21  Female        AB-          Diabetes        2020-11-03       Kelly Olson              Group Middleton           Medicare   19580.87234486093         389      Emergency     2020-11-15  Paracetamol  Inconclusive            12.0          2020.0             11.0             2020-11
+7  CHrisTInA MARtinez  20  Female         A+            Cancer        2021-12-28    Suzanne Thomas  Powell Robinson and Valdez,              Cigna   45820.46272159459         277      Emergency     2022-01-07  Paracetamol  Inconclusive            10.0          2021.0             12.0             2021-12
+8     JASmINe aGuIlaR  82    Male        AB+            Asthma        2020-07-01   Daniel Ferguson                Sons Rich and              Cigna  50119.222791548505         316       Elective     2020-07-14      Aspirin      Abnormal            13.0          2020.0              7.0             2020-07
+9    ChRISTopher BerG  58  Female        AB-            Cancer        2021-05-23       Heather Day               Padilla-Walker   UnitedHealthcare   19784.63106221073         249       Elective     2021-06-22  Paracetamol  Inconclusive            30.0          2021.0              5.0             2021-06
+
+last 10 rows:
+                   Name Age  Gender Blood Type Medical Condition Date of Admission             Doctor                   Hospital Insurance Provider      Billing Amount Room Number Admission Type Discharge Date     Medication  Test Results  Length of Stay  Admission Year  Admission Month Admission YearMonth
+58154    AmAnda HErrErA  31  Female        AB+           Obesity        2020-09-01          Amy Patel          Rodriguez-Cameron   UnitedHealthcare  33606.098588846115         164       Elective     2020-09-25        Aspirin  Inconclusive            24.0          2020.0              9.0             2020-09
+58155  mrs. AlYSsa hART  54  Female         O+            Asthma        2021-02-24  Dr Elizabeth Reid              Sons Hale and   UnitedHealthcare              18,045         252      Emergency     08/03/2021        Lipitor  Inconclusive             NaN          2021.0              2.0             2021-02
+58156    VIrGINIa PArk   78  Female         O+            Cancer        2020-09-01    Jonathan Baxter                   INC BIRD   UnitedHealthcare  14668.529277121734         421         Urgent     2020-09-17      Ibuprofen  Inconclusive            16.0          2020.0              9.0             2020-09
+58157   xavier mitchell  18    Male         B-      Hypertension        2022-09-13    Eduardo Johnson  ADKINS TORRES GRAVES, AND         Blue Cross   41364.04143463318         217      Emergency     2022-09-29    Paracetamol  Inconclusive            16.0          2022.0              9.0             2022-09
+58158        cORy smIth  61    Male        AB+      Hypertension        2022-07-03      JAMES BERNARD            Russell-Fischer   UnitedHealthcare  28403.678941824375         249      Emergency     2022-07-26        Aspirin        Normal            23.0          2022.0              7.0             2022-07
+58159    JeNNiFER heNRY  28  Female         A+            Cancer        2022-07-29         AMY CASTRO                   Todd LLC           Medicare   9550.327184898728         168         Urgent     2022-08-21      Ibuprofen      Abnormal            23.0          2022.0              7.0             2022-07
+58160      JORDAN ELLIS  -1    Male         O+           Obesity        2019-08-27       Randy Reeves                Ford-Castro  United Healthcare   49866.07760684977         181      Emergency     2019-09-23  Not Available        Normal            27.0          2019.0              8.0             2019-08
+58161      rodney reyes  59  Female         A-      Hypertension        2019-06-30     Jesse Williams                  Ltd Wells           Medicare    9468.72494442693         383       Elective     2019-07-16        Lipitor        Normal            16.0          2019.0              6.0             2019-06
+58162     TINA  bARReTT  30  Female        AB-            Asthma        2020-12-26     Kaitlyn Foster   Deleon, and Bowen Thomas         Blue Cross  21404.768803702547         328         Urgent     2021-01-25     Penicillin      Abnormal            30.0          2020.0             12.0             2020-12
+58163        TRoY DaVIS  64    Male         A+          Diabetes        2021-07-17  Dr. Natalie Perez           and  Miller Sons   UnitedHealthcare    28835.4411907577         270         Urgent     2021-08-03        Lipitor  Inconclusive            17.0          2021.0              7.0             2021-07
+
+null counts (pandas default NA detection only):
+Name                      0
+Age                     164
+Gender                  283
+Blood Type              185
+Medical Condition         0
+Date of Admission       123
+Doctor                    0
+Hospital                  0
+Insurance Provider      243
+Billing Amount           57
+Room Number             285
+Admission Type           21
+Discharge Date          129
+Medication              229
+Test Results            260
+Length of Stay         2066
+Admission Year         1079
+Admission Month        1079
+Admission YearMonth    1079
+dtype: int64

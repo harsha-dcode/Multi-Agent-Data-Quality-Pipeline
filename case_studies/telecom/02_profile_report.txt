@@ -1,0 +1,183 @@
+==============================================================================
+STAGE 2: DATA EXTRACTION
+==============================================================================
+rows_loaded: 3333
+columns_loaded (excl __source_row): ['Churn', 'AccountWeeks', 'ContractRenewal', 'DataPlan', 'DataUsage', 'CustServCalls', 'DayMins', 'DayCalls', 'MonthlyCharge', 'OverageFee', 'RoamMins']
+all columns object/str dtype as loaded: False
+__source_row range: 0..3332
+row_count_matches_expected(3333): True
+columns_match_expected: True
+
+==============================================================================
+STAGE 3: DATA PROFILING
+==============================================================================
+
+--- Disguised-null scan (case-folded, stripped comparison per column) ---
+TOTAL disguised-null tokens found across all cells: 0
+Verification method: every cell in every column was cast to str, .strip()'d, .casefold()'d, and compared against the full 14-token disguise set ('', ' ', '?', 'null', 'none', 'tbd', 'undefined', '#n/a', '#value!', '#ref!', 'n/a', 'na', '-', 'unknown'). This is a 100% cell scan (3,333 rows x 11 cols = 36,663 cells), not a sample.
+Cells scanned: 36663
+Independent cross-check -- raw empty-string ('') cell count via direct equality: 0
+
+--- Per-column profile ---
+
+[Churn]
+  non-null (post dtype=str, keep_default_na=False) count: 3333
+  blank/whitespace-only cells: 0
+  unique value count: 2
+  numeric-coercible: 3333/3333 (unparseable-as-numeric, non-blank: 0)
+  min=0.0, max=1.0, mean=0.1449, median=0.0, std=0.3521, skew=2.0184
+  negative values: 0 (0.0%)
+  zero values: 2850
+  appears integer-valued: True
+  top 10 values: {'0': np.int64(2850), '1': np.int64(483)}
+  FULL unique value set (cardinality <= 5): ['0', '1']
+
+[AccountWeeks]
+  non-null (post dtype=str, keep_default_na=False) count: 3333
+  blank/whitespace-only cells: 0
+  unique value count: 212
+  numeric-coercible: 3333/3333 (unparseable-as-numeric, non-blank: 0)
+  min=1.0, max=243.0, mean=101.0648, median=101.0, std=39.8221, skew=0.0966
+  negative values: 0 (0.0%)
+  zero values: 0
+  appears integer-valued: True
+  top 10 values: {'105': np.int64(43), '87': np.int64(42), '93': np.int64(40), '101': np.int64(40), '90': np.int64(39), '95': np.int64(38), '86': np.int64(38), '116': np.int64(37), '100': np.int64(37), '107': np.int64(36)}
+
+[ContractRenewal]
+  non-null (post dtype=str, keep_default_na=False) count: 3333
+  blank/whitespace-only cells: 0
+  unique value count: 2
+  numeric-coercible: 3333/3333 (unparseable-as-numeric, non-blank: 0)
+  min=0.0, max=1.0, mean=0.9031, median=1.0, std=0.2959, skew=-2.7263
+  negative values: 0 (0.0%)
+  zero values: 323
+  appears integer-valued: True
+  top 10 values: {'1': np.int64(3010), '0': np.int64(323)}
+  FULL unique value set (cardinality <= 5): ['0', '1']
+
+[DataPlan]
+  non-null (post dtype=str, keep_default_na=False) count: 3333
+  blank/whitespace-only cells: 0
+  unique value count: 2
+  numeric-coercible: 3333/3333 (unparseable-as-numeric, non-blank: 0)
+  min=0.0, max=1.0, mean=0.2766, median=0.0, std=0.4474, skew=0.9991
+  negative values: 0 (0.0%)
+  zero values: 2411
+  appears integer-valued: True
+  top 10 values: {'0': np.int64(2411), '1': np.int64(922)}
+  FULL unique value set (cardinality <= 5): ['0', '1']
+
+[DataUsage]
+  non-null (post dtype=str, keep_default_na=False) count: 3333
+  blank/whitespace-only cells: 0
+  unique value count: 174
+  numeric-coercible: 3333/3333 (unparseable-as-numeric, non-blank: 0)
+  min=0.0, max=5.4, mean=0.8165, median=0.0, std=1.2727, skew=1.2721
+  negative values: 0 (0.0%)
+  zero values: 1813
+  appears integer-valued: False
+  top 10 values: {'0': np.int64(1813), '0.31': np.int64(41), '0.21': np.int64(39), '0.29': np.int64(36), '0.26': np.int64(34), '0.33': np.int64(32), '0.32': np.int64(30), '0.3': np.int64(29), '0.28': np.int64(29), '0.27': np.int64(27)}
+
+[CustServCalls]
+  non-null (post dtype=str, keep_default_na=False) count: 3333
+  blank/whitespace-only cells: 0
+  unique value count: 10
+  numeric-coercible: 3333/3333 (unparseable-as-numeric, non-blank: 0)
+  min=0.0, max=9.0, mean=1.5629, median=1.0, std=1.3155, skew=1.0914
+  negative values: 0 (0.0%)
+  zero values: 697
+  appears integer-valued: True
+  top 10 values: {'1': np.int64(1181), '2': np.int64(759), '0': np.int64(697), '3': np.int64(429), '4': np.int64(166), '5': np.int64(66), '6': np.int64(22), '7': np.int64(9), '9': np.int64(2), '8': np.int64(2)}
+
+[DayMins]
+  non-null (post dtype=str, keep_default_na=False) count: 3333
+  blank/whitespace-only cells: 0
+  unique value count: 1667
+  numeric-coercible: 3333/3333 (unparseable-as-numeric, non-blank: 0)
+  min=0.0, max=350.8, mean=179.7751, median=179.4, std=54.4674, skew=-0.0291
+  negative values: 0 (0.0%)
+  zero values: 2
+  appears integer-valued: False
+  top 10 values: {'154': np.int64(8), '159.5': np.int64(8), '174.5': np.int64(8), '162.3': np.int64(7), '183.4': np.int64(7), '175.4': np.int64(7), '184.5': np.int64(6), '146.3': np.int64(6), '198.4': np.int64(6), '203.4': np.int64(6)}
+
+[DayCalls]
+  non-null (post dtype=str, keep_default_na=False) count: 3333
+  blank/whitespace-only cells: 0
+  unique value count: 119
+  numeric-coercible: 3333/3333 (unparseable-as-numeric, non-blank: 0)
+  min=0.0, max=165.0, mean=100.4356, median=101.0, std=20.0691, skew=-0.1118
+  negative values: 0 (0.0%)
+  zero values: 2
+  appears integer-valued: True
+  top 10 values: {'102': np.int64(78), '105': np.int64(75), '95': np.int64(69), '107': np.int64(69), '104': np.int64(68), '97': np.int64(67), '108': np.int64(67), '110': np.int64(66), '88': np.int64(66), '112': np.int64(66)}
+
+[MonthlyCharge]
+  non-null (post dtype=str, keep_default_na=False) count: 3333
+  blank/whitespace-only cells: 0
+  unique value count: 627
+  numeric-coercible: 3333/3333 (unparseable-as-numeric, non-blank: 0)
+  min=14.0, max=111.3, mean=56.3052, median=53.5, std=16.4260, skew=0.5945
+  negative values: 0 (0.0%)
+  zero values: 0
+  appears integer-valued: False
+  top 10 values: {'50': np.int64(84), '46': np.int64(75), '45': np.int64(74), '49': np.int64(73), '54': np.int64(72), '51': np.int64(71), '48': np.int64(68), '53': np.int64(66), '47': np.int64(65), '44': np.int64(62)}
+
+[OverageFee]
+  non-null (post dtype=str, keep_default_na=False) count: 3333
+  blank/whitespace-only cells: 0
+  unique value count: 1024
+  numeric-coercible: 3333/3333 (unparseable-as-numeric, non-blank: 0)
+  min=0.0, max=18.19, mean=10.0515, median=10.07, std=2.5357, skew=-0.0238
+  negative values: 0 (0.0%)
+  zero values: 1
+  appears integer-valued: False
+  top 10 values: {'8.5': np.int64(13), '8.09': np.int64(11), '10.19': np.int64(11), '8.36': np.int64(11), '10.47': np.int64(10), '9.03': np.int64(10), '10.26': np.int64(10), '8.39': np.int64(10), '10.05': np.int64(10), '10.59': np.int64(10)}
+
+[RoamMins]
+  non-null (post dtype=str, keep_default_na=False) count: 3333
+  blank/whitespace-only cells: 0
+  unique value count: 162
+  numeric-coercible: 3333/3333 (unparseable-as-numeric, non-blank: 0)
+  min=0.0, max=20.0, mean=10.2373, median=10.3, std=2.7918, skew=-0.2451
+  negative values: 0 (0.0%)
+  zero values: 18
+  appears integer-valued: False
+  top 10 values: {'10': np.int64(62), '11.3': np.int64(59), '9.8': np.int64(56), '10.9': np.int64(56), '10.1': np.int64(53), '10.6': np.int64(53), '10.2': np.int64(53), '11.1': np.int64(52), '11': np.int64(52), '9.5': np.int64(51)}
+
+--- Closed code set range checks (Churn, ContractRenewal, DataPlan; expect only {0,1}) ---
+  Churn: out-of-{0,1} value count = 0
+  ContractRenewal: out-of-{0,1} value count = 0
+  DataPlan: out-of-{0,1} value count = 0
+
+==============================================================================
+STAGE 4.4 COLLISION GUARD -- run before any fuzzy matching
+==============================================================================
+
+Candidate categorical/flag columns in this dataset: Churn, ContractRenewal,
+DataPlan (the only columns with cardinality low enough to be 'categorical'
+in spirit). Eligibility check for fuzzy string matching:
+
+  Fuzzy matching (token_sort_ratio / edit distance) is defined over STRING
+  values that could plausibly contain human-entered typos (e.g. 'Alpah' vs
+  'Alpha'). It has no meaningful application to a column whose entire domain
+  is the two integers {0, 1}. There is no 'canonical string form' to fuzzy-
+  match against -- 0 and 1 are not typo-able spellings of each other.
+
+  Churn: observed values = [0, 1] -> numeric binary, NOT ELIGIBLE for fuzzy matching = True
+  ContractRenewal: observed values = [0, 1] -> numeric binary, NOT ELIGIBLE for fuzzy matching = True
+  DataPlan: observed values = [0, 1] -> numeric binary, NOT ELIGIBLE for fuzzy matching = True
+
+Full column-by-column eligibility scan (all 11 data columns):
+  Churn: dtype-as-loaded=str, semantic type=numeric (from Stage 1 column_types) -> not a free-text/categorical string column -> NOT ELIGIBLE for fuzzy matching
+  AccountWeeks: dtype-as-loaded=str, semantic type=numeric (from Stage 1 column_types) -> not a free-text/categorical string column -> NOT ELIGIBLE for fuzzy matching
+  ContractRenewal: dtype-as-loaded=str, semantic type=numeric (from Stage 1 column_types) -> not a free-text/categorical string column -> NOT ELIGIBLE for fuzzy matching
+  DataPlan: dtype-as-loaded=str, semantic type=numeric (from Stage 1 column_types) -> not a free-text/categorical string column -> NOT ELIGIBLE for fuzzy matching
+  DataUsage: dtype-as-loaded=str, semantic type=numeric (from Stage 1 column_types) -> not a free-text/categorical string column -> NOT ELIGIBLE for fuzzy matching
+  CustServCalls: dtype-as-loaded=str, semantic type=numeric (from Stage 1 column_types) -> not a free-text/categorical string column -> NOT ELIGIBLE for fuzzy matching
+  DayMins: dtype-as-loaded=str, semantic type=numeric (from Stage 1 column_types) -> not a free-text/categorical string column -> NOT ELIGIBLE for fuzzy matching
+  DayCalls: dtype-as-loaded=str, semantic type=numeric (from Stage 1 column_types) -> not a free-text/categorical string column -> NOT ELIGIBLE for fuzzy matching
+  MonthlyCharge: dtype-as-loaded=str, semantic type=numeric (from Stage 1 column_types) -> not a free-text/categorical string column -> NOT ELIGIBLE for fuzzy matching
+  OverageFee: dtype-as-loaded=str, semantic type=numeric (from Stage 1 column_types) -> not a free-text/categorical string column -> NOT ELIGIBLE for fuzzy matching
+  RoamMins: dtype-as-loaded=str, semantic type=numeric (from Stage 1 column_types) -> not a free-text/categorical string column -> NOT ELIGIBLE for fuzzy matching
+
+COLLISION GUARD RESULT: 0 of 11 columns are eligible for fuzzy string matching. There is no categorical/string column in this dataset at all. Therefore the canonicals_collide() check (comparing thefuzz.utils.full_process() keys of canonical values) was not run against any column, because there are no canonical string value lists to check for collision -- there is nothing to feed it. This is reported explicitly per mandate #2 rather than silently skipping the section. Stage 4.4 (Categorical Typo Correction) is therefore N/A for this dataset in its entirety, and dangerous_columns in 01_business_brief.yaml is correctly {} (guard run, nothing tripped because nothing was eligible).

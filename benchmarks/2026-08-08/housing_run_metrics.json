@@ -1,0 +1,14 @@
+{
+  "dataset": "housing",
+  "input_rows": 50000,
+  "input_cols": 46,
+  "cleaned_rows": 49864,
+  "viz_ready_rows": 48870,
+  "change_log_entries": 143574,
+  "value_edits": 135149,
+  "validation_checks_passed": 11,
+  "validation_checks_failed": 0,
+  "started_at_epoch": 1786182793,
+  "ended_at_epoch": 1786184236,
+  "duration_seconds": 1443
+}

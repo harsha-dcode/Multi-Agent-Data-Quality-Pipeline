@@ -1,0 +1,78 @@
+=== STAGE 2: DATA EXTRACTION / RAW INVENTORY ===
+Input file: <input>/logistics_supply_chain_dataset_v3.csv
+File size bytes: 9301554
+BOM present: False
+Encoding used: utf-8
+Detected delimiter: comma
+Row count (excluding header): 30102
+Column count: 35
+
+Column names (raw, exact order):
+  [0] Shipment_ID
+  [1] Order_ID
+  [2] Shipment_Date
+  [3] Pickup_Date
+  [4] Dispatch_Date
+  [5] Expected_Delivery_Date
+  [6] Actual_Delivery_Date
+  [7] Delivery_Status
+  [8] Delay_Days
+  [9] Customer_ID
+  [10] Customer_Type
+  [11] Industry
+  [12] Warehouse_ID
+  [13] Warehouse_Name
+  [14] Warehouse_City
+  [15] Warehouse_State
+  [16] Warehouse_Region
+  [17] Destination_City
+  [18] Destination_State
+  [19] Destination_Region
+  [20] Distance_KM
+  [21] Transport_Mode
+  [22] Vehicle_Type
+  [23] Driver_ID
+  [24] Product_Category
+  [25] Shipment_Weight_KG
+  [26] Shipment_Volume_CBM
+  [27] Shipping_Cost_INR
+  [28] Fuel_Cost_INR
+  [29] Operational_Cost_INR
+  [30] Revenue_INR
+  [31] Profit_INR
+  [32] Customer_Rating
+  [33] Return_Status
+  [34] Delay_Reason
+
+=== FIRST 10 ROWS (raw, as strings) ===
+  Shipment_ID    Order_ID Shipment_Date Pickup_Date Dispatch_Date Expected_Delivery_Date Actual_Delivery_Date Delivery_Status Delay_Days Customer_ID Customer_Type            Industry Warehouse_ID            Warehouse_Name Warehouse_City Warehouse_State Warehouse_Region Destination_City Destination_State Destination_Region Distance_KM Transport_Mode             Vehicle_Type Driver_ID      Product_Category Shipment_Weight_KG Shipment_Volume_CBM Shipping_Cost_INR Fuel_Cost_INR Operational_Cost_INR Revenue_INR Profit_INR Customer_Rating Return_Status        Delay_Reason
+0   SHP003395  ORD0002616    2022-08-22  2022-08-23    2022-08-23             2022-08-29           2022-08-29         On Time        0.0   CUST03007        Retail         Supermarket        WH003         Chennai South Hub        Chennai      Tamil Nadu            South           Bhopal    Madhya Pradesh            Central        1487           Road             Medium Truck   DRV0286           Electronics               1.42               0.005            762.93       4629.96                306.5     10100.0    4400.61             3.6  Not Returned                    
+1   SHP016224  ORD0012831    2024-06-04  2024-06-05    2024-06-05             2024-06-11           2024-06-23         Delayed       12.0   CUST00039    Enterprise                FMCG        WH001        Mumbai Central Hub         Mumbai     Maharashtra             West           Ranchi         Jharkhand               East        1743           Road               Pickup Van   DRV0119                  FMCG              63.99               0.216            878.02       4661.94               419.63     8425.08    2465.49             1.0  Not Returned  Traffic Congestion
+2   SHP008923  ORD0007018    2023-06-11  2023-06-12    2023-06-12             2023-06-18           2023-06-18         On Time        0.0   CUST00565        Retail         Supermarket        WH004          Kolkata East Hub        Kolkata     West Bengal             East             Pune       Maharashtra               West        2001           Road          Container Truck   DRV0399                  FMCG              17.87               0.125            892.43       7348.84               469.93    10610.95    1899.75             3.4      Returned                    
+3   SHP024439  ORD0019269    2025-06-13  2025-06-14    2025-06-14             2025-06-15           2025-06-17         Delayed        2.0   CUST00037    Enterprise          Automotive        WH001        Mumbai Central Hub         Mumbai     Maharashtra             West       Coimbatore        Tamil Nadu              South        1267            Air              Cargo Plane                            FMCG             334.69               0.999          15373.58                             647.68    50868.84   21350.46             3.1  Not Returned         Bad Weather
+4   SHP023268  ORD0018367    2025-04-11  2025-04-11    2025-04-12             2025-04-16           2025-04-16         On Time        0.0   CUST00022    Enterprise     Pharmaceuticals        WH005        Bangalore Tech Hub      Bangalore       Karnataka            South        Ahmedabad           Gujarat               West        1571           Road               Mini Truck   DRV0489       Pharmaceuticals              22.02               0.117            861.13       5141.43               345.43     17700.0   11352.01             4.4  Not Returned                    
+5   SHP003633  ORD0002809    2022-09-07  2022-09-07    2022-09-07             2022-09-10           2022-09-09           Early       -1.0   CUST00069    Enterprise   Banking & Finance        WH008  Pune Distribution Centre           Pune     Maharashtra             West    Visakhapatnam    Andhra Pradesh              South        1262           Road              Heavy Truck   DRV0684       Pharmaceuticals              18.38               0.054            813.83       4624.71                373.6    17599.78   11787.64             5.0  Not Returned                    
+6   SHP022265  ORD0017567    2025-02-11  2025-02-13    2025-02-14             2025-02-22           2025-03-01         Delayed        7.0   CUST00012        Retail  Electronics Retail        WH004          Kolkata East Hub        Kolkata     West Bengal             East             Agra     Uttar Pradesh              North        1477           Rail    Express Freight Train   DRV0327  Industrial Equipment             436.56               4.163            9273.0       3235.26              1011.42     25600.0   12080.32             2.8  Not Returned  High Volume Season
+7   SHP027855  ORD0021925    2025-11-03  2025-11-05    2025-11-06             2025-11-18           2025-11-18         On Time        0.0   CUST01012        Retail  Electronics Retail        WH005        Bangalore Tech Hub      Bangalore       Karnataka            South          Lucknow     Uttar Pradesh              North        2009           Rail    Express Freight Train   DRV0472             Furniture             161.54               1.631           4193.69        4065.2               499.05     12421.9    3663.96             4.5  Not Returned                    
+8   SHP028743  ORD0022634    2025-11-27  2025-11-28    2025-11-28             2025-12-02           2025-12-02         On time        0.0   CUST00824        Retail            Pharmacy        WH007        Ahmedabad West Hub      Ahmedabad         Gujarat             West           Bhopal    Madhya Pradesh            Central         630           Rail    Express Freight Train   DRV0600    Clothing & Apparel               0.95               0.004            783.92        958.38               287.14     2964.37     934.93             4.2  Not Returned                    
+9   SHP002257  ORD0001723    2022-06-13  2022-06-15    2022-06-16             2022-06-18           2022-06-18         On Time        0.0   CUST03061        RETAIL          E-Commerce        WH007        Ahmedabad West Hub      Ahmedabad         Gujarat             West    Visakhapatnam    Andhra Pradesh              South        1598            Air  Commercial Cargo Flight                       Furniture             102.17               0.516           6513.09      10281.48               451.19    23044.98    5799.22             3.6  Not Returned                    
+
+=== LAST 10 ROWS (raw, as strings) ===
+      Shipment_ID    Order_ID Shipment_Date Pickup_Date Dispatch_Date Expected_Delivery_Date Actual_Delivery_Date Delivery_Status Delay_Days Customer_ID Customer_Type            Industry Warehouse_ID        Warehouse_Name Warehouse_City Warehouse_State Warehouse_Region Destination_City Destination_State Destination_Region Distance_KM Transport_Mode           Vehicle_Type Driver_ID      Product_Category Shipment_Weight_KG Shipment_Volume_CBM Shipping_Cost_INR Fuel_Cost_INR Operational_Cost_INR Revenue_INR Profit_INR Customer_Rating Return_Status Delay_Reason
+30092   SHP027834  ORD0021908    2025-11-02  2025-11-04    2025-11-04             2025-11-10           2025-11-10         On Time        0.0   CUST01173     Wholesale       Import-Export        WH004      Kolkata East Hub        Kolkata     West Bengal             East           Indore    Madhya Pradesh            Central        1630           Road           Medium Truck   DRV0347      Food & Beverages              18.27               0.067            809.01       5718.37               542.74     5998.07   -1072.05             3.8      Returned             
+30093   SHP001373  ORD0001056    2022-04-16  2022-04-16    2022-04-16             2022-04-20           2022-04-20         On Time        0.0   CUST03221    Enterprise          Technology        WH002         Delhi NCR Hub          Delhi           Delhi            North           Ranchi         Jharkhand               East        1287           Road           Medium Truck   DRV0202            Auto Parts             168.13               1.981           5599.87                             671.28    24597.37   12842.17             4.3  Not Returned             
+30094   SHP013928  ORD0010977    2024-01-16  2024-01-18    2024-01-18             2024-01-19           2024-01-19         On Time        0.0   CUST00369     Wholesale       Manufacturing        WH005    Bangalore Tech Hub      Bangalore       Karnataka            South        Bangalore         Karnataka              South          36           Road        Container Truck   DRV0494  Industrial Equipment             673.75               5.316           8158.26        438.93              1097.32     14650.0    4955.49                  Not Returned             
+30095   SHP000920  ORD0000714    2022-03-15  2022-03-16    2022-03-17             2022-03-23           2022-03-23         On Time        0.0   CUST03539    Enterprise          Automotive        WH012       Kochi South Hub          Kochi          Kerala            South            Surat           Gujarat               West        1654           Road             Mini Truck   DRV0851      Food & Beverages              231.7               0.697           3237.46       6802.72               582.27     17550.0    6927.55             4.4  Not Returned             
+30096   SHP020692  ORD0016339    2024-12-05  2024-12-06    2024-12-07             2024-12-10           2024-12-10         On Time        0.0   CUST00581        Retail  Electronics Retail        WH001    Mumbai Central Hub         Mumbai     Maharashtra             West         Vadodara           Gujarat               West         458           Rail          Freight Train   DRV0110                  FMCG              19.84               0.058            722.51        705.78               376.81      1850.0       44.9             3.6  Not Returned             
+30097   SHP005700  ORD0004466    2022-12-02  2022-12-04    2022-12-05             2022-12-10           2022-12-10         On Time        0.0   CUST00002    Enterprise          Automotive        WH012       Kochi South Hub          Kochi          Kerala            South           Mumbai       Maharashtra               West        1372           Road           Medium Truck   DRV0845            Auto Parts             415.51               4.072          11301.68       6206.34               747.64     32150.0   13894.34             3.8  Not Returned             
+30098   SHP010743  ORD0008464    2023-09-22  2023-09-22    2023-09-22             2023-09-24           2023-09-24         On Time        0.0   CUST00035    Enterprise     Pharmaceuticals        WH001    Mumbai Central Hub         Mumbai     Maharashtra             West       Chandigarh            Punjab              North        1720            Air            Cargo Plane                       Chemicals             341.32               4.038           53074.1      16228.47               658.94   155981.14   86019.63             3.4  Not Returned             
+30099   SHP016922  ORD0013376    2024-07-11  2024-07-12    2024-07-12             2024-07-14           2024-07-14         On Time        0.0   CUST00001     Wholesale        Distribution        WH011  Bhubaneswar East Hub    Bhubaneswar          Odisha             East             Agra     Uttar Pradesh              North        1401            Air            Cargo Plane              Apparel & Clothing                3.6               0.018           3490.69       9975.06               424.25     15400.0     1510.0             3.6      Returned             
+30100   SHP025797  ORD0020332    2025-08-17  2025-08-18    2025-08-18             2025-08-23           2025-08-23         On Time        0.0   CUST00065     Wholesale        Distribution        WH009      Jaipur North Hub         Jaipur       Rajasthan            North           Raipur      Chhattisgarh            Central        1098           Road           Medium Truck   DRV0741  Industrial Equipment             524.43               5.019          16258.48       5299.81              1049.19    38057.25   15449.77             4.9  Not Returned             
+30101   SHP028848  ORD0022720    2025-11-30  2025-12-01    2025-12-01             2025-12-06           2025-12-06         On Time        0.0   CUST00074    Enterprise     Pharmaceuticals        WH010   Lucknow Central Hub        Lucknow   Uttar Pradesh            North         Amritsar            Punjab              North        1008           Rail  Express Freight Train   DRV0779    Clothing & Apparel               3.86               0.027            929.09       1496.51               488.49     4776.78    1862.69             4.0      Returned             
+
+=== STRUCTURAL ANOMALY CHECK ===
+Fully blank rows: 0
+Rows containing 'total'/'summary' token anywhere: 0
+
+Header issues check:
+  (columns not listed above had no header issues)

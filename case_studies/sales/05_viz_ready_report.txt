@@ -1,0 +1,44 @@
+==============================================================================
+STAGE 8 -- PRE-VIZ PREP
+==============================================================================
+
+Flag inventory (from cleaned_data.csv, 281 rows):
+  channel_fuzzy_review_flag: True count = 0
+  channel_unknown_category_flag: True count = 0
+  customer_email_invalid_flag: True count = 0
+  customer_email_repaired_flag: True count = 11
+  near_duplicate_flag: True count = 0
+  order_date_unparseable_flag: True count = 8
+  phone_number_country_unknown_flag: True count = 1
+  product_fuzzy_review_flag: True count = 0
+  product_unknown_category_flag: True count = 0
+  region_fuzzy_review_flag: True count = 23
+  region_unknown_category_flag: True count = 0
+  revenue_mismatch_flag: True count = 13
+  total_revenue_sign_flag: True count = 13
+  unit_price_outlier_flag: True count = 1
+  unit_price_sign_flag: True count = 7
+  units_sold_non_integer_flag: True count = 6
+  units_sold_outlier_flag: True count = 6
+  units_sold_sign_flag: True count = 5
+
+FILTER (physically impossible) flags: ['units_sold_sign_flag', 'unit_price_sign_flag', 'total_revenue_sign_flag']
+KEEP (statistical/uncertain, not impossible) flags: ['region_fuzzy_review_flag', 'region_unknown_category_flag', 'product_fuzzy_review_flag', 'product_unknown_category_flag', 'channel_fuzzy_review_flag', 'channel_unknown_category_flag', 'order_date_unparseable_flag', 'phone_number_country_unknown_flag', 'customer_email_repaired_flag', 'customer_email_invalid_flag', 'unit_price_outlier_flag', 'units_sold_outlier_flag', 'units_sold_non_integer_flag', 'revenue_mismatch_flag', 'near_duplicate_flag']
+
+Reasoning per KEEP flag:
+  *_outlier_flag / units_sold_non_integer_flag: a large-but-real order or an odd count is
+    still a real order -- statistically unusual, not impossible.
+  *_fuzzy_review_flag / *_unknown_category_flag: a lower-confidence categorical correction
+    still has SOME value in the row; the correction is uncertain, the row is not invalid.
+  order_date_unparseable_flag: the date is unusable for a time-series cut, but the order's
+    revenue/volume is still real and countable in a non-time-series aggregate; a BI tool
+    can decide per-chart whether to exclude it, which is a charting decision, not a data one.
+  phone_number_country_unknown_flag / customer_email_*: contact metadata, not a sales measure.
+  revenue_mismatch_flag: BOTH total_revenue and revenue_calculated exist and disagree --
+    that's genuinely ambiguous, not impossible; dropping it would silently pick a side.
+  near_duplicate_flag: a real conflict with no clear resolution -- kept for visibility, not
+    auto-resolved by deletion.
+
+Row count: 281 -> 266 (15 dropped, 5.34%)
+
+[WROTE] case_studies/sales\viz_ready.csv  shape=(266, 34)

@@ -1,0 +1,100 @@
+=== Actual_Delivery_Date null vs Delivery_Status (normalized upper) ===
+Delivery_Status
+IN TRANSIT    230
+Name: count, dtype: int64
+
+=== Delay_Days null vs Delivery_Status ===
+Delivery_Status
+IN TRANSIT    230
+Name: count, dtype: int64
+Overlap (both Actual_Delivery_Date and Delay_Days null, same rows?): True
+
+=== Driver_ID null vs Transport_Mode (normalized upper) ===
+Transport_Mode
+AIR        6684
+SEA         478
+AIRWAYS      66
+Name: count, dtype: int64
+Total Driver_ID null: 7228
+Total non-Road-ish transport modes (Air/Rail/Sea variants): checking overlap
+Rows with non-road transport mode: 13624
+Rows with null driver AND non-road transport: 7228
+Rows with null driver AND road transport (unexpected): 0
+Rows with non-null driver AND non-road transport (unexpected): 6396
+
+=== Fuel_Cost_INR null vs Transport_Mode (normalized upper) ===
+Transport_Mode
+ROAD              658
+AIR               269
+RAIL              247
+SEA                20
+ROAD TRANSPORT      6
+AIRWAYS             3
+Name: count, dtype: int64
+
+=== Delay_Reason null vs Delivery_Status (normalized upper) ===
+Delivery_Status
+ON TIME       18155
+EARLY          3018
+IN TRANSIT      230
+DELAYED         170
+ON-TIME         165
+Name: count, dtype: int64
+=== Delay_Reason NON-null vs Delivery_Status (normalized upper) ===
+Delivery_Status
+DELAYED    8252
+DELAY       112
+Name: count, dtype: int64
+
+=== Exact duplicate rows (all 35 cols identical) ===
+Total rows involved in exact duplication: 204
+Distinct duplicate groups: 102
+
+=== Shipment_ID duplicate value rows ===
+Rows sharing a Shipment_ID with another row: 204
+Distinct Shipment_ID values involved: 102
+Sample duplicated Shipment_ID SHP021833:
+      Shipment_ID    Order_ID Shipment_Date Pickup_Date Dispatch_Date Expected_Delivery_Date Actual_Delivery_Date Delivery_Status Delay_Days Customer_ID Customer_Type  Industry Warehouse_ID      Warehouse_Name Warehouse_City Warehouse_State Warehouse_Region Destination_City Destination_State Destination_Region Distance_KM Transport_Mode             Vehicle_Type Driver_ID    Product_Category Shipment_Weight_KG Shipment_Volume_CBM Shipping_Cost_INR Fuel_Cost_INR Operational_Cost_INR Revenue_INR Profit_INR Customer_Rating Return_Status Delay_Reason
+67      SHP021833  ORD0017222    2025-01-15  2025-01-16    2025-01-17             2025-01-19           2025-01-30         Delayed       11.0   CUST01076        Retail  Pharmacy        WH007  Ahmedabad West Hub      Ahmedabad         Gujarat             West          Madurai        Tamil Nadu              South        1996            Air  Commercial Cargo Flight            Books & Stationery               4.58               0.015           4576.93      12378.34               293.35     16150.0   -1098.62             2.1  Not Returned  Bad Weather
+28617   SHP021833  ORD0017222    2025-01-15  2025-01-16    2025-01-17             2025-01-19           2025-01-30         Delayed       11.0   CUST01076        Retail  Pharmacy        WH007  Ahmedabad West Hub      Ahmedabad         Gujarat             West          Madurai        Tamil Nadu              South        1996            Air  Commercial Cargo Flight            Books & Stationery               4.58               0.015           4576.93      12378.34               293.35     16150.0   -1098.62             2.1  Not Returned  Bad Weather
+Shipment_ID groups where all other columns are identical too (true exact dupes): 102
+Shipment_ID groups where other columns DIFFER (same ID, different shipment data - ID collision, not dupe): 0
+
+=== Product_Category exact value_counts (case-sensitive, stripped) ===
+Product_Category
+FMCG                    6010
+Clothing & Apparel      3261
+Electronics             2973
+Food & Beverages        2947
+Auto Parts              2724
+Chemicals               2638
+Industrial Equipment    2476
+Books & Stationery      2413
+Pharmaceuticals         2378
+Furniture               2123
+ELECTRONICS               32
+Clothing                  31
+clothing & apparel        29
+Apparel & Clothing        28
+electronics               23
+Electronic                16
+Name: count, dtype: int64
+
+Rows where Actual_Delivery_Date < Dispatch_Date (impossible): 646
+Rows where Dispatch_Date < Pickup_Date (impossible): 0
+Rows where Pickup_Date < Shipment_Date (impossible): 0
+
+=== Customer_Rating out-of-range (expect 1.0-5.0) ===
+Below 1.0 (and not null): 41
+Above 5.0: 81
+Values > 5.0 detail: [6.0, 7.5, 9.0]
+Values < 1.0 (excl NaN) detail: [-1.0, 0.0]
+
+=== Shipment_Weight_KG negative detail ===
+Count negative: 89
+Negative values sample (first 20): [-2189.11, -1944.86, -1528.61, -907.79, -799.42, -664.91, -548.02, -418.1, -390.73, -375.29, -371.09, -353.02, -334.73, -308.32, -252.32, -221.42, -180.21, -159.95, -156.84, -156.63]
+Abs of negatives vs overall median comparison: median(abs(neg))=36.81, overall median=36.894999999999996
+
+=== Shipping_Cost_INR negative detail ===
+Count negative: 152
+Sample: [-265359.87, -122974.17, -61683.48, -57950.26, -51762.47, -50196.03, -33641.29, -26065.2, -12109.24, -11997.72, -11951.42, -11280.96, -11095.31, -10427.89, -10002.81, -9891.82, -9317.39, -9064.65, -8978.62, -8419.5]

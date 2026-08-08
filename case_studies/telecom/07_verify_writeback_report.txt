@@ -1,0 +1,37 @@
+cleaned_data.csv: rows=3333, cols=30
+viz_ready.csv: rows=3333, cols=30
+change_log.csv: rows=615
+total_charge write-back mismatches (should be 0): 0
+data_plan_usage_conflict_flag write-back mismatches (should be 0): 0
+data_plan_usage_conflict_flag True count in cleaned_data.csv: 602
+Non-snake_case headers remaining in cleaned_data.csv (should be []): []
+Churn rate via .mean(): 0.144914, via sum/len: 0.144914, match: True
+Churned subscribers: 483 / 3333 = 14.49%
+
+Flag columns present: 17
+  account_weeks_outlier_flag: True count = 0
+  account_weeks_sign_flag: True count = 0
+  cust_serv_calls_outlier_flag: True count = 0
+  cust_serv_calls_sign_flag: True count = 0
+  data_plan_usage_conflict_flag: True count = 602
+  data_usage_outlier_flag: True count = 0
+  data_usage_sign_flag: True count = 0
+  day_calls_outlier_flag: True count = 0
+  day_calls_sign_flag: True count = 0
+  day_mins_outlier_flag: True count = 0
+  day_mins_sign_flag: True count = 0
+  monthly_charge_outlier_flag: True count = 0
+  monthly_charge_sign_flag: True count = 0
+  overage_fee_outlier_flag: True count = 0
+  overage_fee_sign_flag: True count = 0
+  roam_mins_outlier_flag: True count = 0
+  roam_mins_sign_flag: True count = 0
+
+cleaned_data.csv and viz_ready.csv cover identical __source_row sets: True
+(expected True for this run: 0 rows were filtered in Stage 8, per 06_viz_ready_report.txt)
+
+change_log.csv CHANGE_TYPE breakdown:
+  LOGICAL_INCONSISTENCY_FLAGGED: 602
+  HEADER_RENAME: 11
+  DERIVED_COLUMN_ADDED: 1
+  COLUMN_REORDERED: 1

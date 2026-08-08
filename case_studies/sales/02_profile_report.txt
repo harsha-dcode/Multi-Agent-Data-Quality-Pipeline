@@ -1,0 +1,228 @@
+==============================================================================
+STAGE 2 -- FULL EXTRACTION
+==============================================================================
+Loaded with encoding='utf-8-sig', dtype=str, keep_default_na=False
+Shape (rows, cols, excl. __source_row): (312, 11)
+Columns (raw, as-is): ['order_id', 'Order_Date', 'customer name', 'Customer Email', 'Phone Number', 'region ', 'Product', 'channel', 'Units Sold', 'unit_price', 'Total Revenue']
+
+==============================================================================
+STAGE 3 -- DATA PROFILING
+==============================================================================
+
+--- Per-column null-disguise survey (case-insensitive, stripped match) ---
+  order_id         total disguise-token cells:    0   breakdown: {}
+  Order_Date       total disguise-token cells:   13   breakdown: {'': 3, '?': 2, '-': 3, 'tbd': 1, 'null': 1, 'n/a': 3}
+  customer name    total disguise-token cells:   19   breakdown: {'': 10, 'unknown': 3, 'null': 4, 'n/a': 2}
+  Customer Email   total disguise-token cells:    1   breakdown: {'': 1}
+  Phone Number     total disguise-token cells:   17   breakdown: {'': 7, '?': 3, '-': 4, 'n/a': 3}
+  region           total disguise-token cells:   57   breakdown: {'': 22, '-': 14, 'null': 9, 'n/a': 12}
+  Product          total disguise-token cells:   48   breakdown: {'': 10, 'unknown': 19, 'n/a': 19}
+  channel          total disguise-token cells:   43   breakdown: {'': 18, '-': 14, 'n/a': 11}
+  Units Sold       total disguise-token cells:   17   breakdown: {'?': 2, '-': 2, 'tbd': 3, 'null': 8, 'n/a': 2}
+  unit_price       total disguise-token cells:   26   breakdown: {'': 3, '?': 7, '-': 8, 'tbd': 2, 'n/a': 6}
+  Total Revenue    total disguise-token cells:   35   breakdown: {'': 26, 'n/a': 9}
+
+--- Ambiguity-guard evaluation (na/-/unknown) ---
+  product column 'Unknown': gate = closed 4-value Greek-letter set (Alpha/Beta/Gamma/Delta);
+  'Unknown' cannot be a 5th member of that set -> GATE SAYS NO -> treat as null disguise.
+  Product=='Unknown' (case-insensitive) count: 19
+  customer name=='Unknown' count: 3  (free-text name column -> 'Unknown' cannot be a real name -> GATE NO)
+  channel column: no 'na'/'-'/'unknown' tokens expected as a real category value; verifying below.
+  'region ': 'na'-token cells=0, '-'-token cells=14
+  'channel': 'na'-token cells=0, '-'-token cells=14
+
+--- Cardinality and top-10 values (raw, unnormalized) ---
+
+  'order_id': 288 unique raw values
+      'ORD-1164': 4
+      'ORD-1116': 3
+      'ORD-1113': 2
+      '  ORD-1147  ': 2
+      'ORD-1000': 2
+      'ORD-1072': 2
+      'ORD-1007': 2
+      'ORD-1177': 2
+      'ORD-1160': 2
+      'ORD-1051': 2
+
+  'Order_Date': 267 unique raw values
+      '29/02/2023': 5
+      '05-Jun-2024': 4
+      '06/02/2024': 3
+      '2024-09-01': 3
+      '31/04/2024': 3
+      '-': 3
+      '03/07/24': 3
+      '': 2
+      '07/01/2024': 2
+      '23/03/2024 03:53:00': 2
+
+  'customer name': 134 unique raw values
+      '': 10
+      'ARJUN MEHTA': 6
+      'Mr. Sanjay Pillai': 6
+      'Sneha.Gupta': 5
+      'anita singh': 5
+      'Sanjay.Pillai': 5
+      'PRIYA PATEL': 5
+      'karan verma': 5
+      'Mr. Pooja Desai': 4
+      'aarav sharma': 4
+
+  'Customer Email': 57 unique raw values
+      'priya.patel@example.com': 21
+      'sanjay.pillai@example.com': 21
+      'sneha.gupta@example.com': 19
+      'aarav.sharma@example.com': 19
+      'divya.nair@example.com': 19
+      'karan.verma@example.com': 19
+      'meera.krishnan@example.com': 18
+      'kavya.iyer@example.com': 17
+      'rohan.joshi@example.com': 16
+      'anita.singh@example.com': 16
+
+  'Phone Number': 274 unique raw values
+      '': 7
+      '(989) 087-8141': 4
+      '-': 4
+      '?': 3
+      '(987) 562-2086': 3
+      'N/A': 3
+      '98300 68486': 2
+      '+91 98811 43744': 2
+      '919837474112': 2
+      '9808386379': 2
+
+  'region ': 34 unique raw values
+      'northeast': 18
+      'Nort': 17
+      'north east': 16
+      'WEST': 16
+      'SOUTH': 16
+      'north': 16
+      '-': 14
+      'Sourh': 14
+      'Esat': 13
+      '': 13
+
+  'Product': 23 unique raw values
+      'gamma': 26
+      'ALPHA': 21
+      'DELTA': 21
+      ' Alpha ': 21
+      'BETA': 20
+      'Alpha ': 20
+      'Unknown': 19
+      'Alpha': 19
+      'alpha': 19
+      'N/A': 18
+
+  'channel': 24 unique raw values
+      'B2B': 25
+      'B2C': 20
+      'Brick & Mortar': 19
+      'RETAIL': 19
+      '': 18
+      'Online': 18
+      'wholesale': 17
+      'WHOLESALE': 17
+      'ONLINE': 15
+      '  Online  ': 15
+
+  'Units Sold': 94 unique raw values
+      '45': 9
+      '37': 9
+      '27': 8
+      '47': 8
+      'null': 8
+      '21': 8
+      '4': 7
+      '14': 7
+      '31': 7
+      '6': 7
+
+  'unit_price': 266 unique raw values
+      '-': 8
+      '?': 7
+      'N/A': 6
+      '94.28': 4
+      '': 3
+      '  48.32': 3
+      '171.02': 2
+      '106.52': 2
+      '45.12': 2
+      '122.65': 2
+
+  'Total Revenue': 253 unique raw values
+      '': 26
+      'N/A': 9
+      '4431.16': 4
+      '1539.18': 2
+      '1491.28': 2
+      '939': 2
+      '908.8': 2
+      '-731.92': 2
+      '2942.94': 2
+      '5168.03': 2
+
+==============================================================================
+COLLISION GUARD -- run BEFORE any fuzzy matching (spec 4.4 mandatory guard)
+==============================================================================
+
+  Column: region
+    Canonical values: ['North', 'South', 'East', 'West', 'Northeast']
+    full_process() keys: ['north', 'south', 'east', 'west', 'northeast']
+    COLLISION DETECTED: False
+    -> Safe to fuzzy match at threshold 85 (token_sort_ratio, full_process=False + punctuation-preserving processor).
+
+  Column: product
+    Canonical values: ['Alpha', 'Beta', 'Gamma', 'Delta']
+    full_process() keys: ['alpha', 'beta', 'gamma', 'delta']
+    COLLISION DETECTED: False
+    -> Safe to fuzzy match at threshold 85 (token_sort_ratio, full_process=False + punctuation-preserving processor).
+
+  Column: channel
+    Canonical values: ['Retail', 'Wholesale', 'Online', 'Brick & Mortar', 'B2B', 'B2C']
+    full_process() keys: ['retail', 'wholesale', 'online', 'brick   mortar', 'b2b', 'b2c']
+    COLLISION DETECTED: False
+    -> Safe to fuzzy match at threshold 85 (token_sort_ratio, full_process=False + punctuation-preserving processor).
+
+==============================================================================
+NUMERIC COLUMNS -- raw-string survey (parsing happens in Stage 4)
+==============================================================================
+
+  'Units Sold' sample raw values (first 15 non-blank): ['42', '4', '8', '44 units', '27', '23', '1', '9', '47', '14', '14', '31', '9', '6', '31']
+    cells containing a currency symbol ($/Rupee/EUR/GBP): 0
+    cells containing any letters (unit suffix / non-numeric noise): 21
+    cells matching comma-as-decimal pattern (\d,\d\d boundary): 0
+
+  'unit_price' sample raw values (first 15 non-blank): ['86.82', '113.26', '192.21', '57.93', '145.5', '38.26', '67.4', '171.02', '94.28', '106.52', '126.76', '166.05', '104.24', '-', '46.75']
+    cells containing a currency symbol ($/Rupee/EUR/GBP): 14
+    cells containing any letters (unit suffix / non-numeric noise): 12
+    cells matching comma-as-decimal pattern (\d,\d\d boundary): 2
+
+  'Total Revenue' sample raw values (first 15 non-blank): ['3646.44', '453.04', '1537.68', '₹2548.92', '3928.5', '879.98', '67.4', '1539.18', '4431.16', '1491.28', '1774.64', '5147.55', '938.16', '2268', '1449.25']
+    cells containing a currency symbol ($/Rupee/EUR/GBP): 5
+    cells containing any letters (unit suffix / non-numeric noise): 9
+    cells matching comma-as-decimal pattern (\d,\d\d boundary): 0
+
+==============================================================================
+DATE COLUMN -- raw-string survey (Order_Date)
+==============================================================================
+  Sample raw values (first 20 non-blank): ['11/03/2024', '07/03/24', '07.02.2024', '06/02/2024', '07/30/2024', '30/07/24', '07/01/2024', '05-Jun-2024', '23/03/2024 03:53:00', 'October 06, 2024', '2024-07-29', '24-Nov-2024', '2024/01/22', '2024/10/05', '04/01/24', 'June 11, 2024', '02/11/24', '05/02/2024', '2024-11-23', '2024/04/05']
+  Blank date cells: 3
+  5-digit-numeric cells (likely Excel serials): 33
+
+==============================================================================
+EMAIL / PHONE -- raw-string survey
+==============================================================================
+  customer email cells with NO '@' (and non-blank): 12
+  cells containing 'example.com': 291 / 312
+  phone cells containing '91' country-code fragment: 134
+  phone cells whose digits-only form is a 10-digit number starting 6-9 (valid Indian mobile pattern): 168
+
+==============================================================================
+DUPLICATE PREVIEW (raw, before any normalization)
+==============================================================================
+  Rows that are exact full-row duplicates of another row (raw strings): 38
+  Rows whose order_id value repeats elsewhere in the file: 45

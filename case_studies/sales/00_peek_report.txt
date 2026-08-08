@@ -1,0 +1,102 @@
+==============================================================================
+STAGE 2 -- RAW EXTRACTION INVENTORY: messy_sales.csv
+==============================================================================
+
+File path      : case_studies/sales/input/messy_sales.csv
+File size       : 33,863 bytes
+MD5             : 5e21b26fbb3500d2ee4f428788102705
+SHA-256 (first16): 79f672119c134d5d
+UTF-8 BOM present at byte 0 : True  (bytes: b'\xef\xbb\xbf')
+
+Decoded with encoding='utf-8'      -> first header token: '\ufefforder_id'
+Decoded with encoding='utf-8-sig'  -> first header token: 'order_id'
+IMPACT: reading this file with encoding='utf-8' (the pandas default on many
+        setups) leaves a literal '\ufeff' glued to the first header, so the
+        column that LOOKS like 'order_id' is actually '\ufeffAorder_id' or
+        similar -- df['order_id'] raises KeyError even though the column is
+        visibly right there in df.columns / a printed head(). This pipeline
+        will load with encoding='utf-8-sig' specifically to strip it.
+
+Raw header row (11 columns), utf-8-sig decoded, exact repr:
+  [ 0] 'order_id'
+  [ 1] 'Order_Date'
+  [ 2] 'customer name'  <-- contains space/hyphen/dot/slash, needs snake_case normalization
+  [ 3] 'Customer Email'  <-- contains space/hyphen/dot/slash, needs snake_case normalization
+  [ 4] 'Phone Number'  <-- contains space/hyphen/dot/slash, needs snake_case normalization
+  [ 5] 'region '  <-- LEADING/TRAILING WHITESPACE (silent KeyError risk: df['region'] misses this)  <-- contains space/hyphen/dot/slash, needs snake_case normalization
+  [ 6] 'Product'
+  [ 7] 'channel'
+  [ 8] 'Units Sold'  <-- contains space/hyphen/dot/slash, needs snake_case normalization
+  [ 9] 'unit_price'
+  [10] 'Total Revenue'  <-- contains space/hyphen/dot/slash, needs snake_case normalization
+
+Total lines (incl. header): 313
+Data rows (excl. header)  : 312
+
+First 10 raw lines (post BOM-strip):
+  L0: order_id,Order_Date,customer name,Customer Email,Phone Number,region ,Product,channel,Units Sold,unit_price,Total Revenue
+  L1: ORD-1058,11/03/2024,Meera Krishnan ,meera.krishnan@example.com,98826 13750,Esat,GAMMA,Retail,42,86.82,3646.44
+  L2: ORD-1068,07/03/24,ARJUN MEHTA,arjun.mehta@example.com,+91-98842-49818,Nort,gamma,n/a,4,113.26,453.04
+  L3: ORD-1178,07.02.2024,  Rohan Joshi  ,rohan.joshi@example.com,(987) 790-7141,north east,BETA,wholesale,8,192.21,1537.68
+  L4: ORD-1170,,Mr. Pooja Desai,pooja.desai.example.com,98809 20242,WEST,Unknown,online,44 units,57.93,₹2548.92
+  L5: ORD-1016,06/02/2024,Rohan Joshi ,rohan.joshi@example.com,980.443.6995,north east,beta,Brick & Mortar,27,145.5,3928.5
+  L6: ORD-1129,07/30/2024,Kavya Iyer,kavya.iyer@example.com,+919854115262, ,ALPHA,wholesale,23,38.26,879.98
+  L7: ORD-1179,30/07/24,Sneha.Gupta,sneha.gupta@example.com,919839423733,South,BETA,retail,1,67.4,67.4
+  L8: ORD-1113,07/01/2024,,sneha.gupta @ example.com,98300 68486,NORTH,N/A,,9,171.02,1539.18
+  L9: ORD-1164,05-Jun-2024,anita singh,anita.singh@example.com,(989) 087-8141,northeast,Unknown,B2C,47,94.28,4431.16
+
+Last 10 raw lines:
+  L303: ORD-1002,45486,  Vikram Reddy  ,vikram.reddy.example.com,98648 35030,SOUTH,ALPHA,retail,24,  83.95,2014.8
+  L304: ORD-1137,"January 17, 2024",Kavya.Iyer,kavya.iyer.example.com,98798 55241,north,Beta,n/a,null,69.32,3902
+  L305: ORD-1232,05/09/2024,Mr. Priya Patel,priya.patel@example.com,  9875243728  ,NORTH,Alpha ,-,5 units,70.01,35.01
+  L306: ORD-1245,23/02/2024 14:37:00,  Pooja Desai  ,pooja.desai@example.com,98531 53136, ,BETA,ONLINE,?,161.39,4073
+  L307: ORD-1235,45558,  Sneha Gupta  ,sneha.gupta@example.com,(984) 300-9109,WEST, Alpha ,  Online  ,12,21.9,
+  L308: ORD-1041,45591,Arjun.Mehta,arjun.mehta@example.com,(984) 612-0047, ,N/A,on-line,24,$ 62.09,
+  L309: ORD-1014,2024/12/08,  Meera Krishnan  ,meera.krishnan@example.com,+919836541458,Sourh,Alpha,  Online  ,16,161.73,258768.0
+  L310: ORD-1078,2024-09-01,karan verma,karan.verma@example.com,+91 98206 72400,Sourh,Gamma,b2b,19,136.26,2588.94
+  L311: ORD-1165,45461,Mr. Sneha Gupta,sneha.gupta@example.com  ,98955 62053,SOUTH,GAMMA,on-line,42 units,71.32/-,
+  L312: ORD-1054,19/10/2024,karan verma,karan.verma @ example.com,98778 89255,EAST,gamma,-,39,47.15,
+
+Trailing blank lines at EOF: 0
+Last non-blank line looks like a footer/summary row: False
+  content: 'ORD-1054,19/10/2024,karan verma,karan.verma @ example.com,98778 89255,EAST,gamma,-,39,47.15,'
+
+==============================================================================
+NAIVE pd.read_csv() vs dtype=str, keep_default_na=False -- cell-level diff
+==============================================================================
+Naive read shape : (312, 11)
+Safe  read shape : (312, 11)
+Naive columns    : ['order_id', 'Order_Date', 'customer name', 'Customer Email', 'Phone Number', 'region ', 'Product', 'channel', 'Units Sold', 'unit_price', 'Total Revenue']
+Safe  columns    : ['order_id', 'Order_Date', 'customer name', 'Customer Email', 'Phone Number', 'region ', 'Product', 'channel', 'Units Sold', 'unit_price', 'Total Revenue']
+
+Columns that would KeyError on df_naive[<clean-looking name>]: ['region']
+  (because the real names carry the BOM prefix and/or trailing space -- see header
+   inventory above)
+
+Total cells                         : 3,432
+Cells preserved verbatim (naive read): 3,345
+Cells altered/destroyed (naive read) : 87  (2.53% of all cells)
+
+First up to 15 destroyed-cell examples (column, row, raw literal -> naive value):
+  'Order_Date' row 141: 'n/a' -> 'NaN (silently nulled by pandas)'
+  'Order_Date' row 193: 'N/A' -> 'NaN (silently nulled by pandas)'
+  'Order_Date' row 263: 'n/a' -> 'NaN (silently nulled by pandas)'
+  'Order_Date' row 278: 'null' -> 'NaN (silently nulled by pandas)'
+  'customer name' row 95: 'N/A' -> 'NaN (silently nulled by pandas)'
+  'customer name' row 119: 'N/A' -> 'NaN (silently nulled by pandas)'
+  'customer name' row 127: 'null' -> 'NaN (silently nulled by pandas)'
+  'customer name' row 143: 'null' -> 'NaN (silently nulled by pandas)'
+  'customer name' row 144: 'null' -> 'NaN (silently nulled by pandas)'
+  'customer name' row 180: 'null' -> 'NaN (silently nulled by pandas)'
+  'Phone Number' row 179: 'N/A' -> 'NaN (silently nulled by pandas)'
+  'Phone Number' row 233: 'N/A' -> 'NaN (silently nulled by pandas)'
+  'Phone Number' row 286: 'N/A' -> 'NaN (silently nulled by pandas)'
+  'region ' row 15: 'N/A' -> 'NaN (silently nulled by pandas)'
+  'region ' row 32: 'N/A' -> 'NaN (silently nulled by pandas)'
+
+==============================================================================
+CONCLUSION: this pipeline loads with encoding='utf-8-sig', dtype=str, keep_default_na=False
+so that (a) the BOM never enters a column name, (b) every disguised null survives
+into Stage 4 to be logged rather than silently becoming NaN, and (c) no numeric
+string is coerced/reformatted before the explicit Stage 4.6 cleaning step.
+==============================================================================

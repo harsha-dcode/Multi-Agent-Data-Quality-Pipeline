@@ -1,0 +1,30 @@
+STAGE 8 PRE-VIZ PREP
+
+Input (cleaned_data.csv): 49864 rows
+
+Flag inventory (from Stage 4 flag registry, confirmed against actual dataframe columns):
+  total_area_sign_flag: True count=994 | meaning: total_area was negative in raw data -- physically impossible for an area; flagged, NOT corrected (BR3)
+  built_year_future_flag: True count=0 | meaning: built_year > 2026 (current year) -- physically impossible, flagged
+  total_area_outlier_flag: True count=4848 | meaning: total_area > 10x column median -- real scale variation (large estates/land), NOT a decimal typo (BR4); flagged STATISTICAL_OUTLIER, value unchanged
+  price_per_sqm_outlier_flag: True count=1573 | meaning: price_per_sqm > 10x median -- mathematically explained by final_sale_price/abs(total_area) (BR6), NOT an independent decimal typo; flagged STATISTICAL_OUTLIER
+  final_sale_price_outlier_flag: True count=424 | meaning: final_sale_price > 10x median -- cross-checked against listing_price (BR5), ratio matches normal population, genuine luxury listing NOT a decimal typo; flagged STATISTICAL_OUTLIER
+  listing_price_outlier_flag: True count=426 | meaning: listing_price > 10x median -- cross-checked against final_sale_price (BR9), ratio matches normal population, genuine luxury listing NOT a decimal typo; flagged STATISTICAL_OUTLIER
+  land_area_outlier_flag: True count=0 | meaning: land_area > 10x median, no divisor landed in plausible band -- flagged STATISTICAL_OUTLIER, not corrected
+  land_area_decimal_typo_flag: True count=1 | meaning: land_area decimal-typo corrected (divided by 10/100/1000 to land within [0.5x,2x] median)
+
+Filter-vs-keep decisions:
+  total_area_sign_flag: FILTER (994 rows) -- negative total_area is physically impossible; a chart bucketing/summing area would be actively wrong if it included these.
+  built_year_future_flag: FILTER (0 rows) -- built_year in the future is physically impossible.
+  total_area_outlier_flag: KEEP (4848 rows) -- genuinely large properties exist in every property_type (BR4); dropping them would understate real price/area variance, not correct an error.
+  price_per_sqm_outlier_flag: KEEP (1573 rows) -- mathematically explained by final_sale_price/total_area (BR6); the underlying row is legitimate.
+  final_sale_price_outlier_flag: KEEP (424 rows) -- cross-checked against listing_price, genuine luxury listings (BR5). Excluding them would bias any price distribution/mean downward and hide the luxury segment entirely.
+  listing_price_outlier_flag: KEEP (426 rows) -- cross-checked against final_sale_price, genuine luxury listings (BR9). Same reasoning as final_sale_price_outlier_flag.
+  land_area_outlier_flag: KEEP (0 rows) -- statistical outlier only, no divisor test passed so nothing was corrected or judged impossible.
+  land_area_decimal_typo_flag: KEEP (1 rows) -- value was already corrected in Stage 4.10 (divided by 10, landed in-band); the corrected value is safe to chart, this flag is provenance only.
+
+Rows filtered (physically impossible only): 994
+viz_ready row count: 49864 -> 48870 (994 dropped, 1.99%)
+
+Recomputed listing_year/listing_month from listing_date, cross-checked against Stage-7 derived columns: 0 year mismatches, 0 month mismatches (expected 0, since Stage 7 already derived these the same way)
+
+Wrote viz_ready.csv: 48870 rows x 60 cols

@@ -1,0 +1,129 @@
+# =============================================================================
+# STAGE 1 — BUSINESS BRIEF
+# Dataset: telecom_churn.csv (control case in a 5-dataset benchmark)
+# Written BEFORE Stage 2/3 profiling, based on: (a) raw structural inspection
+# in 00_peek.py (header names, delimiter, row/field counts, sample rows),
+# and (b) domain knowledge of this well-known telecom-churn schema (11 cols,
+# 3,333 rows is the canonical "Churn in Telecom" dataset shape: a per-account
+# snapshot with a binary churn label and usage/billing features).
+# This run is UNATTENDED — no user is available to confirm assumptions.
+# Every assumption below is stated explicitly rather than asked.
+# =============================================================================
+
+dataset: telecom_churn.csv
+grain: >
+  One row per subscriber account. There is no explicit account/customer ID
+  column in the source file (verified in 00_peek.py: the 11 headers are
+  Churn, AccountWeeks, ContractRenewal, DataPlan, DataUsage, CustServCalls,
+  DayMins, DayCalls, MonthlyCharge, OverageFee, RoamMins -- none of these
+  is an identifier). ASSUMPTION: the row itself, not any column, is the
+  grain. Consequence: exact-duplicate ROWS cannot be distinguished from
+  two different subscribers who happen to share identical feature values --
+  this is flagged, not silently resolved, in Stage 4.11.
+
+critical_columns:
+  - Churn          # the target/label. A null Churn makes the row useless for
+                    # the dataset's evident purpose (churn modeling/reporting)
+                    # regardless of how complete the other features are.
+  - MonthlyCharge   # closest field to a revenue figure in this schema; a
+                    # billing dataset with a null charge is not reportable.
+# NOTE: feature columns (AccountWeeks, ContractRenewal, DataPlan, DataUsage,
+# CustServCalls, DayMins, DayCalls, OverageFee, RoamMins) are NOT marked
+# critical -- a null in any one of them degrades a row's usefulness for
+# modeling but does not by itself make the row unusable, and per Stage 7
+# they will be flagged (not imputed) if any nulls are found.
+
+allowed_values:
+  Churn: [0, 1]              # closed binary code set (did the subscriber churn)
+  ContractRenewal: [0, 1]    # closed binary code set (recently renewed contract)
+  DataPlan: [0, 1]           # closed binary code set (subscribed to a data plan)
+  # All other columns are continuous numeric measures (weeks, GB, minutes,
+  # counts, dollars) with no categorical/enumerated value set.
+
+dangerous_columns: {}
+# Explicitly empty: the collision guard (Stage 4.4) was run against every
+# categorical/flag column in this dataset -- Churn, ContractRenewal, DataPlan.
+# All three are numeric binary flags (0/1), not free-text/string categories.
+# Fuzzy string matching (token_sort_ratio, edit distance) operates on strings;
+# it has no defined behavior on an integer domain of {0,1} and is not
+# applicable here. There is no string/categorical column in this dataset at
+# all (verified in 00_peek.py: every column is numeric in the raw sample).
+# CONCLUSION: zero columns are eligible for fuzzy matching, therefore zero
+# columns can collide under it. This is a "ran the guard, nothing tripped
+# because nothing was eligible" result, not a "didn't look" result -- see
+# the Stage 4.4 collision-guard section of 02_profile_report.txt for the
+# per-column eligibility check that produced this conclusion.
+
+missing_value_strategy:
+  Churn: never_impute            # closed code set, critical, target variable
+  ContractRenewal: never_impute  # closed code set
+  DataPlan: never_impute         # closed code set
+  AccountWeeks: leave_null
+  DataUsage: leave_null
+  CustServCalls: leave_null
+  DayMins: leave_null
+  DayCalls: leave_null
+  MonthlyCharge: leave_null      # critical column: a null here is FLAGGED for
+                                  # manual review (Stage 7 default), never imputed
+  OverageFee: leave_null
+  RoamMins: leave_null
+# No blanket rule. Default is leave_null (flag, don't fabricate) for every
+# continuous feature; the 0/1 flags get the stronger never_impute because
+# a guessed 0-or-1 for a binary label/feature is a coin flip presented as data.
+
+# ---------------------------------------------------------------------------
+# OPTIONAL EXTRAS -- included where they can be stated honestly
+# ---------------------------------------------------------------------------
+
+dataset_type: telecom_subscriber_churn
+
+business_goal: >
+  Feed churn-prediction modeling and/or executive churn-driver reporting for a
+  telecom subscriber base. This dataset is the designated CONTROL CASE in a
+  5-dataset benchmark suite (see case_studies/README.md): it is expected to
+  already be clean, and the benchmark's purpose is to prove the pipeline does
+  not fabricate changes on clean input. ASSUMPTION, stated because it changes
+  the flag-vs-fix posture: given the control-case framing, the bar for
+  "correct" here is near-zero silent changes, not a target change count.
+
+column_types:
+  Churn: integer            # binary flag, 0/1
+  AccountWeeks: integer     # tenure in weeks
+  ContractRenewal: integer  # binary flag, 0/1
+  DataPlan: integer         # binary flag, 0/1
+  DataUsage: float          # GB/month
+  CustServCalls: integer    # count of customer service calls
+  DayMins: float            # daytime minutes used
+  DayCalls: integer         # count of daytime calls
+  MonthlyCharge: float      # dollars
+  OverageFee: float         # dollars
+  RoamMins: float           # roaming minutes used
+
+business_rules:
+  BR1:
+    rule: "AccountWeeks, DataUsage, CustServCalls, DayMins, DayCalls, MonthlyCharge, OverageFee, RoamMins cannot be negative (tenure/usage/counts/billing are physically non-negative)."
+    action: flag
+    reason: "Standard impossible-negative rule (Stage 4.9) applied by column semantics, not global assumption."
+  BR2:
+    rule: "Churn, ContractRenewal, DataPlan must be in {0, 1}; any other value is out-of-range for a closed binary code set."
+    action: flag
+    reason: "These are the closed code sets named in allowed_values above; a value outside {0,1} is a data-entry/extraction defect, not a typo to fuzzy-correct."
+  BR3:
+    rule: "If DataPlan == 0, DataUsage should logically be 0 (no plan implies no billed data usage)."
+    action: flag_do_not_correct
+    reason: "Plausible logical inconsistency, not a certain error -- could reflect a residual/trial usage the source system legitimately recorded before plan cancellation. Flag for review; do not overwrite DataUsage or DataPlan to force agreement."
+
+assumptions:
+  A1:
+    text: "No account/customer identifier exists; row order in the raw file is the only available proxy for row identity, captured as __source_row."
+    if_wrong: "If an ID column was dropped upstream, exact-duplicate-row detection may over-flag legitimate repeat snapshots of the same account at different times as duplicates."
+  A2:
+    text: "MonthlyCharge and OverageFee are both in the same currency (assumed USD, consistent with the dataset's well-known origin) and are not already net of each other."
+    if_wrong: "Cross-column billing sanity checks (e.g. OverageFee > MonthlyCharge) would be evaluated on a wrong basis."
+  A3:
+    text: "DataUsage is measured in GB/month and DayMins/RoamMins in minutes, matching the well-known public version of this schema."
+    if_wrong: "Unit-based outlier/consistency checks in Stage 4.10 would use the wrong plausible-range assumptions."
+
+risks:
+  - "No identifier column means duplicate-row detection cannot distinguish 'same subscriber logged twice' from 'two different subscribers with identical rounded features' -- both will be reported as exact duplicates, and the decision to remove vs. keep is deferred to Stage 4.11 with full disclosure."
+  - "This dataset is asserted to be clean; the main failure mode to guard against in this run is manufacturing a change to look productive. Every stage must be able to report a genuine zero."

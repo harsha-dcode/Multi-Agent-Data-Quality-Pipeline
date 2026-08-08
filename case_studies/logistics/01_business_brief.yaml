@@ -1,0 +1,268 @@
+# =============================================================================
+# STAGE 1 BUSINESS BRIEF
+# Logistics / Supply Chain shipment dataset (India, INR)
+# Produced: unattended run, 2026-07-29. No user available to ask -- every
+# judgment call below is made conservatively and justified inline, per
+# behavioral rule 5 (resolve ambiguity explicitly, conservative default).
+# =============================================================================
+
+dataset: logistics_supply_chain_dataset_v3.csv
+
+grain: >
+  One row = one shipment (Shipment_ID). NOTE: Order_ID is NOT the grain --
+  23,621 distinct Order_IDs across 30,102 shipment rows confirms orders are
+  legitimately split into multiple shipments (partial/multi-leg fulfillment).
+  This is expected multiplicity, not a duplication defect.
+
+critical_columns:
+  # A null in any of these makes the row useless for the dataset's core
+  # purpose (shipment tracking, routing, and revenue/cost reporting).
+  - Shipment_ID
+  - Order_ID
+  - Customer_ID
+  - Shipment_Date
+  - Pickup_Date
+  - Dispatch_Date
+  - Expected_Delivery_Date
+  - Delivery_Status
+  - Customer_Type
+  - Industry
+  - Warehouse_ID
+  - Warehouse_Name
+  - Warehouse_City
+  - Warehouse_State
+  - Warehouse_Region
+  - Destination_City
+  - Destination_State
+  - Destination_Region
+  - Distance_KM
+  - Transport_Mode
+  - Vehicle_Type
+  - Product_Category
+  - Shipping_Cost_INR
+  - Operational_Cost_INR
+  - Revenue_INR
+  - Profit_INR
+  - Return_Status
+
+allowed_values:
+  Delivery_Status: ["On Time", "Delayed", "Early", "In Transit"]
+  Customer_Type: ["Enterprise", "Retail", "Wholesale"]
+  Industry: ["Distribution", "Import-Export", "Manufacturing", "E-Commerce",
+             "Automotive", "Electronics Retail", "Banking & Finance",
+             "Pharmacy", "Supermarket", "Fashion Retail", "Agriculture Supply",
+             "Technology", "Telecom", "FMCG", "Pharmaceuticals"]
+  Warehouse_ID: ["WH001","WH002","WH003","WH004","WH005","WH006","WH007",
+                 "WH008","WH009","WH010","WH011","WH012"]
+  Warehouse_Region: ["East", "North", "South", "West"]
+  Destination_Region: ["Central", "East", "North", "South", "West"]
+  Transport_Mode: ["Road", "Air", "Rail", "Sea"]
+  Vehicle_Type: ["Heavy Truck", "Container Truck", "Medium Truck",
+                 "Cargo Plane", "Mini Truck", "Commercial Cargo Flight",
+                 "Freight Train", "Express Freight Train", "Pickup Van",
+                 "Container Ship", "Bulk Carrier"]
+  Product_Category: ["FMCG", "Clothing & Apparel", "Electronics",
+                      "Food & Beverages", "Auto Parts", "Chemicals",
+                      "Industrial Equipment", "Books & Stationery",
+                      "Pharmaceuticals", "Furniture"]
+  Return_Status: ["Not Returned", "Returned"]
+  # Destination_City / Warehouse_City / Warehouse_State / Destination_State are
+  # open geographic sets (29-41 Indian cities / 11-18 states observed) --
+  # not enumerated here in full; canonical spelling verified against the
+  # profiled unique-value list in 01_profile_report.txt.
+
+dangerous_columns: {}
+# I RAN THE GUARD AND NOTHING TRIPPED. Measured evidence (see
+# 01c_more_checks_report.txt, section "COLLISION GUARD"):
+#   from thefuzz import utils
+#   canonicals_collide(canon_list) -> False for ALL 9 categorical columns
+#   tested (Delivery_Status, Customer_Type, Transport_Mode, Product_Category,
+#   Vehicle_Type, Industry, Return_Status, Warehouse_Region,
+#   Destination_Region). No canonical pair reduces to an identical
+#   preprocessed key. Highest within-set collision risk found was
+#   'Not Returned' vs 'Returned' at token_sort_ratio=80 (still well below the
+#   85 auto-correct threshold, and these two values never occur as messy
+#   variants of each other in the raw data) and 'Freight Train' vs
+#   'Express Freight Train' at 76. Fuzzy matching is authorized on all
+#   tested categorical columns.
+
+missing_value_strategy:
+  # PER COLUMN. No blanket rule. Revenue/cost factors and identifiers are
+  # never_impute per explicit run instruction.
+  Shipment_ID: never_impute            # identifier, 0% null
+  Order_ID: never_impute               # identifier, 0% null
+  Shipment_Date: never_impute          # date, 0% null
+  Pickup_Date: never_impute            # date, 0% null
+  Dispatch_Date: never_impute          # date, 0% null
+  Expected_Delivery_Date: never_impute # date, 0% null
+  Actual_Delivery_Date: leave_null     # 230 nulls (0.76%) = shipments still
+                                        # "In Transit" -- confirmed 1:1 with
+                                        # Delivery_Status=In Transit. Null IS
+                                        # information (not yet delivered).
+  Delivery_Status: never_impute        # 0% null, critical categorical
+  Delay_Days: leave_null               # 230 nulls, same rows as
+                                        # Actual_Delivery_Date -- delay is
+                                        # inherently unknown before delivery.
+  Customer_ID: never_impute            # identifier, 0% null
+  Customer_Type: never_impute          # 0% null, critical categorical
+  Industry: never_impute               # 0% null, critical categorical
+  Warehouse_ID: never_impute           # identifier, 0% null
+  Warehouse_Name: never_impute         # 0% null
+  Warehouse_City: never_impute         # 0% null
+  Warehouse_State: never_impute        # 0% null
+  Warehouse_Region: never_impute       # 0% null
+  Destination_City: never_impute       # 0% null
+  Destination_State: never_impute      # 0% null
+  Destination_Region: never_impute     # 0% null
+  Distance_KM: never_impute            # 0% null, cost driver
+  Transport_Mode: never_impute         # 0% null, critical categorical
+  Vehicle_Type: never_impute           # 0% null, critical categorical
+  Driver_ID: never_impute              # identifier; 7,228 nulls (24.01%) are
+                                        # legitimate (Air/Sea shipments have
+                                        # no truck driver -- confirmed 100%
+                                        # overlap with Transport_Mode in
+                                        # {Air, Airways, Sea}; Rail shipments
+                                        # DO carry a Driver_ID). Never impute
+                                        # a fabricated driver identity.
+  Product_Category: never_impute       # 0% null, critical categorical
+  Shipment_Weight_KG: leave_null       # 900 nulls (2.99%), no business-logic
+                                        # correlation found (not tied to
+                                        # Transport_Mode or any other column);
+                                        # genuine data gap. Not a cost/revenue/
+                                        # id field -- do not fabricate a
+                                        # physical measurement.
+  Shipment_Volume_CBM: leave_null      # 0% null observed; documented for
+                                        # future-proofing as a physical
+                                        # measure, same reasoning as weight.
+  Shipping_Cost_INR: never_impute      # cost factor, 0% null
+  Fuel_Cost_INR: never_impute          # cost factor; 1,203 nulls (4.00%)
+                                        # spread across ALL transport modes
+                                        # with no clean correlation --
+                                        # genuine gap, never fabricate a cost.
+  Operational_Cost_INR: never_impute   # cost factor, 0% null
+  Revenue_INR: never_impute            # revenue factor, 0% null
+  Profit_INR: never_impute             # revenue/cost-derived factor, 0% null
+  Customer_Rating: leave_null          # 1,718 nulls (5.71%); subjective
+                                        # customer-submitted score -- a
+                                        # customer who didn't rate is not the
+                                        # same as a customer who rated 0.
+  Return_Status: never_impute          # 0% null, critical categorical
+  Delay_Reason: leave_null             # 21,738 nulls (72.21%); legitimately
+                                        # blank for On Time/Early/In Transit
+                                        # shipments. Even among Delayed
+                                        # shipments, 170 have no captured
+                                        # reason -- never invent a narrative.
+
+# =============================================================================
+# OPTIONAL EXTRAS
+# =============================================================================
+
+dataset_type: logistics_supply_chain_shipments
+
+business_goal: >
+  Operational/executive reporting and BI dashboarding on shipment delivery
+  performance, cost structure, and profitability across an Indian logistics
+  network (12 warehouses, 4 transport modes, 41 destination cities).
+  Consequence: flag-vs-fix tiebreaks favor visible flags over silent
+  correction, because this feeds dashboards executives will act on directly.
+
+column_types:
+  Shipment_ID: string
+  Order_ID: string
+  Shipment_Date: date
+  Pickup_Date: date
+  Dispatch_Date: date
+  Expected_Delivery_Date: date
+  Actual_Delivery_Date: date
+  Delivery_Status: category
+  Delay_Days: float
+  Customer_ID: string
+  Customer_Type: category
+  Industry: category
+  Warehouse_ID: category
+  Warehouse_Name: category
+  Warehouse_City: category
+  Warehouse_State: category
+  Warehouse_Region: category
+  Destination_City: category
+  Destination_State: category
+  Destination_Region: category
+  Distance_KM: integer
+  Transport_Mode: category
+  Vehicle_Type: category
+  Driver_ID: string
+  Product_Category: category
+  Shipment_Weight_KG: float
+  Shipment_Volume_CBM: float
+  Shipping_Cost_INR: float
+  Fuel_Cost_INR: float
+  Operational_Cost_INR: float
+  Revenue_INR: float
+  Profit_INR: float
+  Customer_Rating: float
+  Return_Status: category
+  Delay_Reason: category
+
+not_critical:
+  Actual_Delivery_Date: "null means shipment still In Transit -- that is information, not a defect"
+  Delay_Days: "unknown until the shipment is actually delivered"
+  Driver_ID: "null means the leg was Air or Sea -- no truck driver applicable"
+  Shipment_Weight_KG: "row remains fully usable for status/cost/revenue analysis without it"
+  Shipment_Volume_CBM: "same reasoning as weight"
+  Customer_Rating: "customer chose not to rate; that is not the same as a rating of zero"
+  Delay_Reason: "blank by construction for non-delayed shipments; also genuinely uncaptured for 170 delayed ones"
+  Fuel_Cost_INR: "genuine unexplained gap, but other cost/revenue fields remain intact for row usefulness"
+
+business_rules:
+  BR1:
+    rule: "Delay_Days may be legitimately negative (early arrival)."
+    action: flag_do_not_correct
+    reason: "All 3,051 negative Delay_Days rows (min -3.0) fall under Delivery_Status=Early; -3..-1 is arriving N days ahead of Expected_Delivery_Date. This is real business signal, not an error. Verified 1:1 correlation in 01b_correlation_report.txt."
+  BR2:
+    rule: "Profit_INR may be legitimately negative (loss-making shipment)."
+    action: flag_do_not_correct
+    reason: "11.85% of rows have negative profit (min -13,613.33). Profit = Revenue - Costs; a loss is a valid business outcome, not a data error."
+  BR3:
+    rule: "Shipment_Weight_KG negative values are corrected via abs(), not merely flagged."
+    action: correct
+    reason: "89 rows (0.30%) negative. median(abs(negatives))=36.81 vs overall column median=36.89 -- near-exact match indicates a sign-flip data-entry error, not fabricated data. Weight has no legitimate negative interpretation in any business context (unlike cost, which can represent a credit/refund). Run instruction explicitly names negative weight as unambiguously an error. Each correction logged individually with a Shipment_Weight_KG_sign_flag column set True."
+  BR4:
+    rule: "Shipping_Cost_INR negative values are flagged, NOT corrected."
+    action: flag
+    reason: "152 rows (0.50%) negative, magnitudes do NOT match a sign-flip pattern (median(abs(neg))=1634.06 vs median(all positive)=1453.44; mean(abs(neg))=7237.72 vs mean(positive)=5963.29 -- meaningfully larger, not a clean mirror). A negative shipping cost could plausibly represent a billing credit/adjustment. Per run instruction: 'a negative cost or adjustment may be legitimate.' Left as-is, flagged for manual review."
+  BR5:
+    rule: "Customer_Rating outside [1.0, 5.0] is flagged as impossible/out-of-range, not corrected."
+    action: flag
+    reason: "41 rows below 1.0 (values -1.0, 0.0) and 81 rows above 5.0 (values 6.0, 7.5, 9.0). Native scale is confirmed 1.0-5.0 by the dominant value distribution (median 4.0, all top-10 values in [3.5,4.9]). Out-of-range values do not fit the Stage 4.10 decimal-typo pattern (dividing by 10 does not land any of them back in [1,5]), so no arithmetic correction is defensible -- flag only."
+  BR6:
+    rule: "Actual_Delivery_Date earlier than Dispatch_Date is physically impossible."
+    action: flag
+    reason: "646 rows (2.15%) have Actual_Delivery_Date < Dispatch_Date. Cannot determine which of the two dates is wrong, so neither is corrected -- both flagged. These rows are filtered from viz_ready.csv (Stage 8) as physically impossible, per run instruction example."
+  BR7:
+    rule: "Destination_City historical Indian city renames are normalized via an explicit synonym map, not the fuzzy engine."
+    action: correct
+    reason: "Bombay->Mumbai, Calcutta->Kolkata, Madras->Chennai, Bengaluru->Bangalore are well-documented official renames, but their fuzzy similarity to the canonical spelling is low (token_sort_ratio 15-67, all below the 70 flag threshold) because the words are lexically different, not typos. Applying fuzzy matching here would either miss them entirely or (worse) risk matching them to an unrelated but lexically similar city. Handled as a small, explicitly declared 4-pair synonym map instead, logged as TYPO_CORRECTED with reason 'explicit synonym map: historical city rename', not a fuzzy score."
+  BR8:
+    rule: "Transport_Mode word-synonyms ('Airways'->Air, 'Road Transport'->Road) are normalized via an explicit synonym map, not the fuzzy engine."
+    action: correct
+    reason: "Same reasoning as BR7: 'Airways' vs 'Air' scores 60 and 'Road Transport' vs 'Road' scores 44 on token_sort_ratio -- both below the 70 flag threshold despite being unambiguous full-word synonyms with substantial row counts (66 and 175 rows respectively). Declared explicitly rather than lowering the fuzzy threshold globally (which would risk false positives elsewhere)."
+  BR9:
+    rule: "Fuzzy scorer is max(fuzz.ratio, fuzz.token_sort_ratio), both punctuation-preserving (full_process=False), not token_sort_ratio alone."
+    action: correct
+    reason: "token_sort_ratio tokenizes on whitespace, which penalizes space-insertion typos like 'whole sale' vs 'Wholesale' (token_sort_ratio=53, would be dropped as UNKNOWN) even though plain Levenshtein ratio correctly scores it 95 (77 rows, clear single-error typo). Taking the max of both scorers, with the scorer that won logged per correction, catches this class without changing behavior on any of the 9 collision-guard-cleared columns' other values (spot-checked in 01c_more_checks_report.txt)."
+
+assumptions:
+  A1:
+    text: "Currency is INR throughout (column suffix _INR); no locale/currency-symbol stripping needed for cost/revenue columns -- they are already plain numeric strings."
+    if_wrong: "If any cost/revenue cell actually contains a currency symbol or thousands separator, Stage 4.6 numeric parsing would produce NaN and it would surface as a new null in V2/V3 checks."
+  A2:
+    text: "Delay_Days, Distance_KM are whole/near-whole numbers stored as floats; no decimal-locale ambiguity (no thousands separators observed in the raw sample)."
+    if_wrong: "Stage 4.6 locale survey would flag AMBIGUOUS_DECIMAL_LOCALE if disproven."
+  A3:
+    text: "The 102 fully-duplicated Shipment_ID rows (204 total rows, all 35 columns byte-identical) are simple double-extraction/export duplicates, not two genuinely distinct shipments that coincidentally received the same ID."
+    if_wrong: "If the source system reuses Shipment_ID across genuinely different shipments, removing the second occurrence would destroy a real shipment record. Confirmed via 01b_correlation_report.txt that 100% of duplicate-ID groups (102/102) are FULL row duplicates, not partial/conflicting -- this makes the simple-duplicate explanation the only one consistent with the evidence."
+
+risks:
+  - "Shipping_Cost_INR, Operational_Cost_INR, Revenue_INR, Shipment_Weight_KG, Shipment_Volume_CBM all show high positive skew (12-25) -- Stage 4.10 decimal-typo screening required before trusting any aggregate."
+  - "Destination_City has 41 raw unique values collapsing to a smaller canonical city list once case and historical-rename variants are resolved -- must re-verify canonical count after cleaning."
+  - "'Clothing' (31 rows) in Product_Category scores only 62 against 'Clothing & Apparel' -- below the 70 flag threshold, will be left as an UNKNOWN_CATEGORY, not silently folded in. This is a deliberate under-correction, not an oversight."
