@@ -5,7 +5,7 @@ Reads the raw logistics CSV, applies every cleaning step in spec order,
 writes cleaned_data.csv + change_log.csv (+ change_log.csv, required name)
 into the output directory.
 
-Run: python 02_clean.py
+Run: python stage4_clean.py
 """
 
 from pathlib import Path as _Path

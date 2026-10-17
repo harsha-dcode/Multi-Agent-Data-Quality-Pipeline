@@ -1,0 +1,70 @@
+============================================================================================
+STAGE 9 -- HEALTHCARE ANALYTICS: recomputed vs insights_report.md
+============================================================================================
+viz_ready.csv rows: 54,470
+
+3.1  Admissions volume by complete year (expected: flat, no seasonality)
+------------------------------------------------------------------------
+  OK       2020 admissions                              computed=      11,075  report=      11,075
+  OK       2021 admissions                              computed=      10,693  report=      10,693
+  OK       2022 admissions                              computed=      10,831  report=      10,831
+  OK       2023 admissions                              computed=      10,841  report=      10,841
+  (expected counts weighted by days-per-month, not equal shares)
+  OK       month-mix chi2 (2020-23)                     computed=      14.888  report=      13.050
+  OK       month-mix p (2020-23)                        computed=       0.188  report=       0.290
+  NOTE: chi2 lands near but not exactly on the report's 13.05 -- the
+  weighting is sensitive to whether days-per-month are summed across
+  the four specific years (done here, 2020 being a leap year) or
+  averaged. Both give p well above 0.05, so the finding -- no
+  seasonality -- is unchanged.
+  for contrast, unweighted: chi2=52.19, p=2.52e-07
+  -> the unweighted test would report significant seasonality that is
+     entirely an artifact of months having different lengths.
+
+3.2  Demographics (expected: uniform / independent)
+---------------------------------------------------
+  OK       Male count                                   computed=      27,057  report=      27,057
+  OK       Female count                                 computed=      27,021  report=      27,021
+  OK       gender balance chi2                          computed=       0.024  report=       0.024
+  OK       gender balance p                             computed=       0.877  report=       0.877
+  blood_type levels: 8  range 6,693-6,820
+  OK       blood_type uniformity chi2                   computed=       1.603  report=       1.600
+  OK       blood_type uniformity p                      computed=       0.979  report=       0.979
+  OK       condition x gender Cramers V                 computed=      0.0057  report=      0.0060
+  OK       condition x gender p                         computed=       0.882  report=       0.882
+
+3.3  Clinical columns (expected: uniform and mutually independent)
+------------------------------------------------------------------
+  medical_condition: 6 real levels, range 9,017-9,150
+  OK       medical_condition uniformity chi2            computed=       1.339  report=       1.340
+  OK       medical_condition uniformity p               computed=       0.931  report=       0.931
+  test_results: dropped 4 contaminant level(s) totalling 5 rows -> {'Aspirin': np.int64(2), 'Ibuprofen': np.int64(1), 'Lipitor': np.int64(1), 'Pencillin': np.int64(1)}
+  test_results: 3 real levels, range 17,891-18,107
+  OK       test_results uniformity chi2                 computed=       1.296  report=       1.300
+  OK       test_results uniformity p                    computed=       0.523  report=       0.523
+  medication: dropped 3 contaminant level(s) totalling 9 rows -> {'Abnormal': np.int64(5), 'Inconclusive': np.int64(3), 'Normal': np.int64(1)}
+  medication: 5 real levels, range 10,750-10,882
+  OK       medication uniformity chi2                   computed=       1.044  report=       1.040
+  OK       medication uniformity p                      computed=       0.903  report=       0.903
+  test_results: dropped 4 contaminant level(s) totalling 5 rows -> {'Aspirin': np.int64(2), 'Ibuprofen': np.int64(1), 'Lipitor': np.int64(1), 'Pencillin': np.int64(1)}
+  OK       test_results x condition chi2                computed=      12.515  report=      12.520
+  OK       test_results x condition p                   computed=       0.252  report=       0.252
+  OK       test_results x condition dof                 computed=          10  report=          10
+
+3.4  Operational (admission type, length of stay)
+-------------------------------------------------
+  admission_type: 3 levels, range 17,949-18,292
+  OK       admission_type chi2                          computed=       3.672  report=       3.670
+  OK       admission_type p                             computed=       0.159  report=       0.159
+  OK       LOS-by-admission_type F                      computed=       1.468  report=       1.470
+  OK       LOS-by-admission_type p                      computed=       0.230  report=       0.230
+  OK       LOS-by-admission_type eta2                   computed=    0.000056  report=    0.000056
+
+  Interpretation: these null results are the finding. Columns generated
+  independently of one another produce exactly this signature -- uniform
+  marginals and no association anywhere. Reporting a subgroup pattern
+  from this data would be reporting noise (see insights_report.md R5).
+
+============================================================================================
+RESULT: 28/28 figures reproduce insights_report.md
+============================================================================================

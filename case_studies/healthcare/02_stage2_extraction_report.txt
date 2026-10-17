@@ -1,6 +1,6 @@
 STAGE 2: DATA EXTRACTION INVENTORY
 ============================================================
-Source file: <input>/healthcare_dataset_dirty_export.csv
+Source file: C:\Users\koush\OneDrive\Desktop\Multi-Agent-Data-Quality-Pipeline\case_studies\healthcare\input\healthcare_dataset_dirty_export.csv
 File size bytes: 9862441
 Encoding: UTF-8 (strict decode verified in 00_peek.py, no BOM)
 Detected delimiter: ',' (standard csv)

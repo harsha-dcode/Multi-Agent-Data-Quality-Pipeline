@@ -3,7 +3,7 @@
 Independent write-back verification -- per the "never trust a step's own
 success report" rule. Re-derives key numbers directly from the artifacts on
 disk (cleaned_data.csv, viz_ready.csv, change_log.csv) rather than trusting
-the console output printed by 03_clean.py / 04_transform.py / 06_viz_ready.py.
+the console output printed by stage4_clean.py / stage7_transform.py / stage8_viz_prep.py.
 
 Writes: 07_verify_writeback_report.txt
 """
@@ -53,7 +53,7 @@ churn_rate_manual = int(df["churn"].sum()) / len(df)
 log(f"Churn rate via .mean(): {churn_rate_mean:.6f}, via sum/len: {churn_rate_manual:.6f}, match: {churn_rate_mean == churn_rate_manual}")
 log(f"Churned subscribers: {int(df['churn'].sum())} / {len(df)} = {churn_rate_mean*100:.2f}%")
 
-# flag column True-count cross-check against change_log.csv, independent of 03_clean.py's own count
+# flag column True-count cross-check against change_log.csv, independent of stage4_clean.py's own count
 flag_cols = [c for c in df.columns if c.endswith("_flag")]
 log(f"\nFlag columns present: {len(flag_cols)}")
 for fc in flag_cols:

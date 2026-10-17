@@ -118,4 +118,4 @@ Run date: 2026-07-29 (unattended -- no user available mid-run; every judgment ca
 | `validation_report.md` | 3,413 | OK |
 | `insights_report.md` | 28,203 | OK |
 
-Numbered scripts in this directory (`00_peek.py` ... `05_viz_ready.py`, this script) reproduce the entire run from `messy_sales.csv` alone; run them in numeric order.
+Numbered scripts in this directory (`stage2a_peek.py` ... `stage8_viz_prep.py`, this script) reproduce the entire run from `messy_sales.csv` alone; run them in numeric order.

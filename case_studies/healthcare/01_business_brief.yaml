@@ -2,7 +2,7 @@
 # Authored 2026-07-29, unattended run (no user available to ask - see project note below).
 # Source lineage: this is the same synthetic "healthcare_dataset_dirty_export.csv" family
 # profiled in a prior run (2026-07-15); structural facts below (shape, columns, canonical sets,
-# fuzzy collision) were RE-VERIFIED against THIS file in 00_peek.py before being written here,
+# fuzzy collision) were RE-VERIFIED against THIS file in stage2a_peek.py before being written here,
 # not copied blind from memory.
 
 dataset: healthcare_dataset_dirty_export.csv
@@ -37,7 +37,7 @@ dangerous_columns:
   blood_type:
     fuzzy_matching: false
     reason: >
-      MEASURED (02c_collision_guard.py, run against this machine's actual rapidfuzz install,
+      MEASURED (stage3c_collision_guard.py, run against this machine's actual rapidfuzz install,
       output in 02c_collision_guard_report.txt): rapidfuzz.utils.default_process reduces 'A+'
       and 'A-' (and every other +/- pair: B+/B-, AB+/AB-, O+/O-) to the identical key ('a',
       'b', 'ab', 'o' respectively); token_sort_ratio('A+','A-', processor=default_process) =
@@ -45,7 +45,7 @@ dangerous_columns:
       this run; fuzzy matching is disabled for it.
   # NOTE: insurance_provider was suspected dangerous when this brief was first drafted (space
   # variant "United Healthcare" vs canonical "UnitedHealthcare"), but the actual collision guard
-  # (02c_collision_guard.py) was then run against it and found NO collision among its 5
+  # (stage3c_collision_guard.py) was then run against it and found NO collision among its 5
   # canonicals under rapidfuzz.utils.default_process - the suspected issue is a different failure
   # mode (default_process does not collapse internal whitespace, so "blue cross" keeps its space
   # and "United Healthcare" would under-score against "UnitedHealthcare" via plain fuzzy scoring)

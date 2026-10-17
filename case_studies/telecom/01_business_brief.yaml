@@ -2,7 +2,7 @@
 # STAGE 1 — BUSINESS BRIEF
 # Dataset: telecom_churn.csv (control case in a 5-dataset benchmark)
 # Written BEFORE Stage 2/3 profiling, based on: (a) raw structural inspection
-# in 00_peek.py (header names, delimiter, row/field counts, sample rows),
+# in stage2a_peek.py (header names, delimiter, row/field counts, sample rows),
 # and (b) domain knowledge of this well-known telecom-churn schema (11 cols,
 # 3,333 rows is the canonical "Churn in Telecom" dataset shape: a per-account
 # snapshot with a binary churn label and usage/billing features).
@@ -13,7 +13,7 @@
 dataset: telecom_churn.csv
 grain: >
   One row per subscriber account. There is no explicit account/customer ID
-  column in the source file (verified in 00_peek.py: the 11 headers are
+  column in the source file (verified in stage2a_peek.py: the 11 headers are
   Churn, AccountWeeks, ContractRenewal, DataPlan, DataUsage, CustServCalls,
   DayMins, DayCalls, MonthlyCharge, OverageFee, RoamMins -- none of these
   is an identifier). ASSUMPTION: the row itself, not any column, is the
@@ -47,7 +47,7 @@ dangerous_columns: {}
 # Fuzzy string matching (token_sort_ratio, edit distance) operates on strings;
 # it has no defined behavior on an integer domain of {0,1} and is not
 # applicable here. There is no string/categorical column in this dataset at
-# all (verified in 00_peek.py: every column is numeric in the raw sample).
+# all (verified in stage2a_peek.py: every column is numeric in the raw sample).
 # CONCLUSION: zero columns are eligible for fuzzy matching, therefore zero
 # columns can collide under it. This is a "ran the guard, nothing tripped
 # because nothing was eligible" result, not a "didn't look" result -- see

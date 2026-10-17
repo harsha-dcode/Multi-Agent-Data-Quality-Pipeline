@@ -251,7 +251,7 @@ rprint(f"\n4.3b COLUMN-VALUE SWAP CORRECTION: blood_type<->gender swapped rows={
 # =====================================================================================
 # 4.4 CATEGORICAL TYPO CORRECTION (fuzzy matching, with mandatory collision guard result applied)
 # =====================================================================================
-DANGEROUS_COLS = {C_BLOOD}  # measured in 02c_collision_guard.py - only blood_type collides
+DANGEROUS_COLS = {C_BLOOD}  # measured in stage3c_collision_guard.py - only blood_type collides
 
 def alnum_key(s):
     return re.sub(r"[^a-z0-9]", "", str(s).lower())
@@ -785,6 +785,6 @@ rprint(f"total change-log entries: {len(change_log_df)}")
 
 with open(os.path.join(OUT_DIR, "03_stage4_report.txt"), "w", encoding="utf-8") as f:
     f.write("\n".join(report))
-print("\n=== 03_clean.py COMPLETE ===")
+print("\n=== stage4_clean.py COMPLETE ===")
 print("Final shape:", df.shape)
 print("Change log rows:", len(change_log_df))

@@ -3,7 +3,7 @@
 Stage 4: DATA CLEANING for telecom_churn.csv.
 
 Executes, in spec order, against the __source_row-tagged str-dtype dataframe
-produced by 02_extract_profile.py:
+produced by stage3_profile.py:
   4.1 Header normalization (PascalCase -> snake_case)
   4.2 Null standardization (already scanned in Stage 3: 0 found -- re-verified here)
   4.3 String normalization (whitespace strip check on every cell)
@@ -142,7 +142,7 @@ log("Every one of 3,333 x 11 = 36,663 cells was checked against its own "
 # =============================================================================
 log()
 log("--- 4.4 Categorical Typo Correction (Fuzzy Matching) ---")
-log("N/A for this dataset. Collision guard was run in 02_extract_profile.py against "
+log("N/A for this dataset. Collision guard was run in stage3_profile.py against "
     "all 11 columns: 0 are string/categorical columns eligible for fuzzy matching "
     "(churn, contract_renewal, data_plan are numeric {0,1} flags; the rest are continuous "
     "numeric measures). 0 fuzzy corrections applied. See 02_profile_report.txt for the "

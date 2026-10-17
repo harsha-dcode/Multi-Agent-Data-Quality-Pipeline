@@ -1,0 +1,6 @@
+==============================================================================
+STAGE 2 -- FULL EXTRACTION
+==============================================================================
+Loaded with encoding='utf-8-sig', dtype=str, keep_default_na=False
+Shape (rows, cols, excl. __source_row): (312, 11)
+Columns (raw, as-is): ['order_id', 'Order_Date', 'customer name', 'Customer Email', 'Phone Number', 'region ', 'Product', 'channel', 'Units Sold', 'unit_price', 'Total Revenue']

@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-02_extract_and_profile.py -- Stage 2 (full extraction) + Stage 3 (data profiling).
+stage3_profile.py -- Stage 3 (data profiling).
 
-Loads the raw CSV the "safe" way established in 00_peek.py (encoding='utf-8-sig',
-dtype=str, keep_default_na=False), adds the __source_row identity column (spec 4.0),
-and produces a full column-by-column profile: null-disguise survey, cardinality,
+Produces a full column-by-column profile: null-disguise survey, cardinality,
 numeric/date/string stats, and the fuzzy-matching collision guard for every
 categorical column named in the business brief.
+
+Repeats stage2b_extract.py's load as setup, so it runs standalone.
+Writes: 02_profile_report.txt
 """
 import os
 import re
@@ -37,7 +38,15 @@ log(f"Loaded with encoding='utf-8-sig', dtype=str, keep_default_na=False")
 log(f"Shape (rows, cols, excl. __source_row): ({df.shape[0]}, {df.shape[1]-1})")
 log(f"Columns (raw, as-is): {[c for c in df.columns if c != '__source_row']}")
 
-df.to_pickle(PICKLE_RAW)  # hand off to 03_clean.py so it doesn't re-parse and can trust __source_row
+df.to_pickle(PICKLE_RAW)  # hand off to stage4_clean.py so it doesn't re-parse and can trust __source_row
+
+
+# ---------------------------------------------------------------
+# The lines above re-run the previous stage as setup (deterministic
+# and cheap). Clear the log buffer so this report covers only this
+# stage's output.
+# ---------------------------------------------------------------
+lines.clear()
 
 # ---- Null disguise superset from spec 4.2/Stage 3 ----
 UNAMBIGUOUS_NULLS = {"", " ", "?", "null", "none", "tbd", "undefined", "#n/a", "#value!", "#ref!", "n/a"}

@@ -1,0 +1,111 @@
+==============================================================================
+WRITE-BACK VERIFICATION -- LOGISTICS
+==============================================================================
+cleaned_data.csv : rows=30,000  cols=84
+viz_ready.csv    : rows=29,354  cols=84
+change_log.csv   : rows=53,430
+
+1. __source_row integrity (the audit trail depends on this)
+-----------------------------------------------------------
+  nulls               : 0   (must be 0)
+  duplicates          : 0   (must be 0)
+  min / max           : 0 / 30101
+  monotonic increasing: True
+
+2. Header normalisation (Stage 4.1)
+-----------------------------------
+  non-snake_case headers remaining: [] (correct)
+
+3. Flag columns -- materialised on the frame, not only in the log
+-----------------------------------------------------------------
+  flag columns present: 43
+    delivery_status_fuzzy_review_flag                True = 111
+    transport_mode_unknown_category_flag             True = 235
+    product_category_unknown_category_flag           True = 31
+    date_logic_violation_flag                        True = 646
+    shipment_weight_kg_sign_flag                     True = 89
+    shipping_cost_inr_negative_flag                  True = 150
+    delay_days_negative_flag                         True = 3,008
+    profit_inr_negative_flag                         True = 3,547
+    customer_rating_out_of_range_flag                True = 120
+    shipment_weight_kg_outlier_flag                  True = 3,101
+    shipment_volume_cbm_outlier_flag                 True = 3,345
+    shipping_cost_inr_outlier_flag                   True = 2,066
+    fuel_cost_inr_outlier_flag                       True = 2
+    fuel_cost_inr_decimal_typo_flag                  True = 72
+    operational_cost_inr_outlier_flag                True = 54
+    operational_cost_inr_decimal_typo_flag           True = 154
+    revenue_inr_outlier_flag                         True = 798
+    actual_delivery_date_missing_flag                True = 229
+    delay_days_missing_flag                          True = 229
+    driver_id_missing_flag                           True = 7,205
+    shipment_weight_kg_missing_flag                  True = 896
+    fuel_cost_inr_missing_flag                       True = 1,200
+    customer_rating_missing_flag                     True = 1,711
+    delay_reason_missing_flag                        True = 21,667
+  total flagged cells across all flag columns: 50,666
+
+4. cleaned_data.csv -> viz_ready.csv filtering (Stage 8)
+--------------------------------------------------------
+  rows in cleaned          : 30,000
+  rows in viz_ready        : 29,354
+  filtered out for viz     : 646
+  viz is a subset of cleaned: True   (must be True)
+  why those rows were filtered (flags True among dropped rows):
+    delivery_status_fuzzy_review_flag                1
+    transport_mode_unknown_category_flag             8
+    date_logic_violation_flag                        646
+    shipment_weight_kg_sign_flag                     1
+    shipping_cost_inr_negative_flag                  2
+    delay_days_negative_flag                         591
+    profit_inr_negative_flag                         74
+    customer_rating_out_of_range_flag                2
+    shipment_weight_kg_outlier_flag                  66
+    shipment_volume_cbm_outlier_flag                 63
+    shipping_cost_inr_outlier_flag                   56
+    fuel_cost_inr_decimal_typo_flag                  2
+    operational_cost_inr_outlier_flag                1
+    operational_cost_inr_decimal_typo_flag           1
+    revenue_inr_outlier_flag                         20
+    driver_id_missing_flag                           387
+    shipment_weight_kg_missing_flag                  18
+    fuel_cost_inr_missing_flag                       25
+    customer_rating_missing_flag                     30
+    delay_reason_missing_flag                        631
+
+5. change_log.csv integrity
+---------------------------
+  CHANGE_TYPE breakdown:
+    NULL_STANDARDIZED                                33,247
+    OUTLIER_FLAGGED                                  10,387
+    NEGATIVE_FLAGGED                                 6,778
+    TYPO_CORRECTED                                   2,515
+    OUTLIER_DECIMAL_TYPO_CORRECTED                   226
+    DUPLICATE_REMOVED                                102
+    NEGATIVE_CORRECTED                               89
+    HEADER_RENAME                                    35
+    DTYPE_CAST                                       31
+    DERIVED_COLUMN_ADDED                             16
+    COLUMN_REORDERED                                 4
+
+  distinct SOURCE_ROW values in log : 25,560
+  rows logged as removed            : 102
+  orphaned log entries              : 0   (must be 0)
+
+6. Reconstructability precondition
+----------------------------------
+  required log fields present: yes
+
+7. Derived columns: profit_inr, profit_margin_pct, cost_per_kg
+--------------------------------------------------------------
+  cost columns: ['shipping_cost_inr', 'fuel_cost_inr', 'operational_cost_inr']
+  profit_inr == revenue - sum(costs), rows with all costs present: 28,316 / 28,800 (98.3%)
+  rows excluded for having a null cost component: 1,200
+  profit_margin_pct == profit/revenue*100: 30,000 / 30,000 (100.0%)
+  cost_per_kg == (shipping+fuel+operational)/shipment_weight_kg: 29,104 / 29,104 (100.0%)
+  (note: cost_per_kg uses TOTAL cost, not shipping cost alone -- verified here rather than assumed)
+
+==============================================================================
+Verification complete -- every figure above was recomputed from the
+artifacts on disk, independent of what the pipeline scripts reported.
+==============================================================================

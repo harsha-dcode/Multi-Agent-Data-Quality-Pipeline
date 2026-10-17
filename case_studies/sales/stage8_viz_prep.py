@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-05_viz_ready.py -- Stage 8 (Pre-Viz Prep): produce viz_ready.csv from cleaned_data.csv.
+stage8_viz_prep.py -- Stage 8 (Pre-Viz Prep): produce viz_ready.csv from cleaned_data.csv.
 
 Filter-vs-keep rule (per business brief BR2 and the standing unattended-run convention):
 FILTER rows flagged for a value that is PHYSICALLY IMPOSSIBLE for a sales order (negative

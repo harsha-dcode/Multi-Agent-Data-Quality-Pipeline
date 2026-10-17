@@ -180,5 +180,5 @@ rprint(f"03_flag_registry.json updated: {len(FLAG_REGISTRY)} total flags")
 
 with open(os.path.join(OUT_DIR, "04_stage7_report.txt"), "w", encoding="utf-8") as f:
     f.write("\n".join(report))
-print("\n=== 04_transform.py COMPLETE ===")
+print("\n=== stage7_transform.py COMPLETE ===")
 print("Final cleaned_data.csv shape:", df.shape)

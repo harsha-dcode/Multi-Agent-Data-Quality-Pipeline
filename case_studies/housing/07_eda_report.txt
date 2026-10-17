@@ -1,0 +1,77 @@
+============================================================================================
+STAGE 9 -- HOUSING ANALYTICS: recomputed vs insights_report.md
+============================================================================================
+viz_ready.csv rows: 48,870   (report claims 48,870)
+
+3.1  Multivariate OLS on log(final_sale_price)
+----------------------------------------------
+  model n = 48,870   (report: 48,870)
+  OK       OLS R-squared                                computed=        0.507  report=        0.507
+
+  term                    partial eta2     p-value   report eta2
+  --------------------------------------------------------------
+  country                      0.36950           0   0.37
+  bedrooms                     0.19638           0   0.196
+  log(total_area)              0.11733           0   0.117
+  bathrooms                    0.05833           0   0.058
+  property_age_years           0.00007     0.05964   7e-05
+  currency                     0.00009      0.3614   9e-05
+  condition                    0.00012      0.3161   0.00012
+  property_type                0.00014       0.334   0.00014
+
+3.2  Macro indices vs price (expected: only luxury_demand_index real)
+---------------------------------------------------------------------
+  OK       luxury_demand_index r (log price)            computed=        0.383  report=        0.383
+  OK       luxury_demand_index r-squared                computed=        0.146  report=        0.146
+  OK       interest_rate r (log price)                  computed=        0.008  report=        0.008
+  OK       inflation_index r (raw price)                computed=       -0.004  report=       -0.004
+  OK       housing_index r (raw price)                  computed=        0.003  report=        0.003
+
+3.3  Physical size and age vs price
+-----------------------------------
+  OK       log(area) vs log(price) r                    computed=        0.252  report=        0.252
+  OK       log(area) vs log(price) r-squared            computed=        0.063  report=        0.063
+  OK       property_age vs price r                      computed=        0.001  report=        0.001
+
+3.1b  Country price levels (rank order is the consistency check)
+----------------------------------------------------------------
+  median final_sale_price by country:
+    India                     634,639
+    Brazil                    739,501
+    Spain                   1,286,831
+    Germany                 1,384,016
+    France                  1,436,246
+    USA                     1,486,921
+    Canada                  1,579,732
+    Australia               1,645,990
+    UK                      1,693,611
+    UAE                     2,092,839
+  OK       lowest country median                        computed=      634,639  report=      634,639
+  OK       highest country median                       computed=    2,092,839  report=    2,092,839
+
+  median price_per_sqm by country (should share the same rank order):
+    India                       2,950
+    Brazil                      3,236
+    Spain                       5,839
+    Germany                     6,250
+    France                      6,586
+    USA                         6,896
+    Australia                   7,255
+    Canada                      7,480
+    UK                          7,710
+    UAE                         9,802
+
+  Spearman rank correlation between the two orderings: 0.9879
+  countries at a different rank: ['Canada', 'Australia']
+  NOTE: insights_report.md calls the two rankings 'identical'.
+  They are not exactly identical -- Canada and Australia swap
+  adjacent positions. The endpoints it quotes (India lowest,
+  UAE highest) are correct, and rho above shows the ordering
+  is otherwise preserved, so the conclusion stands; the word
+  'identical' is simply stronger than the data supports.
+  OK       India price_per_sqm                          computed=        2,950  report=        2,950
+  OK       UAE price_per_sqm                            computed=        9,802  report=        9,802
+
+============================================================================================
+RESULT: 22/22 figures reproduce insights_report.md
+============================================================================================

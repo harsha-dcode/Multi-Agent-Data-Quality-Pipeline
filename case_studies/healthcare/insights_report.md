@@ -237,7 +237,7 @@ clean numbers, actually supports.
 
 ## 4. Operational findings (from the pipeline)
 
-These come from `03_stage4_report.txt`, `05_validate.py` / `validation_report.md`, and
+These come from `03_stage4_report.txt`, `stage5_validate.py` / `validation_report.md`, and
 `04_stage7_report.txt` — the cleaning log, not the clean file — and describe what was broken
 upstream, not what the business looks like today.
 

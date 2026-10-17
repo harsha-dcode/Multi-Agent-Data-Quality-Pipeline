@@ -1,0 +1,82 @@
+==============================================================================
+WRITE-BACK VERIFICATION -- HOUSING
+==============================================================================
+cleaned_data.csv : rows=49,864  cols=60
+viz_ready.csv    : rows=48,870  cols=60
+change_log.csv   : rows=11,068
+
+1. __source_row integrity (the audit trail depends on this)
+-----------------------------------------------------------
+  present            : yes
+  nulls              : 0   (must be 0)
+  duplicates         : 0   (must be 0)
+  min / max          : 0 / 49999
+  monotonic increasing: True
+
+2. Header normalisation (Stage 4.1)
+-----------------------------------
+  non-snake_case headers remaining: [] (correct)
+
+3. Flag columns -- materialised on the frame, not only in the log
+-----------------------------------------------------------------
+  flag columns present: 8
+    total_area_sign_flag                         True = 994
+    total_area_outlier_flag                      True = 4,848
+    price_per_sqm_outlier_flag                   True = 1,573
+    final_sale_price_outlier_flag                True = 424
+    listing_price_outlier_flag                   True = 426
+    land_area_decimal_typo_flag                  True = 1
+  total flagged cells across all flag columns: 8,266
+
+4. cleaned_data.csv -> viz_ready.csv filtering (Stage 8)
+--------------------------------------------------------
+  rows in cleaned        : 49,864
+  rows in viz_ready      : 48,870
+  filtered out for viz   : 994
+  viz is a subset of cleaned: True   (must be True)
+  why those rows were filtered (flags True among dropped rows):
+    total_area_sign_flag                         994
+    price_per_sqm_outlier_flag                   37
+    final_sale_price_outlier_flag                10
+    listing_price_outlier_flag                   10
+
+5. change_log.csv integrity
+---------------------------
+  CHANGE_TYPE breakdown:
+    OUTLIER_FLAGGED                              7,289
+    TYPO_CORRECTED                               2,641
+    NEGATIVE_FLAGGED                             996
+    DUPLICATE_REMOVED                            136
+    NUMERIC_CLEANED                              3
+    STRING_NORMALIZED                            1
+    DATE_PARSED                                  1
+    OUTLIER_DECIMAL_TYPO_CORRECTED               1
+
+  distinct SOURCE_ROW values in log : 9,875
+  rows logged as removed            : 136
+  orphaned log entries              : 0   (must be 0 -- an orphan means a log row points at a row that no longer exists and was never recorded as removed)
+
+6. Reconstructability precondition
+----------------------------------
+  required log fields present: yes
+  (original data = cleaned data + log requires all six)
+
+7. price_per_sqm -- a SOURCE column, not pipeline-derived
+---------------------------------------------------------
+  price_per_sqm exists in the raw input file, so the pipeline did not
+  compute it. This checks which price the SOURCE SYSTEM used to derive it,
+  and how internally consistent that source column actually is.
+
+  price_per_sqm == listing_price/total_area (within 1%): 42,252 / 49,864 (84.7%)
+  price_per_sqm == final_sale_price/total_area (within 1%): 11,487 / 49,864 (23.0%)
+
+  Finding: the source derives price_per_sqm from LISTING price, not the
+  final sale price -- and ~15% of rows do not match even that. Any
+  analysis treating price_per_sqm as 'achieved price per sqm' is wrong,
+  and the residual mismatch is a source-system inconsistency worth
+  reporting upstream.
+
+==============================================================================
+Verification complete -- every figure above was recomputed from the
+artifacts on disk, independent of what the pipeline scripts reported.
+==============================================================================

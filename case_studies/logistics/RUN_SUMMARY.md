@@ -160,13 +160,16 @@ resolvable against both the raw file and `cleaned_data.csv`.
 
 | Script | Purpose |
 |---|---|
-| `00_extract_inspect.py` | Stage 2 — raw file inventory, structural anomaly check |
-| `01_profile.py` | Stage 3 — full column-by-column statistical profile |
-| `01b_correlation_checks.py` | Supplementary Stage 3 — null/business-rule correlation checks that informed Stage 1 decisions |
-| `01c_more_checks.py` | Supplementary Stage 3 — collision guard, fuzzy-scorer comparison, synonym-map evidence gathering |
-| `02_clean.py` | Stage 4 — full cleaning pipeline (4.0–4.11), writes `cleaned_data.csv` + `change_log.csv` |
-| `03_validate.py` | Stage 5 — V1–V13, writes `validation_report.md` |
-| `04_transform_and_viz.py` | Stages 6/7/8 — dtype enforcement, derived columns, column ordering, writes `viz_ready.csv`, appends to `change_log.csv` |
+| `stage2_extract.py` | Stage 2 — raw file inventory, structural anomaly check |
+| `stage3_profile.py` | Stage 3 — full column-by-column statistical profile |
+| `stage3b_correlation_checks.py` | Supplementary Stage 3 — null/business-rule correlation checks that informed Stage 1 decisions |
+| `stage3c_more_checks.py` | Supplementary Stage 3 — collision guard, fuzzy-scorer comparison, synonym-map evidence gathering |
+| `stage4_clean.py` | Stage 4 — full cleaning pipeline (4.0–4.11), writes `cleaned_data.csv` + `change_log.csv` |
+| `stage5_validate.py` | Stage 5 — V1–V13, writes `validation_report.md` |
+| `stage7_transform.py` | Stages 6/7 — integration (N/A, single source), dtype enforcement, derived columns, final null policy |
+| `stage8_viz_prep.py` | Stage 8 — column ordering, writes `viz_ready.csv` and `cleaned_data.csv`, appends to `change_log.csv` |
+| `stage9_analytics.py` | Stage 9 — recomputes every figure cited in `insights_report.md` |
+| `verify_writeback.py` | Post-run check that the written files match what the pipeline reported |
 
 Stage 9 (`insights_report.md`) was produced by the `analytics-expert` subagent, invoked directly
 by name in the foreground (per `unattended-run-conventions` memory), briefed with the full flag

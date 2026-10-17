@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-03_clean.py -- Stage 4 (Data Cleaning) for messy_sales.csv.
+stage4_clean.py -- Stage 4 (Data Cleaning) for messy_sales.csv.
 
 Executes 4.1 - 4.11 in the exact order specified: header normalization, null
 standardization (with the ambiguity gate), string normalization, categorical fuzzy
-matching (collision guard already cleared in 02_extract_and_profile.py), date parsing,
+matching (collision guard already cleared in stage3_profile.py), date parsing,
 numeric cleaning, phone normalization, email validation/repair, impossible-negative
 flagging, outlier/decimal-typo investigation, duplicate removal.
 
@@ -174,7 +174,7 @@ log(f"  Cells normalized (whitespace/NFC): {str_norm_count}")
 # 4.4 CATEGORICAL TYPO CORRECTION (fuzzy matching) -- collision guard already cleared
 # =====================================================================================
 log("\n--- 4.4 Categorical typo correction (fuzzy matching) ---")
-log("  Collision guard result (from 02_extract_and_profile.py): NO collisions on region/")
+log("  Collision guard result (from stage3_profile.py): NO collisions on region/")
 log("  product/channel canonical sets -> fuzzy matching is safe for all three.")
 
 CANON = {
@@ -192,7 +192,7 @@ def alnum_key(s):
 def fuzzy_match_col(col, canon_list):
     n_auto = n_warn = n_unknown = n_alias = 0
     # Alias map: same alnum-fold approach as the collision guard itself. The guard already
-    # proved (02_extract_and_profile.py) that no two canonicals collide under this fold for this
+    # proved (stage3_profile.py) that no two canonicals collide under this fold for this
     # column, so a fold-match here is unambiguous -- it is not a guess, it is the same fact the
     # guard already verified, applied forward. This catches whitespace/hyphen-only variants
     # ("north east" -> "Northeast", "on-line"/"on line" -> "Online") that token_sort_ratio

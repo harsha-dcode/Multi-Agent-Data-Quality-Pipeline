@@ -3,14 +3,14 @@
 # Source lineage note: a dataset with this exact SHA-256 (79f672119c134d5d...) and MD5
 # (5e21b26fbb3500d2ee4f428788102705) has been profiled before in this environment under a
 # different path/repo. Structural facts below were RE-VERIFIED against THIS file at THIS path
-# in 00_peek.py (BOM, headers, row count, sample rows) before being written here -- not copied
-# blind from memory. Full column-by-column statistics are re-derived fresh in 02_extract_and_profile.py.
+# in stage2a_peek.py (BOM, headers, row count, sample rows) before being written here -- not copied
+# blind from memory. Full column-by-column statistics are re-derived fresh in stage3_profile.py.
 
 dataset: messy_sales.csv
 
 grain: >
   One row per e-commerce sales order. order_id (format "ORD-####") is the natural key. 312 raw
-  data rows, 11 raw columns, confirmed in 00_peek.py.
+  data rows, 11 raw columns, confirmed in stage2a_peek.py.
 
 critical_columns:
   - order_id        # grain anchor; a row with no order_id cannot be identified or deduplicated
@@ -33,7 +33,7 @@ allowed_values:
     # recoverable from the data as given. Documented as business_rules.BR5.
 
 dangerous_columns: {}
-  # Guard run (see 02_extract_and_profile.py) against region/product/channel canonical lists
+  # Guard run (see stage3_profile.py) against region/product/channel canonical lists
   # using thefuzz.utils.full_process: no canonical pair within any of the three lists collides
   # to the same preprocessed key. Region/product/channel are therefore SAFE to fuzzy-match at
   # the standard 85% threshold; nothing tripped the collision guard. Evidence values are printed
@@ -123,16 +123,16 @@ assumptions:
     text: "This is synthetic/portfolio demonstration data, not a real merchant's transaction ledger; business_goal is analytics/BI portfolio work, not financial-reporting compliance."
     if_wrong: "If this fed real financial reporting, the BR1 revenue-mismatch rows would need to be resolved against a source-of-truth ledger rather than left flagged, and BR2's negative-value flags would need an actual refund/credit review process."
   A2:
-    text: "Phone numbers belong to an Indian customer base -- evidence: +91 country-code prefixes appear on a material share of already-formatted numbers, and 10-digit numbers starting 6-9 (the valid Indian mobile prefix range) are the dominant unprefixed pattern (re-verified in 02_extract_and_profile.py, not assumed)."
+    text: "Phone numbers belong to an Indian customer base -- evidence: +91 country-code prefixes appear on a material share of already-formatted numbers, and 10-digit numbers starting 6-9 (the valid Indian mobile prefix range) are the dominant unprefixed pattern (re-verified in stage3_profile.py, not assumed)."
     if_wrong: "If the customer base is not predominantly Indian, inferring +91 on unprefixed 10-digit numbers in Stage 4.7 would misassign country codes; the fallback in that case is to leave the number unprefixed and flag PHONE_COUNTRY_UNKNOWN instead."
   A3:
     text: "customer_email addresses missing '@' but otherwise matching a consistent 'firstname.lastname.example.com' pattern against the single domain 'example.com' seen everywhere else in the column are a delimiter-only typo, not a different intended address."
     if_wrong: "If this were a live production email column against real, varied domains, the same repair would be an unjustifiable guess (per spec 4.8) and would instead be left EMAIL_INVALID_FLAGGED with no repair attempted. This repair is only defensible because the domain is uniform across the whole file and re-verified as such in Stage 3 profiling before any repair is attempted."
 
 risks:
-  - "Mixed date formats within the SAME order_date column (ISO, DD/MM/YYYY, MM/DD/YYYY, D-Mon-YYYY, 'Month DD, YYYY', Excel serial numbers, 2-digit years) -- confirmed present in 00_peek.py sample rows."
-  - "Currency noise in unit_price/total_revenue ($, Rupee symbol, trailing '/-' Indian-rupee shorthand) -- confirmed present in 00_peek.py sample rows."
+  - "Mixed date formats within the SAME order_date column (ISO, DD/MM/YYYY, MM/DD/YYYY, D-Mon-YYYY, 'Month DD, YYYY', Excel serial numbers, 2-digit years) -- confirmed present in stage2a_peek.py sample rows."
+  - "Currency noise in unit_price/total_revenue ($, Rupee symbol, trailing '/-' Indian-rupee shorthand) -- confirmed present in stage2a_peek.py sample rows."
   - "total_revenue vs units_sold*unit_price cross-column mismatch of unknown rate until Stage 3/4 -- flagged, not corrected, per BR1."
   - "channel column conflates two taxonomies -- see BR5."
-  - "customer_name has heavy free-text noise (titles like 'Mr.'/'Mrs.', inconsistent case, extra whitespace) and is not a reliable dedup key on its own -- confirmed multiple raw variants of the same evident person in 00_peek.py sample (e.g. 'Rohan Joshi', '  Rohan Joshi  ')."
+  - "customer_name has heavy free-text noise (titles like 'Mr.'/'Mrs.', inconsistent case, extra whitespace) and is not a reliable dedup key on its own -- confirmed multiple raw variants of the same evident person in stage2a_peek.py sample (e.g. 'Rohan Joshi', '  Rohan Joshi  ')."
   - "Exact and near-duplicate rows likely present (same order_id appearing under cosmetically different customer_name capitalization) -- to be confirmed by row count in Stage 3/4.11."

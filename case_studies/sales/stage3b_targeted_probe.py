@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-02b_targeted_probe.py -- follow-up checks on two things 02_extract_and_profile.py flagged but
+stage3b_targeted_probe.py -- follow-up checks on two things stage3_profile.py flagged but
 did not fully resolve: (1) the 20 email cells that don't contain the literal string
 'example.com', and (2) an exact characterization of the raw-duplicate groups, since
 "duplicated(keep=False)" alone doesn't say how many groups or how many extra rows would be

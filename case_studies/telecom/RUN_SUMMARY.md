@@ -114,7 +114,7 @@ corrected in cleaning, none of its statistics reflect a cleaning artifact.
 
 ## Independent verification performed
 
-`07_verify_writeback.py` re-derived every number above directly from the on-disk CSVs (not from
+`verify_writeback.py` re-derived every number above directly from the on-disk CSVs (not from
 the cleaning scripts' own console output), per the rule that a step reporting success is not
 evidence it worked:
 - `total_charge` write-back mismatches: 0 (every one of 3,333 rows checked, not sampled)
@@ -122,8 +122,8 @@ evidence it worked:
 - Non-snake_case headers remaining: none
 - `cleaned_data.csv` and `viz_ready.csv` cover identical `__source_row` sets: True
 
-`05_validate.py` independently recomputes V1–V13 from `_raw_str_with_source_row.pkl`,
-`cleaned_data.csv`, and `change_log.csv` — it does not trust `03_clean.py`'s or `04_transform.py`'s
+`stage5_validate.py` independently recomputes V1–V13 from `_raw_str_with_source_row.pkl`,
+`cleaned_data.csv`, and `change_log.csv` — it does not trust `stage4_clean.py`'s or `stage7_transform.py`'s
 own printed claims.
 
 ---
@@ -141,7 +141,7 @@ own printed claims.
 
 ---
 
-## Output directory contents (verified via `08_final_check.py`)
+## Output directory contents (verified via `final_check.py`)
 
 | File | Bytes |
 |---|---:|
@@ -153,9 +153,9 @@ own printed claims.
 | `insights_report.md` | 17,492 |
 | `RUN_SUMMARY.md` | (this file) |
 
-Plus numbered, reproducible scripts: `00_peek.py`, `02_extract_profile.py`, `03_clean.py`,
-`04_transform.py`, `05_validate.py`, `06_viz_ready.py`, `07_verify_writeback.py`, `07_eda.py`
-(Stage 9, written by `@analytics-expert`), `08_final_check.py` — and their companion `*_report.txt`
+Plus numbered, reproducible scripts: `stage2a_peek.py`, `stage3_profile.py`, `stage4_clean.py`,
+`stage7_transform.py`, `stage5_validate.py`, `stage8_viz_prep.py`, `verify_writeback.py`, `stage9_analytics.py`
+(Stage 9, written by `@analytics-expert`), `final_check.py` — and their companion `*_report.txt`
 outputs. The run reproduces end-to-end from this folder alone by running the numbered scripts in
 order.
 

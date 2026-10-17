@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Stage 2 (extraction) + Stage 3 (profiling) + Stage 4.4 collision-guard check
-for telecom_churn.csv.
+Stage 3 (profiling) + Stage 4.4 collision-guard check for telecom_churn.csv.
+
+Repeats stage2b_extract.py's load as setup, so it runs standalone.
 
 - Loads with dtype=str, keep_default_na=False (per task mandate #3) so pandas
   NEVER silently interprets any token as NaN -- we control null detection
@@ -13,8 +14,8 @@ for telecom_churn.csv.
   numeric stats, negative-value counts.
 - Runs the collision guard for fuzzy-matching eligibility on Churn,
   ContractRenewal, DataPlan (the only categorical/flag-like columns).
-- Pickles the tagged raw dataframe (str dtype) for 03_clean.py to consume,
-  so 03_clean.py does not need to re-parse the CSV.
+- Pickles the tagged raw dataframe (str dtype) for stage4_clean.py to consume,
+  so stage4_clean.py does not need to re-parse the CSV.
 
 Writes: 02_profile_report.txt
 """
@@ -54,6 +55,14 @@ expected_cols = ["Churn", "AccountWeeks", "ContractRenewal", "DataPlan", "DataUs
                   "CustServCalls", "DayMins", "DayCalls", "MonthlyCharge", "OverageFee", "RoamMins"]
 log(f"row_count_matches_expected({expected_rows}): {len(df) == expected_rows}")
 log(f"columns_match_expected: {list(df.columns[1:]) == expected_cols}")
+
+
+# ---------------------------------------------------------------
+# The lines above re-run the previous stage as setup (deterministic
+# and cheap). Clear the log buffer so this report covers only this
+# stage's output.
+# ---------------------------------------------------------------
+lines.clear()
 
 # =============================================================================
 # STAGE 3: DATA PROFILING

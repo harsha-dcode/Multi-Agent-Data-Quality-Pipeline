@@ -62,7 +62,7 @@ All numbers below are pulled directly from the scripts' own output files (`03_st
 
 No token was found to pass the GATE as a legitimate category member anywhere in this dataset — `NULL_DISGUISE_RETAINED` count is **0**. This was verified, not assumed: the gate ran against each column's real canonical set and every candidate token failed membership.
 
-## 3. Fuzzy-matching collision guard (mandatory, run BEFORE any fuzzy matching — `02c_collision_guard.py`)
+## 3. Fuzzy-matching collision guard (mandatory, run BEFORE any fuzzy matching — `stage3c_collision_guard.py`)
 
 Ran `rapidfuzz.utils.default_process` alnum-strip test against the canonical list of **every** categorical column:
 
@@ -162,7 +162,7 @@ Delegated to `@analytics-expert` (ran successfully in the foreground; confirmed 
 | `validation_report.md` | V1–V13 |
 | `insights_report.md` | Stage 9 (analytics-expert) |
 | `RUN_SUMMARY.md` | This file |
-| `00_peek.py` … `06_viz_prep.py` (+ `02b_targeted_probe.py`, `02c_collision_guard.py`, `05b_investigate_dups.py`) | Numbered, reproducible scripts — the run can be reproduced from this folder alone by running them in order |
+| `stage2a_peek.py` … `stage8_viz_prep.py` (+ `stage3b_targeted_probe.py`, `stage3c_collision_guard.py`, `stage5b_investigate_dups.py`) | Numbered, reproducible scripts — the run can be reproduced from this folder alone by running them in order |
 | `03_intermediate_cleaned.csv`, `03_flag_registry.json`, `0*_*.txt` reports | Supporting intermediate artifacts / evidence for every number in this summary |
 
 **Known limitation:** `03_intermediate_cleaned.csv` (Stage 4 output, pre-transform) is retained for audit purposes alongside `cleaned_data.csv` (Stage 7 final) — the two differ by 34 rows (the post-transform re-dedup, §5) and by column set (50 vs 67 columns, since Stage 7 adds derived/dtype-cast columns).

@@ -92,4 +92,4 @@ rprint(f"\nviz_ready.csv written: {viz.shape}")
 
 with open(os.path.join(OUT_DIR, "06_stage8_report.txt"), "w", encoding="utf-8") as f:
     f.write("\n".join(report))
-print("\n=== 06_viz_prep.py COMPLETE ===")
+print("\n=== stage8_viz_prep.py COMPLETE ===")

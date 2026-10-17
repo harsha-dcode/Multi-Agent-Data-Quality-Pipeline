@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-00_peek.py -- Stage 2 (Data Extraction) quick inspection of messy_sales.csv.
+stage2a_peek.py -- Stage 2 (Data Extraction) quick inspection of messy_sales.csv.
 
 Purpose: establish, with actual bytes, the extraction-layer defects the task
 explicitly flagged before writing anything else (BOM, header drift, naive vs

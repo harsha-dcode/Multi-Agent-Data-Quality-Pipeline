@@ -1,0 +1,57 @@
+============================================================================================
+STAGE 9 -- SALES ANALYTICS: recomputed vs insights_report.md
+============================================================================================
+viz_ready.csv rows: 266   (report claims 266)
+
+revenue_mismatch_flag rows : 13   (report: 13)
+units_sold_outlier_flag rows: 6   (report: 6)
+clean subset n             : 247   (report: 247)
+
+### 3.1  Revenue group comparisons (expected: all null)
+  region groups=5 n=176   (report: 5 groups, n=220)
+  OK       region Kruskal-Wallis H                        computed=         4.841  report=         4.840
+  OK       region Kruskal-Wallis p                        computed=         0.304  report=         0.304
+  OK       region ANOVA F                                 computed=         1.028  report=         1.030
+  OK       region ANOVA p                                 computed=         0.394  report=         0.394
+  product groups=4 n=182   (report: 4 groups, n=226)
+  OK       product Kruskal-Wallis H                       computed=         1.243  report=         1.240
+  OK       product Kruskal-Wallis p                       computed=         0.743  report=         0.743
+
+### 3.2  Volume-mix chi-square tests
+  OK       product chi2                                   computed=        27.628  report=        27.630
+  OK       product Cramers V                              computed=         0.202  report=         0.200
+  OK       region mix chi2                                computed=         6.227  report=         6.230
+  OK       region mix p                                   computed=         0.183  report=         0.183
+
+### 3.3  Revenue / unit concentration in 6 bulk rows
+  OK       total revenue                                  computed=    14,729,126  report=    14,729,126
+  OK       bulk-row revenue                               computed=    11,857,570  report=    11,857,570
+  OK       bulk revenue share %                           computed=          80.5  report=          80.5
+  OK       total units                                    computed=       144,466  report=       144,466
+  OK       bulk units                                     computed=       138,000  report=       138,000
+  OK       bulk unit share %                              computed=          95.5  report=          95.5
+
+### 3.4  AOV is unstable; median is robust
+  OK       mean revenue (all)                             computed=        63,215  report=        63,215
+  OK       n comparable                                   computed=           233  report=           233
+  OK       median revenue (all)                           computed=         2,493  report=         2,493
+
+### 3.5  unit_price vs units_sold correlation (expected: null)
+  OK       Pearson r                                      computed=        -0.007  report=        -0.007
+  OK       Pearson p                                      computed=         0.919  report=         0.920
+  OK       Spearman rho                                   computed=        -0.005  report=        -0.005
+  OK       clean n                                        computed=           208  report=           208
+
+### 3.7  unit_price skew, with and without the flagged outlier
+  OK       skew incl. outlier                             computed=         13.87  report=         13.95
+  OK       skew excl. outlier                             computed=         0.054  report=         0.055
+  OK       mean excl. outlier                             computed=        107.89  report=        107.89
+  OK       median excl. outlier                           computed=        104.97  report=        104.97
+
+### 3.9  customer_name is not a usable key
+  OK       unique customer_name                           computed=            83  report=            83
+  OK       unique customer_email                          computed=            15  report=            15
+
+============================================================================================
+RESULT: 29/29 figures reproduce insights_report.md
+============================================================================================

@@ -1,0 +1,88 @@
+==============================================================================
+WRITE-BACK VERIFICATION -- SALES
+==============================================================================
+cleaned_data.csv : rows=281  cols=31
+viz_ready.csv    : rows=266  cols=34
+change_log.csv   : rows=1,824
+
+1. __source_row integrity (the audit trail depends on this)
+-----------------------------------------------------------
+  nulls               : 0   (must be 0)
+  duplicates          : 0   (must be 0)
+  min / max           : 0 / 311
+  monotonic increasing: True
+
+2. Header normalisation (Stage 4.1)
+-----------------------------------
+  non-snake_case headers remaining: [] (correct)
+
+3. Flag columns -- materialised on the frame, not only in the log
+-----------------------------------------------------------------
+  flag columns present: 18
+    region_fuzzy_review_flag                     True = 23
+    order_date_unparseable_flag                  True = 8
+    phone_number_country_unknown_flag            True = 1
+    customer_email_repaired_flag                 True = 11
+    units_sold_sign_flag                         True = 5
+    unit_price_sign_flag                         True = 7
+    total_revenue_sign_flag                      True = 13
+    unit_price_outlier_flag                      True = 1
+    units_sold_outlier_flag                      True = 6
+    units_sold_non_integer_flag                  True = 6
+    revenue_mismatch_flag                        True = 13
+  total flagged cells across all flag columns: 94
+
+4. cleaned_data.csv -> viz_ready.csv filtering (Stage 8)
+--------------------------------------------------------
+  rows in cleaned          : 281
+  rows in viz_ready        : 266
+  filtered out for viz     : 15
+  viz is a subset of cleaned: True   (must be True)
+  why those rows were filtered (flags True among dropped rows):
+    region_fuzzy_review_flag                     1
+    customer_email_repaired_flag                 1
+    units_sold_sign_flag                         5
+    unit_price_sign_flag                         7
+    total_revenue_sign_flag                      13
+
+5. change_log.csv integrity
+---------------------------
+  CHANGE_TYPE breakdown:
+    STRING_NORMALIZED                            649
+    DATE_PARSED                                  299
+    PHONE_NORMALIZED                             294
+    NULL_STANDARDIZED                            276
+    TYPO_CORRECTED                               122
+    NUMERIC_CLEANED                              35
+    EMAIL_NORMALIZED                             32
+    DUPLICATE_REMOVED                            31
+    OUTLIER_FLAGGED                              28
+    NEGATIVE_FLAGGED                             27
+    EMAIL_REPAIRED                               12
+    HEADER_RENAME                                11
+    OUTLIER_DECIMAL_TYPO_CORRECTED               7
+    PHONE_COUNTRY_UNKNOWN                        1
+
+  distinct SOURCE_ROW values in log : 312
+  rows logged as removed            : 31
+  orphaned log entries              : 0   (must be 0)
+
+6. Reconstructability precondition
+----------------------------------
+  required log fields present: yes
+
+7. revenue_calculated and the revenue_mismatch_flag
+---------------------------------------------------
+  revenue_calculated == units_sold * unit_price: 239 / 239 (100.0%)
+
+  rows where total_revenue and revenue_calculated are comparable: 209
+  revenue_mismatch_flag True: 13
+  of those, median relative gap: 4900.0%
+  The pipeline flagged these rather than recomputing total_revenue,
+  because which of the two fields is wrong is not determinable from
+  the data alone (see insights_report.md R1).
+
+==============================================================================
+Verification complete -- every figure above was recomputed from the
+artifacts on disk, independent of what the pipeline scripts reported.
+==============================================================================

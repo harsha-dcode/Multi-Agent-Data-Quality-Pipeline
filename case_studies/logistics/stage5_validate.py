@@ -160,7 +160,7 @@ results.append(("V11", "Row count integrity", "PASS" if v11_match else "FAIL",
 expected_schema_cols = set(to_snake(c) for c in expected_types.keys())
 actual_cols = set(df.columns)
 flag_cols_declared = set(flag_registry.keys())
-# Stage 7 derived columns (documented in 04_transform_and_viz.py / RUN_SUMMARY.md)
+# Stage 7 derived columns (documented in stage7_transform.py / RUN_SUMMARY.md)
 derived_cols = {"actual_transit_days", "cost_per_kg", "profit_margin_pct",
                  "shipment_year", "shipment_month"}
 accounted = expected_schema_cols | {"__source_row"} | flag_cols_declared | derived_cols

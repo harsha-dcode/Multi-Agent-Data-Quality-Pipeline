@@ -9,8 +9,8 @@ the `unattended-run-conventions` memory.
 
 **Output directory:** `case_studies/housing\`
 
-**Reproducibility:** run scripts `00_inspect.py` -> `01_profile.py` -> `02_clean.py` ->
-`03_transform.py` -> `04_validate.py` -> `05_viz_prep.py` in order, then invoke
+**Reproducibility:** run scripts `stage2_extract.py` -> `stage3_profile.py` -> `stage4_clean.py` ->
+`stage7_transform.py` -> `stage5_validate.py` -> `stage8_viz_prep.py` in order, then invoke
 `@analytics-expert` on `viz_ready.csv` for Stage 9. Every script opens its own output file
 with `encoding="utf-8"`; none rely on shell redirection.
 
@@ -96,7 +96,7 @@ Notable: V4 (dtype correctness) required distinguishing "CSV cannot preserve
 pandas category/datetime64 metadata across a write/read round trip" (a property of the file
 format) from an actual dtype defect — validated via semantic checks (value-set conformance
 for categories, `parse_dates` for the date column, losslessness check for `postal_code`)
-rather than a literal dtype-string comparison. See `04_validate.py` comments and
+rather than a literal dtype-string comparison. See `stage5_validate.py` comments and
 `03_transform_report.txt` for the in-memory dtype enforcement that was actually applied
 before writing.
 
@@ -198,8 +198,8 @@ present on disk).
 | `insights_report.md` | Present (22,715 bytes, verified on disk by @analytics-expert and by this agent) |
 | `RUN_SUMMARY.md` | This file |
 
-**Reproducibility scripts** (numbered, all in this directory): `00_inspect.py`,
-`01_profile.py`, `02_clean.py`, `03_transform.py`, `04_validate.py`, `05_viz_prep.py`.
+**Reproducibility scripts** (numbered, all in this directory): `stage2_extract.py`,
+`stage3_profile.py`, `stage4_clean.py`, `stage7_transform.py`, `stage5_validate.py`, `stage8_viz_prep.py`.
 Intermediate artifacts kept for auditability: `00_inspect_report.txt`,
 `01_profile_report.txt`, `02_clean_report.txt`, `03_transform_report.txt`,
 `05_viz_prep_report.txt`, `_flag_registry.json`, `_intermediate_post_stage4.csv` (post-Stage-4,

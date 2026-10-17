@@ -61,7 +61,7 @@ results.append(("V3", "No infinities", v3_status, "0 found" if not inf_found els
 
 # ---- V4: correct dtypes ----
 # NOTE: CSV is a text format and cannot carry pandas dtype metadata - a column written as
-# dtype='category' in memory (04_transform.py) necessarily reads back as plain string/object from
+# dtype='category' in memory (stage7_transform.py) necessarily reads back as plain string/object from
 # any CSV reader, in any tool, not just pandas. Checking `df[c].dtype == 'category'` after a CSV
 # round-trip would fail on every CSV-based pipeline in existence and is not a meaningful test of
 # "is this data the correct type" - it tests the file format, not the data. The meaningful test is

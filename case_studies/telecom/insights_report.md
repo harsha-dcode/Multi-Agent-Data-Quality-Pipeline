@@ -6,7 +6,7 @@ findings broadly.
 
 **Source:** `viz_ready.csv` (3,333 rows, 30 columns), the filtered chart-ready view. 0 rows were
 removed between raw input and this file (see §4). All numbers below are reproducible via
-`07_eda.py` in this folder.
+`stage9_analytics.py` in this folder.
 
 ---
 
@@ -245,5 +245,5 @@ manufacture changes on clean input. The record from `validation_report.md` and
 
 ---
 
-*Reproducibility: every statistic in this report was computed by `07_eda.py` in this folder, run
-against `viz_ready.csv`. Re-run with `python 07_eda.py` to regenerate all numbers.*
+*Reproducibility: every statistic in this report was computed by `stage9_analytics.py` in this folder, run
+against `viz_ready.csv`. Re-run with `python stage9_analytics.py` to regenerate all numbers.*

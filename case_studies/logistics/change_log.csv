@@ -53378,10 +53378,52 @@ STAGE,COLUMN,SOURCE_ROW,CHANGE_TYPE,ORIGINAL_VALUE,NEW_VALUE,REASON
 4.11,ALL_COLUMNS,29314,DUPLICATE_REMOVED,shipment_id=SHP021046,ROW_REMOVED,exact duplicate of an earlier row (all 35 source columns byte-identical) -- A3 in business brief
 4.11,ALL_COLUMNS,29393,DUPLICATE_REMOVED,shipment_id=SHP010377,ROW_REMOVED,exact duplicate of an earlier row (all 35 source columns byte-identical) -- A3 in business brief
 4.11,ALL_COLUMNS,29955,DUPLICATE_REMOVED,shipment_id=SHP018533,ROW_REMOVED,exact duplicate of an earlier row (all 35 source columns byte-identical) -- A3 in business brief
+7.0,shipment_id,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,order_id,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,customer_id,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,driver_id,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,actual_transit_days,ALL_ROWS,DERIVED_COLUMN_ADDED,,,actual_delivery_date - dispatch_date in days; null where actual_delivery_date is null (In Transit) or where date_logic_violation_flag is True
+7.0,cost_per_kg,ALL_ROWS,DERIVED_COLUMN_ADDED,,,(shipping_cost_inr + fuel_cost_inr + operational_cost_inr) / shipment_weight_kg; null where weight is null/zero. fuel_cost_inr nulls treated as 0 IN THIS DERIVED SUM ONLY (not imputed into the source column) since ~4% of rows have no fuel cost captured and excluding them entirely would drop otherwise-valid cost rows
+7.0,profit_margin_pct,ALL_ROWS,DERIVED_COLUMN_ADDED,,,100 * profit_inr / revenue_inr; can legitimately be negative (BR2)
+7.0,shipment_year/shipment_month,ALL_ROWS,DERIVED_COLUMN_ADDED,,,"recomputed directly from cleaned shipment_date, per Stage 8 instruction not to trust any pre-existing year/month column (none existed in source, computed fresh here for Stage 8/9 use)"
+7.0,ALL_COLUMNS,ALL_ROWS,COLUMN_REORDERED,,,reordered: identifiers -> dates -> categorical descriptors -> numeric measures -> flags/meta -> __source_row
+7.0,shipment_id,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,order_id,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,customer_id,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,driver_id,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,shipment_year,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,shipment_month,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,actual_transit_days,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,profit_margin_pct,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,cost_per_kg,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,actual_transit_days,ALL_ROWS,DERIVED_COLUMN_ADDED,,,actual_delivery_date - dispatch_date in days; null where actual_delivery_date is null (In Transit) or where date_logic_violation_flag is True
+7.0,cost_per_kg,ALL_ROWS,DERIVED_COLUMN_ADDED,,,(shipping_cost_inr + fuel_cost_inr + operational_cost_inr) / shipment_weight_kg; null where weight is null/zero. fuel_cost_inr nulls treated as 0 IN THIS DERIVED SUM ONLY (not imputed into the source column) since ~4% of rows have no fuel cost captured and excluding them entirely would drop otherwise-valid cost rows
+7.0,profit_margin_pct,ALL_ROWS,DERIVED_COLUMN_ADDED,,,100 * profit_inr / revenue_inr; can legitimately be negative (BR2)
+7.0,shipment_year/shipment_month,ALL_ROWS,DERIVED_COLUMN_ADDED,,,"recomputed directly from cleaned shipment_date, per Stage 8 instruction not to trust any pre-existing year/month column (none existed in source, computed fresh here for Stage 8/9 use)"
+7.0,ALL_COLUMNS,ALL_ROWS,COLUMN_REORDERED,,,reordered: identifiers -> dates -> categorical descriptors -> numeric measures -> flags/meta -> __source_row
+7.0,shipment_id,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,order_id,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,customer_id,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,driver_id,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,shipment_year,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,shipment_month,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,actual_transit_days,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,profit_margin_pct,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,cost_per_kg,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7.0,actual_transit_days,ALL_ROWS,DERIVED_COLUMN_ADDED,,,actual_delivery_date - dispatch_date in days; null where actual_delivery_date is null (In Transit) or where date_logic_violation_flag is True
+7.0,cost_per_kg,ALL_ROWS,DERIVED_COLUMN_ADDED,,,(shipping_cost_inr + fuel_cost_inr + operational_cost_inr) / shipment_weight_kg; null where weight is null/zero. fuel_cost_inr nulls treated as 0 IN THIS DERIVED SUM ONLY (not imputed into the source column) since ~4% of rows have no fuel cost captured and excluding them entirely would drop otherwise-valid cost rows
+7.0,profit_margin_pct,ALL_ROWS,DERIVED_COLUMN_ADDED,,,100 * profit_inr / revenue_inr; can legitimately be negative (BR2)
+7.0,shipment_year/shipment_month,ALL_ROWS,DERIVED_COLUMN_ADDED,,,"recomputed directly from cleaned shipment_date, per Stage 8 instruction not to trust any pre-existing year/month column (none existed in source, computed fresh here for Stage 8/9 use)"
+7.0,ALL_COLUMNS,ALL_ROWS,COLUMN_REORDERED,,,reordered: identifiers -> dates -> categorical descriptors -> numeric measures -> flags/meta -> __source_row
 7,shipment_id,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
 7,order_id,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
 7,customer_id,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
 7,driver_id,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7,shipment_year,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7,shipment_month,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7,actual_transit_days,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7,profit_margin_pct,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
+7,cost_per_kg,ALL_ROWS,DTYPE_CAST,str,"str (identifier, kept as string)",identifier column intentionally kept as string dtype
 7,actual_transit_days,ALL_ROWS,DERIVED_COLUMN_ADDED,,,actual_delivery_date - dispatch_date in days; null where actual_delivery_date is null (In Transit) or where date_logic_violation_flag is True
 7,cost_per_kg,ALL_ROWS,DERIVED_COLUMN_ADDED,,,(shipping_cost_inr + fuel_cost_inr + operational_cost_inr) / shipment_weight_kg; null where weight is null/zero. fuel_cost_inr nulls treated as 0 IN THIS DERIVED SUM ONLY (not imputed into the source column) since ~4% of rows have no fuel cost captured and excluding them entirely would drop otherwise-valid cost rows
 7,profit_margin_pct,ALL_ROWS,DERIVED_COLUMN_ADDED,,,100 * profit_inr / revenue_inr; can legitimately be negative (BR2)

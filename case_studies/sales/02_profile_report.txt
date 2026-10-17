@@ -1,9 +1,3 @@
-==============================================================================
-STAGE 2 -- FULL EXTRACTION
-==============================================================================
-Loaded with encoding='utf-8-sig', dtype=str, keep_default_na=False
-Shape (rows, cols, excl. __source_row): (312, 11)
-Columns (raw, as-is): ['order_id', 'Order_Date', 'customer name', 'Customer Email', 'Phone Number', 'region ', 'Product', 'channel', 'Units Sold', 'unit_price', 'Total Revenue']
 
 ==============================================================================
 STAGE 3 -- DATA PROFILING
@@ -11,15 +5,15 @@ STAGE 3 -- DATA PROFILING
 
 --- Per-column null-disguise survey (case-insensitive, stripped match) ---
   order_id         total disguise-token cells:    0   breakdown: {}
-  Order_Date       total disguise-token cells:   13   breakdown: {'': 3, '?': 2, '-': 3, 'tbd': 1, 'null': 1, 'n/a': 3}
-  customer name    total disguise-token cells:   19   breakdown: {'': 10, 'unknown': 3, 'null': 4, 'n/a': 2}
+  Order_Date       total disguise-token cells:   13   breakdown: {'': 3, 'null': 1, '?': 2, '-': 3, 'n/a': 3, 'tbd': 1}
+  customer name    total disguise-token cells:   19   breakdown: {'': 10, 'null': 4, 'unknown': 3, 'n/a': 2}
   Customer Email   total disguise-token cells:    1   breakdown: {'': 1}
   Phone Number     total disguise-token cells:   17   breakdown: {'': 7, '?': 3, '-': 4, 'n/a': 3}
-  region           total disguise-token cells:   57   breakdown: {'': 22, '-': 14, 'null': 9, 'n/a': 12}
+  region           total disguise-token cells:   57   breakdown: {'': 22, 'null': 9, '-': 14, 'n/a': 12}
   Product          total disguise-token cells:   48   breakdown: {'': 10, 'unknown': 19, 'n/a': 19}
   channel          total disguise-token cells:   43   breakdown: {'': 18, '-': 14, 'n/a': 11}
-  Units Sold       total disguise-token cells:   17   breakdown: {'?': 2, '-': 2, 'tbd': 3, 'null': 8, 'n/a': 2}
-  unit_price       total disguise-token cells:   26   breakdown: {'': 3, '?': 7, '-': 8, 'tbd': 2, 'n/a': 6}
+  Units Sold       total disguise-token cells:   17   breakdown: {'null': 8, '?': 2, '-': 2, 'n/a': 2, 'tbd': 3}
+  unit_price       total disguise-token cells:   26   breakdown: {'': 3, '?': 7, '-': 8, 'n/a': 6, 'tbd': 2}
   Total Revenue    total disguise-token cells:   35   breakdown: {'': 26, 'n/a': 9}
 
 --- Ambiguity-guard evaluation (na/-/unknown) ---

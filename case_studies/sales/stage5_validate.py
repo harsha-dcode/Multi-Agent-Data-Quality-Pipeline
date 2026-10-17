@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-04_validate.py -- Stage 5 (Data Validation): runs V1-V13 against cleaned_data.csv and
+stage5_validate.py -- Stage 5 (Data Validation): runs V1-V13 against cleaned_data.csv and
 change_log.csv, and writes validation_report.md.
 """
 
@@ -207,7 +207,7 @@ for flagcol, ctype in flag_to_changetype.items():
         log_count = len(log_count_all[log_count_all["COLUMN"] == col_name])
     elif flagcol == "order_date_unparseable_flag":
         # DATE_PARSED covers both successes and failures; the unparseable subset is the rows
-        # logged with an empty NEW_VALUE (see 03_clean.py's own unparse_examples filter).
+        # logged with an empty NEW_VALUE (see stage4_clean.py's own unparse_examples filter).
         log_count = int(((log_count_all["NEW_VALUE"] == "") | log_count_all["NEW_VALUE"].isna()).sum())
     else:
         log_count = len(log_count_all)

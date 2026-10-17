@@ -65,7 +65,7 @@ string length: min=2 max=7 avg=4.99
 --- Column: Blood Type ---
 pandas dtype as read: str
 pandas-native null count: 185 (0.32%)
-null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 185, 'unknown': 69, '?': 27, 'not available': 21, '--': 9, 'missing': 10}
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 185, '?': 27, 'missing': 10, 'not available': 21, 'unknown': 69, '--': 9}
 unique non-null values: 20
 top 10 values:
 Blood Type
@@ -162,7 +162,7 @@ string length: min=6 max=35 avg=16.56
 --- Column: Insurance Provider ---
 pandas dtype as read: str
 pandas-native null count: 243 (0.42%)
-null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 243, 'unknown': 137, '?': 18, 'not available': 128, '--': 16, 'missing': 15}
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 243, '?': 18, 'missing': 15, 'not available': 128, 'unknown': 137, '--': 16}
 unique non-null values: 36
 top 10 values:
 Insurance Provider
@@ -181,7 +181,7 @@ string length: min=1 max=17 avg=8.81
 --- Column: Billing Amount ---
 pandas dtype as read: str
 pandas-native null count: 57 (0.10%)
-null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 57, 'pending': 164, 'see invoice': 191, 'tbd': 191}
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 57, 'tbd': 191, 'see invoice': 191, 'pending': 164}
 unique non-null values: 49592
 top 10 values:
 Billing Amount
@@ -203,7 +203,7 @@ string length: min=1 max=19 avg=17.14
 --- Column: Room Number ---
 pandas dtype as read: str
 pandas-native null count: 285 (0.49%)
-null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 285, 'unknown': 66, '?': 19, 'tbd': 141, 'not available': 26, '--': 15, 'missing': 14}
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 285, '?': 19, 'missing': 14, 'tbd': 141, 'not available': 26, 'unknown': 66, '--': 15}
 unique non-null values: 622
 top 10 values:
 Room Number
@@ -225,7 +225,7 @@ string length: min=1 max=13 avg=3.02
 --- Column: Admission Type ---
 pandas dtype as read: str
 pandas-native null count: 21 (0.04%)
-null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 21, 'unknown': 9, '?': 11, 'not available': 8, '--': 5, 'missing': 14}
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 21, '?': 11, 'missing': 14, 'not available': 8, 'unknown': 9, '--': 5}
 unique non-null values: 172
 top 10 values:
 Admission Type
@@ -265,7 +265,7 @@ string length: min=10 max=17 avg=10.01
 --- Column: Medication ---
 pandas dtype as read: str
 pandas-native null count: 229 (0.39%)
-null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 229, 'n/a': 1, 'unknown': 61, '?': 11, 'not available': 8, '--': 55, 'missing': 47}
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 229, 'n/a': 1, '?': 11, 'missing': 47, 'not available': 8, 'unknown': 61, '--': 55}
 unique non-null values: 37
 top 10 values:
 Medication
@@ -284,7 +284,7 @@ string length: min=1 max=13 avg=8.79
 --- Column: Test Results ---
 pandas dtype as read: str
 pandas-native null count: 260 (0.45%)
-null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 260, 'unknown': 101, '?': 18, 'not available': 57, '--': 16, 'missing': 13}
+null-disguise token hits (stripped+casefolded, includes domain tokens): {'': 260, '?': 18, 'missing': 13, 'not available': 57, 'unknown': 101, '--': 16}
 unique non-null values: 24
 top 10 values:
 Test Results

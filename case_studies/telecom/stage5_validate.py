@@ -114,7 +114,7 @@ results.append(("V6", "Outlier handling did not reshape distribution", status,
                  f"(only flags), so this check is expected to and does show ~0% shift. Detail: {outlier_shape_report}"))
 
 # ---------------- V7: email validity rate ----------------
-results.append(("V7", "Email validity rate", "N/A", "No email column exists in this dataset (verified in 00_peek.py/02_profile_report.txt header list). Not applicable."))
+results.append(("V7", "Email validity rate", "N/A", "No email column exists in this dataset (verified in stage2a_peek.py/02_profile_report.txt header list). Not applicable."))
 
 # ---------------- V8: phone E.164 compliance rate ----------------
 results.append(("V8", "Phone E.164 compliance rate", "N/A", "No phone/tel/mobile/cell/contact/fax column exists in this dataset. Not applicable."))

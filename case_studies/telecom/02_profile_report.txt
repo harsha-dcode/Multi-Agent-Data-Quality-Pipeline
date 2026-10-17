@@ -1,12 +1,3 @@
-==============================================================================
-STAGE 2: DATA EXTRACTION
-==============================================================================
-rows_loaded: 3333
-columns_loaded (excl __source_row): ['Churn', 'AccountWeeks', 'ContractRenewal', 'DataPlan', 'DataUsage', 'CustServCalls', 'DayMins', 'DayCalls', 'MonthlyCharge', 'OverageFee', 'RoamMins']
-all columns object/str dtype as loaded: False
-__source_row range: 0..3332
-row_count_matches_expected(3333): True
-columns_match_expected: True
 
 ==============================================================================
 STAGE 3: DATA PROFILING

@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Stage 2 (Data Extraction) + Stage 3 (Data Profiling)
-Reads the raw file, builds the extraction inventory, adds __source_row, and profiles every
-column: null-disguise scan (incl. domain-specific tokens known from prior lineage, re-verified
-here), cardinality, numeric/string/date stats, categorical value survey.
-Writes: 02_stage2_extraction_report.txt, 02_stage3_profiling_report.txt
+Stage 3 (Data Profiling)
+Profiles every column: null-disguise scan (incl. domain-specific tokens known from
+prior lineage, re-verified here), cardinality, numeric/string/date stats, categorical
+value survey.
+Repeats stage2b_extract.py's load as setup, so it runs standalone.
+Writes: 02_stage3_profiling_report.txt
 """
 import pandas as pd
 import numpy as np
@@ -27,7 +28,7 @@ s2.append("STAGE 2: DATA EXTRACTION INVENTORY")
 s2.append("=" * 60)
 s2.append(f"Source file: {IN}")
 s2.append(f"File size bytes: {os.path.getsize(IN)}")
-s2.append(f"Encoding: UTF-8 (strict decode verified in 00_peek.py, no BOM)")
+s2.append(f"Encoding: UTF-8 (strict decode verified in stage2a_peek.py, no BOM)")
 s2.append(f"Detected delimiter: ',' (standard csv)")
 s2.append(f"Raw shape: {raw_shape[0]} rows x {raw_shape[1]} columns")
 s2.append(f"Raw column names (exact): {raw_cols}")

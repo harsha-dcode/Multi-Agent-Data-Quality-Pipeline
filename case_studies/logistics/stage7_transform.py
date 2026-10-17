@@ -4,8 +4,8 @@ Stage 6: Data Integration -- N/A, single source (logged in RUN_SUMMARY.md).
 Stage 7: Data Transformation -- final dtypes, column order, derived columns,
          final null policy (leave_null default, no imputation configured for
          any column per 01_business_brief.yaml missing_value_strategy).
-Stage 8: Pre-Viz Prep -- writes viz_ready.csv, filtering ONLY physically
-         impossible rows, keeping statistical oddities.
+
+Pre-viz prep is the next stage: stage8_viz_prep.py.
 """
 import pandas as pd
 import numpy as np
@@ -173,84 +173,11 @@ assert "__source_row" in df.columns
 log(f"Index reset to 0..{len(df)-1}. __source_row confirmed present as a column.")
 
 # =============================================================================
-# STAGE 8: PRE-VIZ PREP
-# =============================================================================
-log("")
-log("=== STAGE 8: PRE-VIZ PREP ===")
 
-flag_cols = [c for c in df.columns if c.endswith("_flag")]
-log(f"Flag inventory ({len(flag_cols)} flag columns found in dataframe):")
-for fc in flag_cols:
-    true_count = int(df[fc].sum())
-    log(f"  {fc}: True count = {true_count}")
-
-# Filter-vs-keep decision, per column:
-#  FILTER (physically impossible / breaks a chart key):
-#    - date_logic_violation_flag: actual_delivery_date < dispatch_date -- cannot be charted
-#      honestly on any delivery-performance timeline.
-#  KEEP (statistical oddity, not impossible):
-#    - shipment_weight_kg_sign_flag: already numerically corrected in cleaned_data, no longer
-#      negative -- nothing to filter, value is now physically valid.
-#    - shipping_cost_inr_negative_flag: could be a legitimate credit/adjustment (BR4) -- KEEP.
-#    - delay_days_negative_flag / profit_inr_negative_flag: legitimate business values -- KEEP.
-#    - customer_rating_out_of_range_flag: a rating of 9.0 on a 1-5 scale is bad DATA, not
-#      bad SHIPMENT -- but it's a bounded, single-column oddity, not physically impossible for
-#      the row as a whole (the shipment happened; the rating field is untrustworthy). KEEP the
-#      row, but downstream rating aggregates should exclude flagged rows (documented for Stage 9).
-#    - *_outlier_flag / *_decimal_typo_flag from 4.10: explicit "statistical outlier, not
-#      modified" or "typo corrected" -- KEEP, these are real or already-repaired values.
-#    - *_unknown_category_flag / *_fuzzy_review_flag: unresolved categorical values -- KEEP,
-#      dropping real rows because a label didn't fuzzy-match is worse than an odd label.
-#    - *_missing_flag columns (Stage 7): nulls are legitimate per brief -- KEEP.
-FILTER_FLAGS = ["date_logic_violation_flag"]
-
-filter_mask = pd.Series(False, index=df.index)
-for fc in FILTER_FLAGS:
-    filter_mask = filter_mask | df[fc]
-
-n_before = len(df)
-viz_df = df[~filter_mask].copy()
-n_after = len(viz_df)
-n_dropped = n_before - n_after
-drop_pct = 100 * n_dropped / n_before
-
-log(f"Filter flags applied: {FILTER_FLAGS}")
-log(f"viz_ready row count: {n_before} -> {n_after} ({n_dropped} dropped, {drop_pct:.2f}%)")
-
-VIZ_PATH = OUT_DIR + r"\viz_ready.csv"
-viz_df.to_csv(VIZ_PATH, index=False, encoding="utf-8")
-log(f"Wrote {VIZ_PATH}")
-
-CLEANED_PATH = OUT_DIR + r"\cleaned_data.csv"
-df.to_csv(CLEANED_PATH, index=False, encoding="utf-8")
-log(f"Re-wrote {CLEANED_PATH} with Stage 7 dtypes/derived columns/reordering ({len(df)} rows, {len(df.columns)} cols)")
-
-# ---- append Stage 7 changes to change_log.csv ----
-changelog_path = OUT_DIR + r"\change_log.csv"
-existing = pd.read_csv(changelog_path, encoding="utf-8")
-new_changes = pd.DataFrame(CHANGES, columns=["STAGE","COLUMN","SOURCE_ROW","CHANGE_TYPE",
-                                              "ORIGINAL_VALUE","NEW_VALUE","REASON"])
-combined = pd.concat([existing, new_changes], ignore_index=True)
-combined.to_csv(changelog_path, index=False, encoding="utf-8")
-log(f"Appended {len(new_changes)} Stage 6/7/8 change-log entries. change_log.csv now {len(combined)} rows total.")
-
-summary = {
-    "cleaned_rows_after_transform": len(df),
-    "cleaned_cols_after_transform": len(df.columns),
-    "derived_columns": derived_cols_added,
-    "viz_ready_rows_before": n_before,
-    "viz_ready_rows_after": n_after,
-    "viz_ready_dropped": n_dropped,
-    "viz_ready_drop_pct": round(drop_pct, 4),
-    "filter_flags_applied": FILTER_FLAGS,
-    "flag_true_counts": {fc: int(df[fc].sum()) for fc in flag_cols},
-}
-with open(OUT_DIR + r"\04_transform_viz_summary.json", "w", encoding="utf-8") as f:
-    json.dump(summary, f, indent=2)
-log(f"Wrote 04_transform_viz_summary.json")
-
-with open(OUT_DIR + r"\04_transform_viz_run_log.txt", "w", encoding="utf-8") as f:
-    f.write("\n".join(log_lines))
-log(f"Wrote 04_transform_viz_run_log.txt")
-
-print("STAGE 6/7/8 COMPLETE")
+# ---------------------------------------------------------------
+# Report for this stage only.
+# ---------------------------------------------------------------
+_STAGE_REPORT = str(_HERE / "stage7_transform_report.txt")
+with open(_STAGE_REPORT, "w", encoding="utf-8") as _f:
+    _f.write(chr(10).join(log_lines) + chr(10))
+print("wrote", _STAGE_REPORT)

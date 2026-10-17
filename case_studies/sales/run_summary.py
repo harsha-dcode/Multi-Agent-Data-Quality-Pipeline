@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-06_run_summary.py -- assembles RUN_SUMMARY.md from the actual artifacts on disk (never
+run_summary.py -- assembles RUN_SUMMARY.md from the actual artifacts on disk (never
 hand-typed), so every number in it is re-derivable by re-running 00-05 and this script.
 """
 
@@ -58,7 +58,7 @@ calc = clean["units_sold"] * clean["unit_price"]
 rel_diff = (clean["total_revenue"] - calc).abs() / calc.replace(0, pd.NA).abs()
 mismatch_final = (both_present & (rel_diff > 0.01) & (~clean["total_revenue_sign_flag"]) & (~clean["unit_price_sign_flag"])).sum()
 
-# collision guard results, recomputed fresh (same logic as 02_extract_and_profile.py)
+# collision guard results, recomputed fresh (same logic as stage3_profile.py)
 from thefuzz import utils as fuzz_utils
 
 CANON = {
@@ -207,7 +207,7 @@ for a, size in artifact_sizes.items():
     ok = "OK" if size else "FAIL"
     w(f"| `{a}` | {status} | {ok} |")
 w("")
-w("Numbered scripts in this directory (`00_peek.py` ... `05_viz_ready.py`, this script) "
+w("Numbered scripts in this directory (`stage2a_peek.py` ... `stage8_viz_prep.py`, this script) "
   "reproduce the entire run from `messy_sales.csv` alone; run them in numeric order.")
 
 with open(SUMMARY_MD, "w", encoding="utf-8") as f:

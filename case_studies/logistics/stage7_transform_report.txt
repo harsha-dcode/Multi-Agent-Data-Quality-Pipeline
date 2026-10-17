@@ -1,0 +1,17 @@
+=== STAGE 6: DATA INTEGRATION ===
+N/A -- Single Source. Only one input file (logistics_supply_chain_dataset_v3.csv) was provided.
+
+=== STAGE 7: DATA TRANSFORMATION ===
+Cast 5 date cols -> datetime64, 1 col -> int64, 9 cols -> float64, 16 cols -> category
+Derived columns added: ['actual_transit_days', 'cost_per_kg', 'profit_margin_pct', 'shipment_year', 'shipment_month']
+  actual_delivery_date: 229 nulls left as-is (leave_null per brief), actual_delivery_date_missing_flag materialized
+  delay_days: 229 nulls left as-is (leave_null per brief), delay_days_missing_flag materialized
+  driver_id: 7205 nulls left as-is (leave_null per brief), driver_id_missing_flag materialized
+  shipment_weight_kg: 896 nulls left as-is (leave_null per brief), shipment_weight_kg_missing_flag materialized
+  fuel_cost_inr: 1200 nulls left as-is (leave_null per brief), fuel_cost_inr_missing_flag materialized
+  customer_rating: 1711 nulls left as-is (leave_null per brief), customer_rating_missing_flag materialized
+  delay_reason: 21667 nulls left as-is (leave_null per brief), delay_reason_missing_flag materialized
+Final-null-check flag columns added: ['actual_delivery_date_missing_flag', 'delay_days_missing_flag', 'driver_id_missing_flag', 'shipment_weight_kg_missing_flag', 'fuel_cost_inr_missing_flag', 'customer_rating_missing_flag', 'delay_reason_missing_flag']
+No column had an imputation strategy configured in 01_business_brief.yaml missing_value_strategy (all non-critical nullable columns are 'leave_null', all cost/revenue/identifier columns are 'never_impute') -- so NO NULL_IMPUTED entries exist in this run. This is the default-safe path, not a shortfall.
+Columns reordered. Final column count: 84
+Index reset to 0..29999. __source_row confirmed present as a column.

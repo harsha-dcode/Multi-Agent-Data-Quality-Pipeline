@@ -3,7 +3,7 @@ Stage 9 -- ANALYTICS: General EDA (auto-selected, unattended run)
 Dataset: viz_ready.csv (3,333 rows, 30 columns) -- telecom subscriber churn control case.
 
 Produces every number cited in insights_report.md. Run with:
-    python 07_eda.py
+    python stage9_analytics.py
 """
 import pandas as pd
 import numpy as np

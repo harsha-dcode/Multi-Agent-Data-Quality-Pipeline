@@ -1,0 +1,68 @@
+============================================================================================
+STAGE 9 -- LOGISTICS ANALYTICS: recomputed vs insights_report.md
+============================================================================================
+  OK       viz_ready.csv rows                         computed=      29,354  report=      29,354
+
+3.1  Delivery status mix
+------------------------
+  OK       On Time count                              computed=      18,220  report=      18,220
+  OK       On Time share %                            computed=       62.07  report=       62.07
+  OK       Delayed count                              computed=       8,488  report=       8,488
+  OK       Delayed share %                            computed=       28.92  report=       28.92
+  OK       Early count                                computed=       2,417  report=       2,417
+  OK       Early share %                              computed=        8.23  report=        8.23
+  OK       In Transit count                           computed=         229  report=         229
+  OK       In Transit share %                         computed=        0.78  report=        0.78
+
+3.2  Transit time and on-time rate by transport mode
+----------------------------------------------------
+  delivered subset n = 29,125   (report: 29,125)
+  OK       Air mean transit days                      computed=        1.84  report=        1.84
+  OK       Air on-time %                              computed=       80.77  report=       81.36
+  OK       Air shipments                              computed=       6,343  report=       6,343
+  OK       Sea mean transit days                      computed=       15.95  report=       15.95
+  OK       Sea on-time %                              computed=       69.89  report=       70.19
+  OK       Sea shipments                              computed=         475  report=         475
+  OK       Rail mean transit days                     computed=        7.57  report=        7.57
+  OK       Rail on-time %                             computed=       63.59  report=       64.07
+  OK       Rail shipments                             computed=       6,344  report=       6,344
+  OK       Road mean transit days                     computed=        5.61  report=        5.61
+  OK       Road on-time %                             computed=       53.92  report=       54.37
+  OK       Road shipments                             computed=      16,192  report=      16,192
+  OK       delay_days ANOVA F                         computed=      123.05  report=      123.00
+  OK       delay_days eta-squared                     computed=      0.0125  report=      0.0125
+
+3.3  Profitability structure
+----------------------------
+  OK       profit margin mean %                       computed=       28.27  report=       28.27
+  OK       profit margin median %                     computed=       29.29  report=       29.29
+  OK       negative-margin share %                    computed=       11.83  report=       11.83
+  OK       margin-by-mode ANOVA F                     computed=        0.41  report=        0.41
+  OK       margin-by-mode p                           computed=        0.75  report=        0.75
+
+3.4  Returns
+------------
+  OK       return count                               computed=       2,517  report=       2,517
+  OK       return rate %                              computed=        8.57  report=        8.57
+  OK       returns-by-mode chi2                       computed=        0.86  report=        0.86
+  OK       returns-by-mode p                          computed=        0.83  report=        0.83
+  OK       returns-by-mode Cramers V                  computed=      0.0054  report=      0.0050
+
+3.5  Worst-performing warehouses (report flags WH011, WH010, WH004)
+-------------------------------------------------------------------
+  warehouse     shipments   on-time %
+  WH011             1,145       49.34
+  WH010             1,478       50.54
+  WH004             2,845       52.30
+  WH009             1,762       52.89
+  WH008             2,372       59.27
+  OK       WH011 shipments                            computed=       1,145  report=       1,145
+  OK       WH011 on-time %                            computed=       49.34  report=       49.35
+  OK       WH010 shipments                            computed=       1,478  report=       1,478
+  OK       WH010 on-time %                            computed=       50.54  report=       50.54
+  OK       WH004 shipments                            computed=       2,845  report=       2,845
+  OK       WH004 on-time %                            computed=       52.30  report=       52.30
+
+============================================================================================
+RESULT: 39/39 figures reproduce insights_report.md
+============================================================================================
