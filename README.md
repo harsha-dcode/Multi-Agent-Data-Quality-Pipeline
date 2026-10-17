@@ -361,7 +361,10 @@ numbered script per stage for each dataset.
 drug register shipped a false premise: Stage 1 asserted an address column was 100%
 unique, Stage 4.3 then normalised whitespace and case, and four addresses collided.
 Validation returned 13/13 PASS, correctly, because every check verifies Stage 4
-against Stage 1 — and Stage 1 was the thing that was wrong.
+against Stage 1 — and Stage 1 was the thing that was wrong. That run is kept in full,
+with both briefs and the incident report, at
+[`incidents/tamil-nadu-drug-register/`](incidents/tamil-nadu-drug-register/) — the
+failure is evidence, so it is not quietly deleted.
 
 The amendment requires every empirical claim in a brief to carry the expression that
 produced it, the number it returned, and the snapshot it was measured on, and requires

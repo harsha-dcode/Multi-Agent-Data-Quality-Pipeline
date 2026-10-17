@@ -1,0 +1,124 @@
+# Stage 1 Business Brief -- authorizes all downstream cleaning decisions in this run.
+# Dataset: Tamil Nadu (India) government register of licensed drug manufacturers.
+
+dataset: drug_manlist_1_0.csv
+grain: >
+  One row per registered manufacturing establishment record: a (firm name, manufacturing
+  address) pair together with that establishment's Form 25 / Form 28 / Form 28D licence
+  status. Confirmed empirically: ADDRESS is 100% unique across all 549 rows even though NAME
+  repeats 12 times (same company, different plants/branches) -- so the true entity being
+  tracked is the establishment (name+address), not the legal company name alone.
+
+critical_columns:
+  - s_no
+  - name
+  - address
+  # A null in any of these makes the row useless for the stated purpose (identifying WHICH
+  # manufacturer to inspect or chase). All three are 0% null in the raw source -- verified in
+  # Stage 3/5 (V2).
+
+allowed_values: {}
+  # No closed categorical column exists in this dataset. name/address are free text
+  # identifiers; the three licence-number columns are heterogeneous alphanumeric identifiers
+  # (old "NNN/YYYY" scheme pre-dating a newer "TNNNNNNNNN" scheme), not a bounded category set.
+
+dangerous_columns: {}
+  # RAN THE GUARD. Stage 3/4 checked every column for a closed value set with punctuation- or
+  # near-collision-prone canonical values (the A+/A- class of failure). No categorical column
+  # exists at all in this dataset (see allowed_values above), so Stage 4.4 fuzzy matching was
+  # never invoked on anything, and nothing could trip the collision guard. Measured evidence:
+  # thefuzz.utils.full_process was not run because there is no canonical_list to test against --
+  # there is no column in this dataset where two distinct legitimate values reduce to the same
+  # normalized token. {} here is a positive statement that the guard was considered and found
+  # not applicable, not an unchecked default.
+
+missing_value_strategy:
+  s_no: never_impute
+  name: never_impute
+  address: never_impute
+  form_25_licence_no: leave_null
+  form_25_issue_date: leave_null
+  form_25_expiry_date: leave_null
+  form_28_licence_no: leave_null
+  form_28_issue_date: leave_null
+  form_28_expiry_date: leave_null
+  form_28d_licence_no: leave_null
+  form_28d_issue_date: leave_null
+  form_28d_expiry_date: leave_null
+  # All 9 licence-related columns: the literal string "NA" in the source means "this firm does
+  # not hold / has no record of this licence type" -- a real fact about the firm, not a data
+  # gap. Per the mission's "never guess a value into existence" rule, none of these are ever
+  # imputed; a null here is a legitimate, informative null and must stay a null all the way to
+  # the report. This column is deliberately per-column and not a blanket rule (see the
+  # blood-type/imputation_policy incident referenced in the pipeline spec).
+
+dataset_type: government_regulatory_register
+business_goal: >
+  Give a Tamil Nadu drug-control regulator an operational worklist: which licensed
+  manufacturers currently hold an EXPIRED Form 25 / Form 28 / Form 28D licence and should be
+  inspected or chased for renewal. This shapes every flag-vs-fix decision below toward
+  "flag, never silently fix or drop" -- an inspector must be able to trust that every row in
+  cleaned_data.csv reflects the source register, not an inferred value.
+
+column_types:
+  s_no: integer
+  name: string
+  address: string
+  form_25_licence_no: string (alphanumeric identifier)
+  form_25_issue_date: date
+  form_25_expiry_date: date
+  form_28_licence_no: string (alphanumeric identifier)
+  form_28_issue_date: date
+  form_28_expiry_date: date
+  form_28d_licence_no: string (alphanumeric identifier)
+  form_28d_issue_date: date
+  form_28d_expiry_date: date
+
+not_critical:
+  form_25_licence_no: "null means the firm does not hold a Form 25 licence -- informative, not missing"
+  form_28_licence_no: "null means the firm does not hold a Form 28 licence -- informative, not missing"
+  form_28d_licence_no: "null means the firm does not hold a Form 28D licence -- informative, not missing (99.3% null; Form 28D is evidently a rare licence type in this register)"
+  form_25_issue_date: "null follows from no Form 25 licence, or from a source-side unparseable date (flagged separately)"
+  form_25_expiry_date: "same as above"
+  form_28_issue_date: "null follows from no Form 28 licence, or from a source-side unparseable date (flagged separately)"
+  form_28_expiry_date: "same as above"
+  form_28d_issue_date: "null follows from no Form 28D licence"
+  form_28d_expiry_date: "null follows from no Form 28D licence"
+
+business_rules:
+  BR1:
+    rule: "A licence's expiry_date must not precede its issue_date"
+    action: flag_do_not_correct
+    reason: "physically impossible duration; a source data-entry error (found once for Form 25 and once for Form 28, same firm 'Byby Health Care', both off by exactly 1 day). No reliable way to infer the true dates, so flagged only. Excluded from viz_ready.csv as the one case a chart cannot show honestly."
+  BR2:
+    rule: "A licence-number cell containing 'Cancelled'/'cancelled' means the licence has been revoked, independent of its expiry_date"
+    action: correct
+    reason: "annotation extracted into a dedicated <col>_cancelled_flag boolean and stripped from the identifier value; the identifier itself (e.g. 'TN00003228') is unambiguous once the annotation is removed"
+  BR3:
+    rule: "Trailing bare hyphen at the very end of an address or a date string is a mis-encoded terminal punctuation artifact"
+    action: correct
+    reason: "measured: ADDRESS column has 0 literal '.' characters in 549 rows but 474/549 end in a bare hyphen; a hyphen with nothing after it cannot be part of a compound plot/survey number (those always have content on both sides), so it carries no information and was stripped"
+  BR4:
+    rule: "Mid-string hyphens elsewhere in NAME/ADDRESS following abbreviation-like tokens (No-, Dist-, Dr-, S-, R-) are ALSO very likely the same period-to-hyphen substitution, but are NOT corrected"
+    action: flag
+    reason: "genuine hyphens (compound plot numbers like '333-2A') are interleaved with the substituted ones in the same strings with no reliable way to distinguish them; correcting blind would risk the exact silent-corruption failure mode the fuzzy-matching collision guard exists to prevent. Flagged via address_encoding_artifact_flag / name_encoding_artifact_flag (336 / 7 rows) instead of corrected."
+
+assumptions:
+  A1:
+    text: "File encoding is Windows-1252 (cp1252), not UTF-8 or Latin-1"
+    if_wrong: "the EN DASH character used 354x as a city/pincode separator would be misdecoded or would raise a decode error entirely (utf-8 fails outright on byte 0x96 at position 186)"
+  A2:
+    text: "Dates are DD-MM-YYYY, not MM-DD-YYYY"
+    if_wrong: "confirmed empirically: 988 of 1473 cleanly-formatted date values have a first-position number >12, which is impossible under MM-DD; format is unambiguously day-first"
+  A3:
+    text: "\"Today\" for expiry/active-status computation is the pipeline run date, 2026-09-22"
+    if_wrong: "the active/expired counts and rates in the validation and insights reports would shift; this should be re-run periodically, not treated as a permanent classification"
+  A4:
+    text: "Grain is (name, address), not name alone -- a company can legitimately appear on multiple rows for different manufacturing units"
+    if_wrong: "the 12 rows sharing a NAME would be wrongly treated as duplicates and some would be dropped, destroying real establishment-level licence records"
+
+risks:
+  - "62/487 non-null licence identifiers historically used a pre-2000s 'NNN/YYYY' numbering scheme instead of the newer 'TNNNNNNNNN' scheme -- both are valid, but any downstream join against a licence-ID master list must handle both formats"
+  - "6 licence-number cells (4 in Form 25, 2 in Form 28) have the shape of an Excel auto-date-conversion (e.g. 'Dec-57') and are almost certainly corrupted originals; the true licence number is unrecoverable and was not guessed"
+  - "8 date cells lost their day/month entirely upstream (only a bare '-YYYY' fragment survives), consistent with a two-line PDF-table wrap dropping the first line during extraction; left null rather than guessed"
+  - "1 date cell packs two dates together ('27-10-04 & (CLAA) 30-11-2011') representing an original approval plus a CLAA renewal -- left null rather than arbitrarily picking one"

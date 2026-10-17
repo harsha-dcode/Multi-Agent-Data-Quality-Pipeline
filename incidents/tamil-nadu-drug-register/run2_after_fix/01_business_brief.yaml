@@ -1,0 +1,127 @@
+dataset: drug_manlist_1_0.csv
+
+dataset_type: government_licence_register  # Tamil Nadu Drug Control regulator - licensed drug manufacturers
+business_goal: >
+  Feed a drug-control regulator's inspection/renewal-chasing workflow: identify which
+  manufacturers hold which licence types (Form 25 / Form 28 / Form 28D), when those
+  licences expire, and which firms need follow-up (missing licences, expired licences,
+  or ambiguous/uninspectable records).
+
+grain:
+  statement: >
+    One row = one licence-listing entry for a manufacturer as recorded in the register.
+    A manufacturer (same name + same address) CAN legitimately appear on more than one
+    row when its Form 25 / Form 28 / Form 28D licence records were entered as separate
+    register lines (verified: none of the address-sharing row pairs found below are
+    full exact-row duplicates -- each pair carries different licence numbers/dates).
+    Distinct, unrelated manufacturers can also legitimately share a physical address
+    (co-located units in the same industrial estate/building).
+  verified_by: >
+    addr_norm = ADDRESS.strip().replace(newline,' ').replace(en-dash 0x96,'-')
+      -> collapse internal whitespace -> strip trailing '-, ' -> casefold();
+    addr_norm.duplicated().sum() ; addr_norm.nunique()
+  result: >
+    duplicated().sum() = 4 (4 groups, 8 rows) ; nunique = 545 of 549 rows.
+    RAW (unnormalized) ADDRESS.duplicated().sum() = 0 / nunique = 549 -- i.e. a naive
+    exact-string check would have (wrongly) reported "100% unique," which is the exact
+    false claim a prior run of this pipeline made and shipped. It is false: after
+    normalizing only whitespace/dash/case (no content change), 4 address collisions
+    exist. A still-stronger normalization (stripping ALL punctuation) surfaces 2 more
+    collisions (4 more rows, S-No 81/388/514/518) that differ only by punctuation
+    spacing (e.g. "641 406" vs "641406") -- these are handled as near-duplicate flags
+    in Stage 4.11 on the ADDRESS axis specifically (see changelog NEAR_DUPLICATE_FLAGGED
+    entries), which is the axis the prior run's false premise caused it to skip.
+    None of the 6 total colliding pairs are exact full-row duplicates: every pair holds
+    different licence numbers/issue/expiry dates, consistent with the grain statement
+    above (same firm/site, separate licence-entry rows) rather than accidental re-entry.
+
+critical_columns: [s_no, name, address]
+  # A null in s_no/name/address makes the row useless for inspection targeting.
+  # Individual licence-number/date fields are NOT listed here: their "NA" literal is a
+  # legitimate business signal ("this firm does not hold this licence type"), not a
+  # data-quality defect -- see missing_value_strategy and business_rules/BR1 below.
+
+allowed_values: {}
+  # No closed-set categorical column exists in the raw schema. NAME and ADDRESS are
+  # free text (nunique 537/549 and 549/549 respectively -- not categories). Form 25 /
+  # Form 28 / Form 28D are high-cardinality identifier strings, not categories.
+
+dangerous_columns: {}
+  # Measured: scanned every column for cardinality < 50 that would be a fuzzy-matching
+  # candidate under 4.4. None qualifies -- name/address are high-cardinality free text
+  # (not canonicalized to a fixed set), and licence-number columns are identifiers, not
+  # categories, so Stage 4.4 (categorical typo correction) is N/A for this dataset and
+  # the collision guard trivially does not trip because it is never invoked.
+  # NOTE: fuzzy matching IS used in Stage 4.11 for near-duplicate NAME/ADDRESS detection
+  # (a different purpose -- similarity-based row-pair flagging, not canonicalization to
+  # a fixed value set). That step preserves punctuation in its comparator (does not use
+  # a preprocessor that strips it) and every flagged pair is printed for manual review
+  # given the dataset's small size (549 rows).
+
+missing_value_strategy:
+  s_no: never_impute
+  name: never_impute
+  address: never_impute
+  form25_license_no: leave_null   # "NA" = firm does not hold this licence type; informative absence, not a gap
+  form25_issue_date: leave_null
+  form25_expiry_date: leave_null
+  form28_license_no: leave_null
+  form28_issue_date: leave_null
+  form28_expiry_date: leave_null
+  form28d_license_no: leave_null
+  form28d_issue_date: leave_null
+  form28d_expiry_date: leave_null
+
+column_types:
+  s_no: integer
+  name: string
+  address: string
+  form25_license_no: string      # alphanumeric identifier, NOT numeric (mixed shapes: bare digits, "TN########", "###/####")
+  form25_issue_date: date
+  form25_expiry_date: date
+  form28_license_no: string
+  form28_issue_date: date
+  form28_expiry_date: date
+  form28d_license_no: string
+  form28d_issue_date: date
+  form28d_expiry_date: date
+
+not_critical:
+  form25_license_no: "NA means the firm does not hold a Form 25 licence -- that is information, not a defect"
+  form28_license_no: "NA means the firm does not hold a Form 28 licence -- that is information, not a defect"
+  form28d_license_no: "NA means the firm does not hold a Form 28D licence (only 4/549 firms hold one -- expected, this is a specialised licence type)"
+  form25_issue_date: "null whenever the corresponding licence_no is null/NA, by construction"
+  form25_expiry_date: "same as above; also null on 2 rows with truncated source values ('-2015' etc) that cannot be parsed"
+  form28_issue_date: "null whenever the corresponding licence_no is null/NA, by construction"
+  form28_expiry_date: "same as above"
+  form28d_issue_date: "null whenever the corresponding licence_no is null/NA, by construction"
+  form28d_expiry_date: "same as above; also null on 1 row (Proventus Life Sciences, S-No 546) where issue date is present but expiry was apparently never recorded in the source"
+
+business_rules:
+  BR1:
+    rule: "Every row should hold at least one of the three licence-number fields (Form25/28/28D) non-null"
+    action: flag
+    reason: "A regulator cannot act on a row with no licence reference at all; measured violation: S-No 185 (Kalyan Oxygen Pvt- Ltd) has all three absent"
+  BR2:
+    rule: "expiry_date >= issue_date for the same licence"
+    action: flag_do_not_correct
+    reason: "expiry before issue is a data-entry/OCR error with no recoverable correct value; measured violation: S-No 75 (Byby Health Care), Form25 and Form28 both show issue=17-02-2017, expiry=16-02-2017 (expiry one day before issue). Do not guess the intended date."
+
+assumptions:
+  A1:
+    text: "Dates are DD-MM-YYYY, not MM-DD-YYYY"
+    if_wrong: "every date in the dataset would be silently transposed"
+    verified_by: "max(first two-digit group)=31 with 1001 instances >12, vs max(second group)=12 with 0 instances >12 -- only DD-MM ordering is arithmetically possible"
+  A2:
+    text: "Literal 'NA' in licence/date columns is a null-disguise meaning 'not applicable to this firm', not a real value or a region/category code"
+    if_wrong: "the register would be treating a real code as missing data"
+    verified_by: "gate: canonical shape of a licence number is {digits, 'TN'+digits, digits/year}; 'NA' matches none of these shapes; canonical shape of a date is DD-MM-YYYY, 'NA' matches none of these either -- gate says NO on both -> null, per NULL_STANDARDIZED convention"
+  A3:
+    text: "windows-1252 is the correct source encoding"
+    if_wrong: "the en-dash and curly-quote characters used inside addresses/names would be corrupted"
+    verified_by: "utf-8 decode raises UnicodeDecodeError at byte offset 186 (0x96); windows-1252 decodes the full 93,369-byte file with no exception and produces legible characters (en-dash 0x96 used as an address separator, curly quotes 0x92/0x93/0x94, fraction sign 0xBC)"
+
+risks:
+  - "Licence-number columns mix multiple shapes (bare digits, 'TN########', '###/####' with a slash-year suffix, and a handful of Excel-style month-year corruptions like 'Dec-98'/'May-22' that likely came from a numeric-looking code such as '12/98' being auto-converted to a date by spreadsheet software) -- these corrupted cells cannot be reconstructed and are flagged, not guessed."
+  - "A few licence-number/date cells contain embedded multi-value annotations ('& (CLAA) TN########', '\\nCancelled') representing loan-licence cross-references or cancellation status folded into the same cell -- flagged and preserved verbatim, not silently split or discarded."
+  - "Stage 4.11 near-duplicate detection is deliberately run on BOTH the NAME axis and the ADDRESS axis (see grain.verified_by) -- a prior run of this pipeline built its duplicate check on the NAME axis only, because a false Stage-1 claim of 100% address uniqueness ruled out the address axis. That is the specific defect this run's amended spec (structured grain + Stage-3 re-verification) exists to catch."
