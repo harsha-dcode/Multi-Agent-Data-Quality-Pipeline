@@ -46,6 +46,55 @@ vanished. That single fact determined the architecture of everything here.
 
 ---
 
+## The failure it did not catch
+
+The collision guard above worked. This one got through, and it is the reason the
+specification reads the way it does now.
+
+Running a **Tamil Nadu government register of licensed drug manufacturers**, the Stage 1
+brief asserted:
+
+> `Confirmed empirically: ADDRESS is 100% unique across all 549 rows`
+
+That measurement was **correct**. Then Stage 4.3 collapsed whitespace, unified en-dashes
+and folded case:
+
+| Snapshot | Distinct addresses | Shared |
+|---|---:|---:|
+| Raw, exact string | 549 of 549 | 0 ← Stage 1 measured here |
+| After normalisation | 545 of 549 | **4 addresses, 8 rows** ← every later stage reads here |
+
+**The claim was true when written and false when used.** Validation returned 13 of 13 PASS
+— also correctly, because every check verifies Stage 4 against Stage 1, and nothing
+verified Stage 1.
+
+The numerical damage was small: licence counts do not move at all, and the establishment
+count goes 549 → 548. That is not the point. The point is that an untested assertion
+silently aimed the duplicate check at the wrong axis — it hunted *same name, different
+address* when the real pattern was *same address, differently-written name* — and it was
+aimed that way **because Stage 1 said the other axis was already unique**. On a register
+where duplicates share a licence type, the same blind spot returns a materially wrong count.
+
+It was found by external review, not by the pipeline.
+
+**What changed.** Since 22 September 2026 every empirical claim in a brief must carry the
+expression that produced it, the number it returned, and which snapshot it was measured on
+(`measured_on: raw | post_4.3`). Stage 3 re-runs those expressions and may not read the
+recorded conclusion; a number that moves is `BRIEF_CLAIM_UNVERIFIED` and HIGH RISK.
+
+**Whether that fix works is a testable question, so it was tested** — against a case study
+already published here. Re-running `healthcare` under the amended rule fired it again, and
+showed that 676 of its 2,256 deleted rows had been removed for reasons not present in the
+source file, 527 of them by whitespace collapsing alone. The deletions were defensible; the
+silence about them was not. That re-run also exposed two defects in the pipeline itself.
+
+- The incident in full, with both briefs and the raw input →
+  [`incidents/tamil-nadu-drug-register/`](incidents/tamil-nadu-drug-register/)
+- The fix proving itself on published work →
+  [`case_studies/healthcare/RUN_SUMMARY.md`](case_studies/healthcare/RUN_SUMMARY.md) §13
+
+---
+
 ## Benchmark results
 
 Five datasets, **141,911 rows across 122 columns**, run by the **same agent
@@ -357,35 +406,19 @@ The five case studies were produced by the **agent specification**
 numbered script per stage for each dataset.
 
 **The five runs predate the current specification.** They were produced under the
-8 August version. On 22 September the spec was amended after a run on a Tamil Nadu
-drug register shipped a false premise: Stage 1 asserted an address column was 100%
-unique, Stage 4.3 then normalised whitespace and case, and four addresses collided.
-Validation returned 13/13 PASS, correctly, because every check verifies Stage 4
-against Stage 1 — and Stage 1 was the thing that was wrong. That run is kept in full,
-with both briefs and the incident report, at
-[`incidents/tamil-nadu-drug-register/`](incidents/tamil-nadu-drug-register/) — the
-failure is evidence, so it is not quietly deleted.
+8 August version, before the 22 September amendment described in
+[The failure it did not catch](#the-failure-it-did-not-catch) above.
 
-The amendment requires every empirical claim in a brief to carry the expression that
-produced it, the number it returned, and the snapshot it was measured on, and requires
-Stage 3 to re-run those expressions rather than read their conclusions. The five case
-studies here were not run under that rule. They are being re-run one at a time; until
-each one is, its brief carries no `verified_by` field and that is a real gap, not an
-oversight in the write-up.
+They are being re-run one at a time, and the state is worth being exact about:
 
-**`healthcare` has been re-run (2026-10-17) and the rule fired on it.** Its grain is a
-composite over three text columns that Stage 4.3 rewrites, and the duplicate count moves
-from 5,968 on raw to 6,911 after normalisation. The cleaned output is unchanged, but 676
-of the 2,256 removed rows turn out to have been deleted for reasons not present in the
-source file — 527 of them by whitespace collapsing alone. The removals are defensible;
-the silence about them was not, and Stage 4 now reports the attribution. The same re-run
-exposed two defects in the pipeline itself: Stage 5 was validating the previous run's
-output against an incomplete change log, which published a false V11 failure and left
-V13 checking 30 of 46 flags; and Stage 7 was writing its change-log entries twice. Both
-are fixed and both are written up in
-[`case_studies/healthcare/RUN_SUMMARY.md`](case_studies/healthcare/RUN_SUMMARY.md) §13. Those scripts are **kept in the
-case-study folder**, so every published number is re-derivable by executing
-them — they depend only on `pandas`, `numpy` and `pyyaml`.
+| Case study | Re-run under the amended spec? |
+|---|---|
+| `healthcare` | **Yes — 2026-10-17. The rule fired.** Write-up: [`RUN_SUMMARY.md`](case_studies/healthcare/RUN_SUMMARY.md) §13 |
+| `housing`, `logistics`, `sales`, `telecom` | Not yet — their briefs carry no `verified_by` field |
+
+For those four that is a **real gap, not an oversight in the write-up**. Their stage
+scripts are kept in the case-study folders, so every published number is re-derivable by
+executing them — they depend only on `pandas`, `numpy` and `pyyaml`.
 
 They do **not** import `src/`. That is deliberate and worth being explicit
 about rather than letting the directory layout imply otherwise:
