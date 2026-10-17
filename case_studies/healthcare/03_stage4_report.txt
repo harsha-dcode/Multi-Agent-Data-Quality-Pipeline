@@ -110,9 +110,20 @@ LOS QA cross-check: 56098 rows checkable, 1154 mismatches flagged (source value 
 
 4.11 DUPLICATE REMOVAL:
   exact duplicates removed: 2256  (rows: 58164 -> 55908)
+  attribution of the 2256 removals:
+     1580  already byte-identical in the raw file
+      527  became identical under 4.3 whitespace/NFC normalization alone
+      149  became identical under the other cleaning stages
+           (null-disguise unification, typo correction, numeric/date reformatting)
+    these three sets are disjoint and sum to 2256.
+    See the BRIEF CLAIM RE-VERIFICATION section of 02_stage3_profiling_report.txt.
+  NOTE: the Stage 1 brief says the composite grain key is never used for automatic
+        row removal, and that holds. This is a different mechanism - full-row
+        equality - and it reads values this pipeline rewrote. Flagging, not fixing:
+        the removals are defensible, the silence about them was not.
   near-duplicate composite-key collisions flagged (not removed): 9283 rows across 4637 colliding key-groups
 
-change_log.csv / change_log.csv written: 145538 change-log rows
+change_log.csv / change_log.csv written: 146214 change-log rows
 03_intermediate_cleaned.csv written: (55908, 50)
 03_flag_registry.json written: 30 flags registered
   FLAG blood_gender_swap_corrected_flag: True if blood_type/gender values were swapped in source and mechanically exchanged back (BR5)
@@ -148,4 +159,4 @@ change_log.csv / change_log.csv written: 145538 change-log rows
 
 === STAGE 4 SUMMARY ===
 raw rows: 58164  post-Stage4 rows (after exact-dup removal): 55908  exact duplicates removed: 2256
-total change-log entries: 145538
+total change-log entries: 146214

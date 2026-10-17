@@ -749,6 +749,47 @@ rows_before_dedup = len(df)
 df = df[~exact_dup_mask].copy()
 rprint(f"  exact duplicates removed: {n_exact_dup}  (rows: {rows_before_dedup} -> {len(df)})")
 
+# ---- attribution: which of those deletions does the RAW file justify? -----------------
+# Equality here is decided by every stage that ran before this one. A row pair that was
+# byte-distinct on disk and identical by 4.11 was made identical by us. That is usually
+# right -- the difference was a trailing space -- but "usually right" is a claim, and an
+# unattributed deletion count cannot be audited back to the file it came from.
+_raw_for_attr = pd.read_csv(IN, encoding="utf-8", low_memory=False, dtype=str)
+_raw_dup_srcrows = set(_raw_for_attr.index[_raw_for_attr.duplicated(keep="first")].tolist())
+_removed = set(dup_rows_removed)
+_justified_by_raw = _removed & _raw_dup_srcrows
+_created_by_cleaning = _removed - _raw_dup_srcrows
+# split the cleaning-created share further: how much is 4.3 on its own?
+# _raw_for_attr carries the RAW headers (4.1 renamed only the working frame),
+# so name them as they appear on disk - the same ten stage3_profile.py uses.
+_RAW_STRCOLS = ["Name", "Gender", "Blood Type", "Medical Condition", "Doctor",
+                "Hospital", "Insurance Provider", "Admission Type", "Medication",
+                "Test Results"]
+_only43 = _raw_for_attr.copy()
+for _c in _RAW_STRCOLS:
+    _only43[_c] = _only43[_c].map(
+        lambda v: re.sub(r"\s+", " ", unicodedata.normalize("NFC", str(v)).strip()))
+_d43 = set(_only43.index[_only43.duplicated(keep="first")].tolist()) - _raw_dup_srcrows
+_from_43 = _created_by_cleaning & _d43
+_from_other = _created_by_cleaning - _d43
+rprint(f"  attribution of the {n_exact_dup} removals:")
+rprint(f"    {len(_justified_by_raw):5d}  already byte-identical in the raw file")
+rprint(f"    {len(_from_43):5d}  became identical under 4.3 whitespace/NFC normalization alone")
+rprint(f"    {len(_from_other):5d}  became identical under the other cleaning stages")
+rprint(f"           (null-disguise unification, typo correction, numeric/date reformatting)")
+rprint(f"    these three sets are disjoint and sum to {n_exact_dup}.")
+rprint(f"    See the BRIEF CLAIM RE-VERIFICATION section of 02_stage3_profiling_report.txt.")
+if _created_by_cleaning:
+    rprint(f"  NOTE: the Stage 1 brief says the composite grain key is never used for automatic")
+    rprint(f"        row removal, and that holds. This is a different mechanism - full-row")
+    rprint(f"        equality - and it reads values this pipeline rewrote. Flagging, not fixing:")
+    rprint(f"        the removals are defensible, the silence about them was not.")
+    for _sr in sorted(_created_by_cleaning):
+        log("Stage4.11", "ALL", _sr, "DUPLICATE_REMOVED_POST_NORMALIZATION", "", "",
+            "row was NOT byte-identical to its twin in the raw file; it became an exact "
+            "duplicate only after earlier cleaning stages (chiefly 4.3 whitespace/NFC "
+            "normalization) - removal attributed to cleaning, not to the source")
+
 # near-duplicate flag on composite key (name, date_of_admission, doctor, hospital) - flag only, no ID exists
 composite_key = df[C_NAME].astype(str) + "||" + df[C_DOA].astype(str) + "||" + df[C_DOC].astype(str) + "||" + df[C_HOSP].astype(str)
 dup_key_counts = composite_key.value_counts()
@@ -766,7 +807,6 @@ rprint(f"  near-duplicate composite-key collisions flagged (not removed): {n_nea
 # WRITE OUTPUTS: intermediate cleaned csv, changelog (canonical + user-requested alias), flag registry, report
 # =====================================================================================
 change_log_df = pd.DataFrame(CHANGE_LOG, columns=["STAGE","COLUMN","SOURCE_ROW","CHANGE_TYPE","ORIGINAL_VALUE","NEW_VALUE","REASON"])
-change_log_df.to_csv(os.path.join(OUT_DIR, "change_log.csv"), index=False, encoding="utf-8")
 change_log_df.to_csv(os.path.join(OUT_DIR, "change_log.csv"), index=False, encoding="utf-8")
 rprint(f"\nchange_log.csv / change_log.csv written: {len(change_log_df)} change-log rows")
 

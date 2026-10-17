@@ -2,7 +2,7 @@ STAGE 2: DATA EXTRACTION INVENTORY
 ============================================================
 Source file: C:\Users\koush\OneDrive\Desktop\Multi-Agent-Data-Quality-Pipeline\case_studies\healthcare\input\healthcare_dataset_dirty_export.csv
 File size bytes: 9862441
-Encoding: UTF-8 (strict decode verified in 00_peek.py, no BOM)
+Encoding: UTF-8 (strict decode verified in stage2a_peek.py, no BOM)
 Detected delimiter: ',' (standard csv)
 Raw shape: 58164 rows x 19 columns
 Raw column names (exact): ['Name', 'Age', 'Gender', 'Blood Type', 'Medical Condition', 'Date of Admission', 'Doctor', 'Hospital', 'Insurance Provider', 'Billing Amount', 'Room Number', 'Admission Type', 'Discharge Date', 'Medication', 'Test Results', 'Length of Stay', 'Admission Year', 'Admission Month', 'Admission YearMonth']

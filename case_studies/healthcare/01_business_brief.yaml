@@ -7,12 +7,56 @@
 
 dataset: healthcare_dataset_dirty_export.csv
 
-grain: >
-  One row per hospital admission event. No true unique patient/record ID column exists in the
-  source (confirmed: no id/patient_id/record_id column present among the 19 raw columns). The
-  best-effort composite identifier is (name, date_of_admission, doctor, hospital). This composite
-  is used ONLY for near-duplicate detection/flagging in 4.11, never for automatic row removal,
-  because collisions on it are not proof of a true duplicate admission.
+grain:
+  statement: >
+    One row per hospital admission event. No true unique patient/record ID column exists in
+    the source, so the best-effort composite identifier is
+    (name, date_of_admission, doctor, hospital). This composite is used ONLY for
+    near-duplicate detection/flagging in 4.11, never for automatic row removal, because
+    collisions on it are not proof of a true duplicate admission.
+  verified_by: >
+    key = df[name] + "||" + df[date_of_admission] + "||" + df[doctor] + "||" + df[hospital];
+    (len(df), key.nunique(), int(key.duplicated().sum()))
+  result: "58164 rows, 52195 distinct, 5968 duplicated"
+  measured_on: raw
+  # Measured under the loader all three stages actually use
+  # (pd.read_csv(..., dtype=str, low_memory=False), keep_default_na left at its
+  # default). That matters: empty cells arrive as NaN and astype(str) renders them
+  # "nan", so every null Name collapses to one key value. Loading with
+  # keep_default_na=False instead gives 52315 distinct / 5849 duplicated. Neither is
+  # wrong, but the number only means something next to the load that produced it, and
+  # Stage 3 recomputes this against the pipeline's load, not a tidier one.
+
+  # THE CLAIM DECAYS. Recorded under the 2026-09-22 amendment, which exists because a
+  # Stage 1 measurement can be correct on raw data and wrong by the time Stage 4.11 reads it.
+  # Three of the four key components (name, doctor, hospital) are text columns that Stage 4.3
+  # strips and whitespace-collapses. Measured, not assumed:
+  decay:
+    verified_by: >
+      same expression, after applying Stage 4.3's transform
+      (unicodedata.normalize("NFC", s).strip() then re.sub(r"\s+", " ", s))
+      to name, doctor and hospital
+    result: "58164 rows, 51252 distinct, 6911 duplicated  (+943 vs raw)"
+    measured_on: post_4.3
+    values_changed_by_4_3: "name=1539, doctor=462, hospital=1185"
+    consequence: >
+      The near-duplicate FLAG count is the harmless half - flagging more real duplicates is
+      the correct direction, and nothing is removed on this key. The half that matters is
+      that 4.11 removes exact full-row duplicates BEFORE it builds this key, and that removal
+      also reads post-4.3 values: isolating 4.3 alone, exact full-row duplicates go
+      1580 -> 2107 (excluding __source_row, which is a per-row counter and would make
+      every row unique), so 527 rows are deleted because whitespace was collapsed and
+      not for any reason visible on the raw file. That deletion is defensible - the rows differ only by
+      trailing or doubled spaces - but it was never measured, never attributed to a stage,
+      and the brief's own wording ("never used for automatic row removal") describes the
+      composite key while saying nothing about the mechanism that actually deletes rows.
+      Stage 4 must report the attribution; it is a finding, not a bug to fix silently.
+
+  no_id_column:
+    verified_by: >
+      [c for c in df.columns if re.search(r"\bid\b|_id$|^id$|record", c, re.I)]
+    result: "[] across all 19 raw columns"
+    measured_on: raw   # structural; column names are not touched by 4.3
 
 critical_columns:
   - date_of_admission   # grain anchor; a row with no admission date cannot be placed in any

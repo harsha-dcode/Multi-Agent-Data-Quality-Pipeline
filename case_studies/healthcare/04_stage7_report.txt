@@ -34,5 +34,6 @@ Post-transform re-dedup (triggered by BR6 column drop): 34 additional exact dupl
 Index reset to 0-based; __source_row CONFIRMED present as a column (verified: True)
 
 cleaned_data.csv written: (55874, 67)
-Appended 8088 Stage 6/7 change-log entries to change_log.csv / change_log.csv
+  (clearing 8088 Stage 6/7 entries from a previous run)
+Appended 8088 Stage 6/7 change-log entries to change_log.csv
 03_flag_registry.json updated: 46 total flags

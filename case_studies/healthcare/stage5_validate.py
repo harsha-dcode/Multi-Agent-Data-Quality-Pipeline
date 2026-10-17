@@ -28,6 +28,20 @@ with open(os.path.join(OUT_DIR, "03_flag_registry.json"), "r", encoding="utf-8")
     flag_registry = json.load(f)
 change_log = pd.read_csv(os.path.join(OUT_DIR, "change_log.csv"), encoding="utf-8", low_memory=False)
 
+# ---- ORDERING GUARD -------------------------------------------------------------------
+# This stage validates Stage 7's output (cleaned_data.csv) against the full change log.
+# Stage 7 appends to that log AFTER Stage 4 writes it, so running this stage before
+# Stage 7 compares a current file against a log that is missing Stage 7's entries. The
+# result is not an error -- it is a believable report with a wrong V11, which is worse.
+_stages_logged = set(change_log["STAGE"].astype(str))
+if not any(s.startswith("Stage7") or s.startswith("Stage6") for s in _stages_logged):
+    raise SystemExit(
+        "stage5_validate.py: change_log.csv has no Stage 6/7 entries, so Stage 7 "
+        "has not run since Stage 4 rewrote the log.\n"
+        "Run order for this case study is 4 -> 7 -> 8 -> 5 -> 9, not numeric order: "
+        "Stage 5 validates the FINAL cleaned_data.csv, which Stage 7 produces.\n"
+        "Stages present in the log: %s" % sorted(_stages_logged))
+
 date_cols = ["date_of_admission", "discharge_date"]
 for c in date_cols:
     df[c] = pd.to_datetime(df[c], errors="coerce")

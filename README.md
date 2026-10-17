@@ -55,7 +55,7 @@ own report.
 
 | Case study | Rows in → cleaned → viz-ready | Drop rate | Log entries | Value edits | Validation | Gate |
 |---|---|---:|---:|---:|---|:--:|
-| [`healthcare`](case_studies/healthcare/) | 58,164 → 55,874 → 54,470 | 2.51% | 153,626 | 17,062 | 12 pass, **1 fail by design** | PASS |
+| [`healthcare`](case_studies/healthcare/) | 58,164 → 55,874 → 54,470 | 2.51% | 154,302 | 17,062 | 10 pass, 2 N/A, **1 fail by design** | PASS |
 | [`housing`](case_studies/housing/) | 50,000 → 49,864 → 48,870 | 1.99% | 11,068 | 2,783 | 11 pass, 2 N/A, 0 fail | PASS |
 | [`logistics`](case_studies/logistics/) | 30,102 → 30,000 → 29,354 | 2.15% | 53,388 | 3,617 | 11 pass, 2 N/A, 0 fail | PASS |
 | [`sales`](case_studies/sales/) | 312 → 281 → 266 | 5.34% | 1,824 | 1,631 | 12 pass, **1 fail by design** | PASS |
@@ -366,9 +366,21 @@ against Stage 1 — and Stage 1 was the thing that was wrong.
 The amendment requires every empirical claim in a brief to carry the expression that
 produced it, the number it returned, and the snapshot it was measured on, and requires
 Stage 3 to re-run those expressions rather than read their conclusions. The five case
-studies here were not run under that rule. They are being re-run; until each one is,
-its brief carries no `verified_by` field and that is a real gap, not an oversight in
-the write-up. Those scripts are **kept in the
+studies here were not run under that rule. They are being re-run one at a time; until
+each one is, its brief carries no `verified_by` field and that is a real gap, not an
+oversight in the write-up.
+
+**`healthcare` has been re-run (2026-10-17) and the rule fired on it.** Its grain is a
+composite over three text columns that Stage 4.3 rewrites, and the duplicate count moves
+from 5,968 on raw to 6,911 after normalisation. The cleaned output is unchanged, but 676
+of the 2,256 removed rows turn out to have been deleted for reasons not present in the
+source file — 527 of them by whitespace collapsing alone. The removals are defensible;
+the silence about them was not, and Stage 4 now reports the attribution. The same re-run
+exposed two defects in the pipeline itself: Stage 5 was validating the previous run's
+output against an incomplete change log, which published a false V11 failure and left
+V13 checking 30 of 46 flags; and Stage 7 was writing its change-log entries twice. Both
+are fixed and both are written up in
+[`case_studies/healthcare/RUN_SUMMARY.md`](case_studies/healthcare/RUN_SUMMARY.md) §13. Those scripts are **kept in the
 case-study folder**, so every published number is re-derivable by executing
 them — they depend only on `pandas`, `numpy` and `pyyaml`.
 

@@ -170,9 +170,23 @@ rprint(f"\ncleaned_data.csv written: {df.shape}")
 
 # append this stage's log entries to the canonical change log files
 extra_df = pd.DataFrame(extra_log, columns=["STAGE","COLUMN","SOURCE_ROW","CHANGE_TYPE","ORIGINAL_VALUE","NEW_VALUE","REASON"])
-extra_df.to_csv(os.path.join(OUT_DIR, "change_log.csv"), mode="a", header=False, index=False, encoding="utf-8")
-extra_df.to_csv(os.path.join(OUT_DIR, "change_log.csv"), mode="a", header=False, index=False, encoding="utf-8")
-rprint(f"Appended {len(extra_df)} Stage 6/7 change-log entries to change_log.csv / change_log.csv")
+
+# Drop any Stage 6/7 slice left by an earlier run before appending this one.
+# Stage 4 rewrites the log from scratch, so without this a re-run of Stage 7
+# alone stacks a second copy of its entries on top of the first and every
+# downstream count inflates silently.
+_clpath = os.path.join(OUT_DIR, "change_log.csv")
+_existing = pd.read_csv(_clpath, encoding="utf-8", low_memory=False, dtype=str)
+_prior = _existing["STAGE"].astype(str).str.startswith(("Stage6", "Stage7"))
+if _prior.any():
+    rprint(f"  (clearing {int(_prior.sum())} Stage 6/7 entries from a previous run)")
+    _existing = _existing[~_prior]
+    _existing.to_csv(_clpath, index=False, encoding="utf-8")
+
+# ONE append. This file used to have a second name and the two to_csv calls that
+# served it were both left pointing here, which logged every Stage 7 entry twice.
+extra_df.to_csv(_clpath, mode="a", header=False, index=False, encoding="utf-8")
+rprint(f"Appended {len(extra_df)} Stage 6/7 change-log entries to change_log.csv")
 
 with open(os.path.join(OUT_DIR, "03_flag_registry.json"), "w", encoding="utf-8") as f:
     json.dump(FLAG_REGISTRY, f, indent=2)

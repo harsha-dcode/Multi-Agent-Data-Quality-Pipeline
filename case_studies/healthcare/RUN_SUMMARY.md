@@ -1,6 +1,7 @@
 # RUN SUMMARY — Healthcare Admissions 9-Stage Pipeline
 
 **Run date:** 2026-07-29 (unattended run, no user available — all decisions made and justified inline per `01_business_brief.yaml`)
+**Re-run:** 2026-10-17 under the 2026-09-22 spec amendment — see §13. The cleaned outputs are unchanged; what changed is what the run can prove about itself.
 **Input:** `<input>/healthcare_dataset_dirty_export.csv` (read-only, not modified)
 **Output directory:** `case_studies/healthcare\`
 
@@ -166,3 +167,89 @@ Delegated to `@analytics-expert` (ran successfully in the foreground; confirmed 
 | `03_intermediate_cleaned.csv`, `03_flag_registry.json`, `0*_*.txt` reports | Supporting intermediate artifacts / evidence for every number in this summary |
 
 **Known limitation:** `03_intermediate_cleaned.csv` (Stage 4 output, pre-transform) is retained for audit purposes alongside `cleaned_data.csv` (Stage 7 final) — the two differ by 34 rows (the post-transform re-dedup, §5) and by column set (50 vs 67 columns, since Stage 7 adds derived/dtype-cast columns).
+
+---
+
+## 13. Re-run under the 2026-09-22 spec amendment (2026-10-17)
+
+This dataset was re-run after the agent specification was amended. The amendment came
+out of a different dataset — a Tamil Nadu drug register — where Stage 1 asserted a text
+column was 100% unique, Stage 4.3 then normalised whitespace and case, and four values
+collided. Validation returned all-PASS, correctly, because every check verifies Stage 4
+against Stage 1 and Stage 1 was the thing that was wrong.
+
+The amendment requires three things this run did not previously do: `grain` carries the
+expression that establishes it, the number it returned and the snapshot it was measured
+on; Stage 3 re-runs every such expression instead of reading the recorded answer; and a
+claim whose number moves between snapshots is reported as `BRIEF_CLAIM_UNVERIFIED`.
+
+**The rule fired on this dataset.**
+
+### 13.1 The grain claim decays
+
+`grain` is the composite `(name, date_of_admission, doctor, hospital)`. Three of its four
+components are text columns that Stage 4.3 strips and whitespace-collapses, and 4.11 builds
+the key *after* that:
+
+| Snapshot | Rows | Distinct keys | Duplicated |
+|---|---:|---:|---:|
+| `measured_on: raw` | 58,164 | 52,195 | 5,968 |
+| `measured_on: post_4.3` | 58,164 | 51,252 | **6,911** |
+
+4.3 rewrote 1,539 names, 462 doctors and 1,185 hospitals — trailing spaces, doubled internal
+spaces, one embedded tab. Both numbers are now recorded in `01_business_brief.yaml`, and
+`stage3_profile.py` recomputes both on every run and reads neither.
+
+### 13.2 What the decay actually cost
+
+The near-duplicate **flag** count moving is harmless: flagging more genuine duplicates is the
+right direction, and nothing is removed on that key. The part that matters is that 4.11 removes
+**exact full-row duplicates first**, and that removal reads the same post-4.3 values. The 2,256
+removals decompose — disjointly, verified — as:
+
+| Share | Rows | Attribution |
+|---|---:|---|
+| Justified by the raw file | 1,580 | already byte-identical on disk |
+| Created by Stage 4.3 alone | **527** | became identical once whitespace was collapsed |
+| Created by the other cleaning stages | 149 | null-disguise unification, typo correction, numeric/date reformatting |
+
+So 676 rows were deleted for reasons not visible in the source file. Those deletions are
+defensible — the rows differ only by stray whitespace — but before this re-run nothing
+attributed a single one of them to a stage, and the brief's own wording ("the composite key is
+never used for automatic row removal", which is true) described a different mechanism entirely.
+`stage4_clean.py` now prints the split and logs the 676 under their own change type,
+`DUPLICATE_REMOVED_POST_NORMALIZATION`. Flagged, not silently fixed.
+
+### 13.3 Two defects the re-run exposed in the pipeline itself
+
+**Stage 5 was validating a half-finished run.** `stage5_validate.py` reads `cleaned_data.csv`,
+which **Stage 7** writes, and the change log that Stage 7 appends to. Run in numeric order it
+compared the previous run's output against a log missing Stage 7's entries. The published
+`validation_report.md` therefore showed V11 as a 34-row integrity FAIL that was nothing but run
+order, and V13 checked 30 flags when the pipeline produces 46 — it was blind to every flag
+Stage 7 adds. Both now pass on the real artifact. The run order for this case study is
+**4 → 7 → 8 → 5 → 9**, not numeric order, and Stage 5 now refuses to run and says so if the
+change log has no Stage 6/7 entries.
+
+Worth noting plainly: §1 and §9 of this document already described V11 as PASS and V13 as
+46/46. The write-up was right and the generated evidence was wrong — the opposite of the usual
+failure, and the reason a reviewer should always be able to re-run the artifact rather than
+read the summary.
+
+**Stage 7 logged everything twice.** The change log once had two filenames; collapsing them to
+one left two `to_csv(..., mode="a")` calls pointed at the same file. Every Stage 7 entry was
+written twice, so the committed `change_log.csv` carried 16,176 Stage 6/7 rows of which 8,088
+were exact duplicates — about 5% of the file. Stage 7 now appends once and clears its own prior
+slice first, so re-running it is idempotent (verified: a second consecutive run leaves the
+totals unchanged).
+
+### 13.4 What did not change
+
+The cleaned data is identical: 58,164 → 55,908 → 55,874 rows, 54,470 viz-ready, 67 columns.
+Stage 9 reproduces 28/28 published figures. Validation is 10 PASS, 2 N/A, 1 FAIL — the same
+single by-design failure (V2, critical-column nulls the pipeline refuses to invent). The
+change log totals 154,302 entries: 153,626 as published, plus the 676 attribution entries
+this amendment added.
+
+The point of the amendment is not that this run was wrong. It is that a correct run could not
+previously show its own premise still held by the time anything depended on it.
