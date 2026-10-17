@@ -110,6 +110,27 @@ own report.
 | [`sales`](case_studies/sales/) | 312 → 281 → 266 | 5.34% | 1,824 | 1,631 | 12 pass, **1 fail by design** | PASS |
 | [`telecom`](case_studies/telecom/) *(control)* | 3,333 → 3,333 → 3,333 | 0.00% | 615 | **0 data values** | 11 pass, 2 N/A, 0 fail | PASS |
 | **Total** | **141,911 rows** | | **220,521** | **25,093** | | **5/5** |
+| | | | | | | |
+| [`drug register`](incidents/tamil-nadu-drug-register/) *(incident — not in the total)* | 549 → 549 → 547 | 0.36% | 4,687 | 4,619 | 14 pass, 0 fail | PASS |
+
+**Read that last row carefully.** It passed every validation check and the
+completeness gate — and it was **wrong**. Its Stage 1 brief asserted an address
+column was 100% unique; Stage 4.3 then normalised whitespace and four addresses
+collided. A green scoreboard on broken work is the entire argument of this
+repository, and it is the reason the specification changed. The full incident is
+in [`incidents/tamil-nadu-drug-register/`](incidents/tamil-nadu-drug-register/),
+and the section above walks through it.
+
+It sits outside the total deliberately. The five-dataset figure backs a specific
+claim — one specification, no per-dataset tuning, unattended, and re-derivable by
+executing the numbered scripts in each folder. That run was executed
+interactively and ships no stage scripts, so it can be inspected but not
+reproduced end to end. Counting it in the total would quietly weaken what the
+total means.
+
+*(The `Value edits` column uses a different definition in different rows and is
+being settled; the drug-register figure counts values actually rewritten —
+null standardisation, date parsing, string normalisation, header renames.)*
 
 ### Read the last two columns before the big numbers
 
