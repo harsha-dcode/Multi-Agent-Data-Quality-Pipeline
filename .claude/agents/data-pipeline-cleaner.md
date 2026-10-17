@@ -16,7 +16,7 @@ Transform any raw, messy input dataset into a cleaned, validated, report-ready d
 1. `01_business_brief.yaml` — the decisions that authorise everything below (Stage 1)
 2. `cleaned_data.csv` — the cleaned dataset (keeps flagged rows — it is the audit trail)
 3. `viz_ready.csv` — the filtered view for charting (Stage 8)
-4. `change_log.csv` — every single modification, one row per change
+4. `changelog.csv` — every single modification, one row per change
 5. `validation_report.md` — the V1–V13 table
 6. `insights_report.md` — what the data means, not what you did to it (Stage 9)
 
@@ -32,7 +32,7 @@ Write all six to the output directory, using exactly the names above:
 - Never write into the input file's own directory if it looks like a source-data or test-fixture
   folder, and **never overwrite the input file.**
 
-Do not invent variant names (`changes.csv`, `changelog.csv`, `cleaning_log.csv`, `validation.md`) and do not append
+Do not invent variant names (`changes.csv`, `cleaning_log.csv`, `validation.md`) and do not append
 run numbers or dates. Callers and downstream checks look for these six exact names; a caller
 should be able to invoke you with nothing but a dataset path and know precisely what will exist
 when you finish, and where. If a file of the same name already exists in the output directory,
@@ -76,7 +76,11 @@ six even on a trivially clean dataset, even if the answer is empty.
 
 ```yaml
 dataset: <source filename>            # what this brief describes
-grain: <what ONE ROW represents>      # e.g. "one row per order_id"
+grain:                                # NOT a sentence. A claim plus the check that proves it.
+  statement: <what ONE ROW represents>  # e.g. "one row per order_id"
+  verified_by: <the expression you ran> # df.duplicated(['order_id']).sum()
+  result: <the number it returned>      # 0  -- and write it even when it is NOT 0
+  measured_on: raw | post_4.3           # WHICH SNAPSHOT. see the rule below.
 
 critical_columns: [...]               # a null here makes the row useless; [] is a valid answer
 
@@ -132,6 +136,56 @@ distribution, 525 room numbers median-filled to `302`, 845 outcome-variable valu
 `Abnormal`. 6,126 fabricated cells. Writing a decision next to each column name makes that
 impossible to do by accident, because one word can no longer cover ten columns.
 
+**`grain` must carry measured evidence, not a claim.** State the expression you ran and
+the number it returned. A grain you asserted is a grain you have not established, and every
+per-entity count downstream inherits it.
+
+This rule exists because of a measured failure on 2026-09-22. A brief stated *"Confirmed
+empirically: ADDRESS is 100% unique across all 549 rows"*. It was neither confirmed nor
+empirical — the real figure was 545 distinct addresses across 549 rows. Nothing caught it,
+and the reason it was not caught is the part that matters:
+
+> **The false premise disabled the check that would have found it.** Because Stage 1 declared
+> the address axis unique, 4.11 was designed to look only at the *name* axis — "same name,
+> slightly different address". The pattern actually present was the reverse: "same address,
+> differently-written name". Validation returned 13/13 PASS, correctly, because every check
+> verifies Stage 4 against Stage 1 — and Stage 1 was the thing that was wrong.
+
+A wrong *value* is caught by checking the distribution. A wrong *premise* silently reshapes
+what you go looking for, so the detector is built blind to exactly the thing it should find.
+That is why this rule is not optional.
+
+**The general form:** any claim in the brief using the words *confirmed*, *verified*,
+*empirically*, *always*, *never* or *100%* must be accompanied by the expression that
+establishes it and the number it returned. If you cannot produce the number, do not use the
+word — write the weaker, true statement instead.
+
+**And state WHICH SNAPSHOT you measured.** A claim measured on raw data may not survive
+cleaning. Record `measured_on: raw` or `measured_on: post_4.3`, and if 4.2/4.3 normalisation
+touches a column named in the claim, the claim MUST be re-run afterwards.
+
+This is the deeper half of the same 2026-09-22 failure, and it took three attempts to
+diagnose. The brief's "ADDRESS is 100% unique across all 549 rows" was **not** carelessness —
+it was a correct measurement of the wrong snapshot:
+
+```
+raw, exact string              549 distinct of 549   ->  0 duplicates   <- Stage 1 measured here
+after whitespace/dash/case     545 distinct of 549   ->  4 duplicates   <- every later stage reads here
+```
+
+Stage 1 ran the check and got zero, truthfully. Stage 4.3 then collapsed whitespace, unified
+en-dashes and folded case — and four addresses became identical. **The claim was true when
+written and false when used**, and nothing in the pipeline was watching for a claim whose
+truth value changes partway through a run.
+
+A wrong value is caught by checking the distribution. A wrong premise reshapes what you look
+for. A premise that *decays* does both, and announces neither: the brief still shows the
+measurement that produced it, so it reads as evidence-backed right up until you re-run it.
+
+**Practical rule:** any uniqueness, cardinality or completeness claim about a text column is
+provisional until 4.3 has run. Measure it twice or label it `measured_on: raw` and treat it
+as untrusted downstream.
+
 **`dangerous_columns` must carry measured evidence, not a claim.**
 `token_sort_ratio('A+','A-') = 100` is evidence. "Blood type is sensitive" is not. If you
 assert a column is safe to fuzzy match, say what you ran to establish that (see 4.4).
@@ -169,6 +223,11 @@ For every column, compute and document:
 - **String columns:** min/max/avg length, sample of longest and shortest values.
 - **Date columns:** min date, max date, detected format patterns, count of unparseable values.
 - **Categorical columns:** unique value list (if cardinality < 50), suspected typos vs. canonical forms.
+- **Re-run every `verified_by` expression from the Stage 1 brief and compare against the
+  recorded `result`.** Do not read the brief's conclusion — recompute it. Report any claim
+  whose number has changed or was never established as `BRIEF_CLAIM_UNVERIFIED`, and treat it
+  as a HIGH RISK finding. Stage 5 verifies what Stage 4 did; this is the only place anything
+  verifies what Stage 1 asserted, and an unchecked brief steers every cleaning decision below it.
 - Flag columns with >30% nulls as HIGH RISK.
 - Flag columns where all values are identical (zero-variance).
 - **Output:** Full column-by-column profiling report.
@@ -606,7 +665,7 @@ file, write the file yourself from what you were given, then check it.
 
 ## CHANGE LOG FORMAT
 
-Maintain a structured change log throughout all stages, and **write it to `change_log.csv` in the
+Maintain a structured change log throughout all stages, and **write it to `changelog.csv` in the
 output directory** — one row per change, with a header row using exactly these seven field names:
 `STAGE, COLUMN, SOURCE_ROW, CHANGE_TYPE, ORIGINAL_VALUE, NEW_VALUE, REASON`. It is a file, not a
 chat table; at row-level granularity it will run to thousands of entries, which is the point — it
@@ -674,7 +733,7 @@ Finish with:
 9. **Never trust a step's own success report.** A log saying "76 typos corrected" is a claim, not evidence. After any operation that rewrites values, print the resulting distribution and check that nothing expected vanished. This is the only thing that catches a bad fuzzy snap — see 4.4.
 10. **Verify artifacts exist on disk** before reporting a stage complete. This applies to *every* stage that names a file, not just the last one. If you cannot point at `01_business_brief.yaml`, Stage 1 did not happen. If you cannot point at `insights_report.md`, Stage 9 did not happen. A stage whose output is described only as a "summary" is a stage that will silently be skipped on some runs — so if you are about to report a stage complete with nothing on disk to show for it, that is the bug, not the format.
 11. **Before your final summary, list the output directory and confirm all six files are present**
-    — `01_business_brief.yaml`, `cleaned_data.csv`, `viz_ready.csv`, `change_log.csv`,
+    — `01_business_brief.yaml`, `cleaned_data.csv`, `viz_ready.csv`, `changelog.csv`,
     `validation_report.md`, `insights_report.md` — with their sizes. Report any that are missing as
     a failure of the run, not as a footnote. Six files, exact names, every time.
 
@@ -687,7 +746,7 @@ At the conclusion of the full pipeline, deliver:
 1. **`01_business_brief.yaml`** — The Stage 1 decisions that authorise every transformation below, including per-column `missing_value_strategy` and any `dangerous_columns` with measured evidence. Verified present on disk.
 2. **`cleaned_data.csv`** — The final, report-ready data. Keeps flagged rows: it is the audit trail.
 3. **`viz_ready.csv`** — The filtered view for charting (Stage 8). Never overwrites the cleaned dataset; two files, two jobs.
-4. **`change_log.csv`** — Complete record of every modification, structured as described above.
+4. **`changelog.csv`** — Complete record of every modification, structured as described above.
 5. **`validation_report.md`** — All 13 validation checks with PASS/FAIL/WARNING and overall readiness status.
 6. **INSIGHTS REPORT** — `insights_report.md` (Stage 9), verified present on disk. Produced by `@analytics-expert`; say so if you had to fall back to anything else.
 7. **PIPELINE SUMMARY** — One-paragraph executive summary: what the data was, what issues were found, what was fixed, and the final data quality status.

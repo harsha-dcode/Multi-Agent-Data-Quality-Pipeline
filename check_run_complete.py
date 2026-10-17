@@ -31,10 +31,19 @@ REQUIRED = {
 }
 
 # accepted alternates, because older runs used other names
+#
+# The *_sample_1000.csv names are not legacy: healthcare, housing and logistics
+# produce 17-29 MB of cleaned output, so case_studies/README.md commits a
+# 1,000-row sample for those three and keeps the full file out of git. The gate
+# runs in CI against the checked-out tree, so it has to recognise the sample as
+# the committed form of the artifact. It still prints which name it matched --
+# a sample standing in for the full output is worth seeing, not hiding.
 ALTERNATES = {
     "change_log.csv":       ["changelog.csv", "cleaning_log.csv"],
     "validation_report.md": ["validation_report.txt"],
-    "cleaned_data.csv":     ["cleaned.csv", "final_dataset.csv"],
+    "cleaned_data.csv":     ["cleaned.csv", "final_dataset.csv",
+                             "cleaned_data_sample_1000.csv"],
+    "viz_ready.csv":        ["viz_ready_sample_1000.csv"],
 }
 
 GREEN, RED, YELLOW, RESET = "\033[92m", "\033[91m", "\033[93m", "\033[0m"

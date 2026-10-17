@@ -339,7 +339,7 @@ committed case study.
 
 ```
 .claude/agents/          # Agent specifications — the decision layer (see ADR-7)
-  data-pipeline-cleaner.md   # 843 lines — drove all five benchmark runs
+  data-pipeline-cleaner.md   # 902 lines — drove all five benchmark runs (v1)
   analytics-expert.md        # Stage 9 analysis; produced every insights_report.md
   pipeline-orchestrator.md   # Interactive 9-stage orchestration variant
 case_studies/            # 5 benchmark runs: artifacts + the scripts that made them
@@ -354,7 +354,21 @@ check_run_complete.py    # Model-free run gate
 
 The five case studies were produced by the **agent specification**
 (`.claude/agents/data-pipeline-cleaner.md`), which writes a purpose-built,
-numbered script per stage for each dataset. Those scripts are **kept in the
+numbered script per stage for each dataset.
+
+**The five runs predate the current specification.** They were produced under the
+8 August version. On 22 September the spec was amended after a run on a Tamil Nadu
+drug register shipped a false premise: Stage 1 asserted an address column was 100%
+unique, Stage 4.3 then normalised whitespace and case, and four addresses collided.
+Validation returned 13/13 PASS, correctly, because every check verifies Stage 4
+against Stage 1 — and Stage 1 was the thing that was wrong.
+
+The amendment requires every empirical claim in a brief to carry the expression that
+produced it, the number it returned, and the snapshot it was measured on, and requires
+Stage 3 to re-run those expressions rather than read their conclusions. The five case
+studies here were not run under that rule. They are being re-run; until each one is,
+its brief carries no `verified_by` field and that is a real gap, not an oversight in
+the write-up. Those scripts are **kept in the
 case-study folder**, so every published number is re-derivable by executing
 them — they depend only on `pandas`, `numpy` and `pyyaml`.
 
