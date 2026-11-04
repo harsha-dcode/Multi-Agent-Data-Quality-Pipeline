@@ -150,7 +150,7 @@ Full detail: `validation_report.md`.
 
 ## 7. Change log
 
-`change_log.csv`: **53,388 rows**, one row per cell-level change/flag/decision, columns
+`change_log.csv`: **53,430 rows**, one row per cell-level change/flag/decision, columns
 `STAGE, COLUMN, SOURCE_ROW, CHANGE_TYPE, ORIGINAL_VALUE, NEW_VALUE, REASON`. `SOURCE_ROW` is the
 `__source_row` value assigned immediately after extraction (0-based position in the raw file) —
 stable across the Stage 4.11 dedup and the Stage 7 index reset, so every log entry remains
@@ -182,7 +182,7 @@ registry and business context. No fallback agent was needed.
 | `01_business_brief.yaml` | Yes | ~17 KB |
 | `cleaned_data.csv` | Yes | 30,000 rows x 84 cols |
 | `viz_ready.csv` | Yes | 29,354 rows x 84 cols |
-| `change_log.csv` | Yes | 53,388 rows |
+| `change_log.csv` | Yes | 53,430 rows |
 | `validation_report.md` | Yes | 13 checks, READY FOR REPORTING |
 | `insights_report.md` | Yes | 30,373 bytes, produced by analytics-expert |
 

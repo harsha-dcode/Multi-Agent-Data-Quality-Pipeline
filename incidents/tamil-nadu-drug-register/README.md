@@ -29,9 +29,13 @@ case:
 
 The claim was true when written and false when used.
 
-Validation returned 13 of 13 PASS, and that was also correct. Every check
-verifies Stage 4 against Stage 1. Stage 1 was the thing that was wrong, and
-nothing in the pipeline verified Stage 1.
+Validation returned 13 of 13 PASS on this first run, and that was also correct.
+Every check verifies Stage 4 against Stage 1. Stage 1 was the thing that was
+wrong, and nothing in the pipeline verified Stage 1.
+
+(The repository README's table quotes 14 pass, 0 fail. That is the re-run in
+`run2_after_fix/`, which has one additional check. The two numbers describe
+different runs, not a disagreement.)
 
 The four shared addresses were not all the same kind of problem, which is why
 the pipeline flags instead of merging:

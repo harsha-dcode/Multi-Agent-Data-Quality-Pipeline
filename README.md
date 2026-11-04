@@ -88,10 +88,19 @@ treated as HIGH RISK.
 
 Whether that fix does anything is testable, so I tested it against a case study
 already published here. Re-running `healthcare` under the new rule fired it
-again, and showed that 676 of its 2,256 deleted rows had been removed for
-reasons not present in the source file, 527 of them by whitespace collapsing
-alone. The deletions were defensible. Nobody had ever attributed one of them to
-a stage. That re-run also turned up two bugs in the pipeline itself.
+again, and showed that 676 of its deleted rows had been removed for reasons not
+present in the source file, 527 of them by whitespace collapsing alone. The
+deletions were defensible. Nobody had ever attributed one of them to a stage.
+That re-run also turned up two bugs in the pipeline itself.
+
+The denominator there is 2,290, not 2,256, and the difference is worth stating
+because it is the same effect twice. Stage 4 removed 2,256 exact duplicates.
+Stage 7 then dropped a column, which removed the only values distinguishing 34
+row-pairs that were already near-identical, and a post-transform re-dedup pass
+caught those: 2,256 + 34 = 2,290, which is also exactly the number of
+`DUPLICATE_REMOVED` entries in the change log and exactly 58,164 − 55,874.
+Normalising revealed real duplicates at Stage 4 and again at Stage 7.
+`case_studies/healthcare/RUN_SUMMARY.md` §1, §5 and §13.2 have the breakdown.
 
 - The incident in full, with both briefs and the raw input:
   [`incidents/tamil-nadu-drug-register/`](incidents/tamil-nadu-drug-register/)
@@ -107,16 +116,22 @@ specification with no per-dataset tuning. Every run is unattended: no human
 answered a question mid-run, and every judgment call is written into the run's
 own report.
 
-| Case study | Rows in → cleaned → viz-ready | Drop rate | Log entries | Value edits | Validation | Gate |
-|---|---|---:|---:|---:|---|:--:|
-| [`healthcare`](case_studies/healthcare/) | 58,164 → 55,874 → 54,470 | 2.51% | 154,302 | 17,062 | 10 pass, 2 N/A, 1 fail by design | PASS |
-| [`housing`](case_studies/housing/) | 50,000 → 49,864 → 48,870 | 1.99% | 11,068 | 2,783 | 11 pass, 2 N/A, 0 fail | PASS |
-| [`logistics`](case_studies/logistics/) | 30,102 → 30,000 → 29,354 | 2.15% | 53,388 | 3,617 | 11 pass, 2 N/A, 0 fail | PASS |
-| [`sales`](case_studies/sales/) | 312 → 281 → 266 | 5.34% | 1,824 | 1,631 | 12 pass, 1 fail by design | PASS |
-| [`telecom`](case_studies/telecom/) *(control)* | 3,333 → 3,333 → 3,333 | 0.00% | 615 | 0 data values | 11 pass, 2 N/A, 0 fail | PASS |
-| **Total** | **141,911 rows** | | **220,521** | **25,093** | | **5/5** |
-| | | | | | | |
-| [`drug register`](incidents/tamil-nadu-drug-register/) *(incident, not in the total)* | 549 → 549 → 547 | 0.36% | 4,687 | 4,619 | 14 pass, 0 fail | PASS |
+| Case study | Rows in → cleaned → viz-ready | Drop, clean→viz | Drop, raw→viz | Log entries | Value edits | Validation | Gate |
+|---|---|---:|---:|---:|---:|---|:--:|
+| [`healthcare`](case_studies/healthcare/) | 58,164 → 55,874 → 54,470 | 2.51% | 6.35% | 154,302 | 17,062 | 10 pass, 2 N/A, 1 fail by design | PASS |
+| [`housing`](case_studies/housing/) | 50,000 → 49,864 → 48,870 | 1.99% | 2.26% | 11,068 | 2,783 | 11 pass, 2 N/A, 0 fail | PASS |
+| [`logistics`](case_studies/logistics/) | 30,102 → 30,000 → 29,354 | 2.15% | 2.48% | 53,430 | 3,617 | 11 pass, 2 N/A, 0 fail | PASS |
+| [`sales`](case_studies/sales/) | 312 → 281 → 266 | 5.34% | 14.74% | 1,824 | 1,631 | 12 pass, 1 fail by design | PASS |
+| [`telecom`](case_studies/telecom/) *(control)* | 3,333 → 3,333 → 3,333 | 0.00% | 0.00% | 615 | 0 data values | 11 pass, 2 N/A, 0 fail | PASS |
+| **Total** | **141,911 rows** | | | **221,239** | **25,093** | | **5/5** |
+| | | | | | | | |
+| [`drug register`](incidents/tamil-nadu-drug-register/) *(incident, not in the total)* | 549 → 549 → 547 | 0.36% | 0.36% | 4,687 | 4,619 | 14 pass, 0 fail *(run 2, after the brief was corrected)* | PASS |
+
+Two drop columns because they answer different questions. Clean→viz is what
+the viz-prep stage removes from an already-cleaned table: rows that are real
+but not plottable. Raw→viz is what a reader actually loses between the file
+they handed over and the file they get back. Quoting only the first makes
+`sales` look like it lost 5% when it lost 15%.
 
 That last row passed all 14 checks and the completeness gate, and it was still
 wrong. Its brief said the address column was 100% unique. Stage 4.3 normalised
@@ -139,7 +154,7 @@ renames.)*
 
 ### Read the last two columns before the big numbers
 
-220,521 log entries, 25,093 actual value changes. About 89% of the audit trail
+221,239 log entries, 25,093 actual value changes. About 89% of the audit trail
 records what the pipeline found and chose not to touch: outliers flagged,
 anomalies investigated and left alone, impossible values reported instead of
 "fixed".
@@ -186,7 +201,14 @@ patients carry the wrong blood type, and no record that it ever changed.
 
 The audit trail's second job is diagnostic. Cleaning patterns are evidence
 about the process that produced the data. These came out of the `healthcare`
-run:
+run.
+
+Read them as method, not as field findings. `healthcare` is one of the two
+synthetic datasets here, so there is no real exporter with a column-swap bug
+and the $2.15M is not real money. What is real is the inference: each of these
+was reached from the cleaning log alone, without being told to look for it,
+and on a live source each would be a ticket. I would rather state that here
+than have it read as three bugs I found in somebody's production system.
 
 - **Probable ingest double-write.** 9,227 of 54,470 rows (16.94%) share a full
   name + date + doctor + hospital key across 4,635 groups. Not plausibly
@@ -219,7 +241,7 @@ puts the same five deliverables at roughly 5 analyst-days (~40 hours).
 | | Manual (estimated) | This pipeline (measured) |
 |---|---|---|
 | Five datasets end-to-end | ~40 hours | ~37 min wall-clock |
-| Audit trail | Rarely produced at all | 220,521 entries, reconstructable |
+| Audit trail | Rarely produced at all | 221,239 entries, reconstructable |
 | Re-running after a source change | Full repeat | Re-execute numbered scripts |
 
 Two caveats. The 40-hour figure is an estimate from stated assumptions, not a
