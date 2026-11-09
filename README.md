@@ -77,7 +77,8 @@ address under differently-written names, and it looked that way because Stage 1
 said the other axis was already unique. On a register where duplicates share a
 licence type, the same blind spot returns a badly wrong count.
 
-External review found it. The pipeline did not.
+A separate AI review of the run artifacts found it, on 22 September
+2026. The pipeline did not, and nor did I.
 
 So on 22 September 2026 I changed the spec. Every empirical claim in a brief
 now carries the expression that produced it, the number it returned, and which

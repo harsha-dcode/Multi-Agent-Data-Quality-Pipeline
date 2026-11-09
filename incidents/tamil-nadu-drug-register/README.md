@@ -71,8 +71,9 @@ names, and the check was aimed the wrong way because Stage 1 said the other
 axis was already unique. On a register where duplicates share a licence type,
 the same blind spot produces a badly wrong count.
 
-External review found it. The pipeline did not. I am recording that here on
-purpose.
+A separate AI review of the run artifacts found it. The pipeline did not, and
+nor did I. I am recording that here on purpose, and naming what the review was,
+because "external review" on its own invites the wrong picture.
 
 ## The fix
 

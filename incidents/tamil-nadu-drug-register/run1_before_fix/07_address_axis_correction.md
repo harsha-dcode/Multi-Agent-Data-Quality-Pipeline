@@ -1,6 +1,7 @@
 # Address-axis duplicate correction
 
-Corrects an untested Stage 1 assumption. Found by external review, not by the pipeline.
+Corrects an untested Stage 1 assumption. Found by a separate AI review of the
+run artifacts, not by the pipeline.
 
 ## 1. The claim, tested
 
