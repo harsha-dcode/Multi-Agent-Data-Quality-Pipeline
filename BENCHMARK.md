@@ -82,8 +82,8 @@ headline metric.**
 
 | | Published | This run |
 |---|---:|---:|
-| Log entries | 220,521 | 271,150 |
-| Value edits | 25,106 | 195,162 |
+| Log entries | 221,239 | 271,150 |
+| Value edits | 25,093 | 195,162 |
 
 `housing` alone moved from 2,783 to 135,149 value edits. This is a **logging
 granularity difference, not a behavioural one**: this run classified every

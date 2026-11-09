@@ -66,7 +66,7 @@ en-dashes and folded case:
 | After normalisation | 545 of 549 | 4 addresses, 8 rows (every later stage reads here) |
 
 The claim was true when written and false when used. Validation returned 13 of
-13 PASS, also correctly, because every check verifies Stage 4 against Stage 1
+13 PASS on that first run, also correctly, because every check verifies Stage 4 against Stage 1
 and nothing verified Stage 1.
 
 The numerical damage was small. Licence counts do not move at all and the
